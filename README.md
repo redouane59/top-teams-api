@@ -8,7 +8,7 @@ Using [AWS Lambda](https://aws.amazon.com/lambda/?nc1=h_ls) functions and [API G
 **Generate balanced teams** from a list of available players, each of them identified by a unique id and having an individual rating value between 0 & 100, representing his level. 
 
 ## Rating updates calculator
-**Calculate the player rating modification** to apply after a game from a composition and a score.
+**Calculate the player rating modification** to apply after a game from a given composition and a score.
 
 # Swagger
 
