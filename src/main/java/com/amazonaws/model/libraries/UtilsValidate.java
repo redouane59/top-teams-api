@@ -25,4 +25,12 @@ public class UtilsValidate {
         }
     }
 
+    public static boolean isEmpty(Object obj){
+        if(obj==null){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
 }

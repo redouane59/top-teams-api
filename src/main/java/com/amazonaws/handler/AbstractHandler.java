@@ -1,7 +1,6 @@
 package com.amazonaws.handler;
 
-import com.amazonaws.model.Player;
-import com.amazonaws.model.PlayerPosition;
+import com.amazonaws.model.*;
 import com.amazonaws.model.libraries.UtilsValidate;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
@@ -14,7 +13,9 @@ import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 
 public abstract class AbstractHandler implements RequestStreamHandler {
@@ -28,7 +29,7 @@ public abstract class AbstractHandler implements RequestStreamHandler {
         this.logger.log("inputStream : " + inputStream);
     }
 
-    public JSONObject asJSONObject(InputStream inputStream){
+    JSONObject asJSONObject(InputStream inputStream){
         try {
             return new ObjectMapper().readValue(IOUtils.toString(inputStream), JSONObject.class);
         } catch (IOException e) {
@@ -37,7 +38,7 @@ public abstract class AbstractHandler implements RequestStreamHandler {
         }
     }
 
-    Player getPlayerFromLinkedHashMap(LinkedHashMap<String, Object> p){
+    private Player getPlayerFromLinkedHashMap(LinkedHashMap<String, Object> p){
         try {
             Player player = new Player();
             // id
@@ -48,8 +49,10 @@ public abstract class AbstractHandler implements RequestStreamHandler {
             Double playerRatingValue = UtilsValidate.asDouble(playerRatingObject);
             player.setRatingValue(playerRatingValue);
             // nbGames
-            int playerNbGames = (int)p.get(RequestConstants.PLAYER_NB_GAMES_PLAYED);
-            player.setNbGamesPlayed(playerNbGames);
+            Object playerNbGamesObject = p.get(RequestConstants.PLAYER_NB_GAMES_PLAYED);
+            if(!UtilsValidate.isEmpty(playerNbGamesObject)){
+                player.setNbGamesPlayed((int)p.get(RequestConstants.PLAYER_NB_GAMES_PLAYED));
+            }
             // position
             if (p.get(RequestConstants.PLAYER_POSITION) instanceof String) {
                 PlayerPosition position = PlayerPosition.valueOf(p.get(RequestConstants.PLAYER_POSITION).toString());
@@ -60,6 +63,69 @@ public abstract class AbstractHandler implements RequestStreamHandler {
             System.err.println("error parsing player " + p + " : " + e +". ");
             return new Player("ErrorPlayer", 0);
         }
+    }
+
+    Score getScoreFromJsonObject(JSONObject request){
+        Object scoreAobj = request.get(RequestConstants.SCORE_A);
+        Object scoreBobj = request.get(RequestConstants.SCORE_B);
+        int scoreA = 0;
+        int scoreB = 0;
+        if(scoreAobj instanceof Integer && scoreBobj instanceof Integer){
+            scoreA = (int)scoreAobj;
+            scoreB = (int)scoreBobj;
+        } else{
+            System.err.println("Enable to parse score.");
+        }
+        return new Score(scoreA, scoreB);
+    }
+
+    Composition getCompositionFromJsonObject(JSONObject request){
+        LinkedHashMap<String, Object> result = (LinkedHashMap<String, Object>)request.get(RequestConstants.COMPOSITION);
+        ArrayList<LinkedHashMap<String, Object>> teamAobject = (ArrayList<LinkedHashMap<String, Object>>)result.get(RequestConstants.TEAM_A);
+        ArrayList<LinkedHashMap<String, Object>> teamBobject = (ArrayList<LinkedHashMap<String, Object>>)result.get(RequestConstants.TEAM_B);
+        Team teamA = new Team();
+        Team teamB = new Team();
+        for(LinkedHashMap o : teamAobject){
+            teamA.addPlayer(this.getPlayerFromLinkedHashMap(o));
+        }
+        for(LinkedHashMap o : teamBobject){
+            teamB.addPlayer(this.getPlayerFromLinkedHashMap(o));
+        }
+        int nbPlayers = teamA.getPlayers().size() + teamB.getPlayers().size();
+
+        Object gameTypeObj = request.get(RequestConstants.GAME_TYPE);
+        GameType gameType = null;
+        if(gameTypeObj instanceof GameType){
+            gameType = GameType.valueOf((String)gameTypeObj);
+        }
+
+        teamA.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(nbPlayers, gameType));
+        teamB.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(nbPlayers, gameType));
+        Composition composition = new Composition(teamA, teamB);
+        this.getLogger().log("composition : " + composition);
+        return composition;
+    }
+
+    private int getMaxNbPlayerPerTeamOnField(int nbPlayers, GameType gameType){
+        if (gameType == GameType.ODD && nbPlayers%2==1){
+            return nbPlayers/2 + 1;
+        } else{
+            return nbPlayers/2;
+        }
+    }
+
+    List<Player> getPlayerListFromJsonObject(JSONObject request){
+        ArrayList<LinkedHashMap<String, Object>> result = (ArrayList<LinkedHashMap<String, Object>>)request.get(RequestConstants.PLAYERS);
+        if(result==null || result.size()==0){
+            System.err.println("No players found");
+            return new ArrayList<>();
+        }
+        List<Player> players = new ArrayList<>();
+        for(LinkedHashMap<String, Object> p : result){
+            players.add(this.getPlayerFromLinkedHashMap(p));
+        }
+        this.getLogger().log("players found : " + players);
+        return players;
     }
 
 }

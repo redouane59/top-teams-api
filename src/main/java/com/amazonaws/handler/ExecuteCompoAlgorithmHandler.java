@@ -21,7 +21,6 @@ import java.util.List;
 
 public class ExecuteCompoAlgorithmHandler extends AbstractHandler  {
 
-
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
         super.handleRequest(inputStream, outputStream, context);
         JSONObject inputObject = this.asJSONObject(inputStream);
@@ -34,20 +33,6 @@ public class ExecuteCompoAlgorithmHandler extends AbstractHandler  {
             generator = new ComplexCompositionGenerator(config);
         }
         new ObjectMapper().writeValue(outputStream, generator.getNBestCompositions(players));
-    }
-
-    private List<Player> getPlayerListFromJsonObject(JSONObject request){
-        ArrayList<LinkedHashMap<String, Object>> result = (ArrayList<LinkedHashMap<String, Object>>)request.get(RequestConstants.PLAYERS);
-        if(result==null || result.size()==0){
-            System.err.println("No players found");
-            return new ArrayList<>();
-        }
-        List<Player> players = new ArrayList<>();
-        for(LinkedHashMap<String, Object> p : result){
-            players.add(this.getPlayerFromLinkedHashMap(p));
-        }
-        this.getLogger().log("players found : " + players);
-        return players;
     }
 
     private GeneratorConfiguration getCompoGeneratorConfiguration(JSONObject request){
