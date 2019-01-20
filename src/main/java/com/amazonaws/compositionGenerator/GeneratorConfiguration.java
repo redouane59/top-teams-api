@@ -13,9 +13,11 @@ public class GeneratorConfiguration {
     private boolean splitBestPlayers = true;
     private boolean splitWorstPlayers = true;
     private boolean splitGoalKeepers = true;
+    private boolean splitDefenders = true;
+    private boolean splitStrikers = true;
     private int nbTeamsNeeded = 2;
     private int nbCompositionsNeeded = 1;
-    private GameType gameType = GameType.SAME_NB_OF_PLAYERS_PER_TEAM;
+    private GameType gameType = GameType.REGULAR;
 }
 
 

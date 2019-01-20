@@ -1,3 +1,4 @@
+import com.amazonaws.compositionGenerator.CompositionGenerator;
 import com.amazonaws.model.AbstractComposition;
 import com.amazonaws.model.PlayerPosition;
 import com.amazonaws.model.Team;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class ComplexCompositionGeneratorTest {
 
     private int nbRandomTests = 3;
-    private ComplexCompositionGenerator generator = new ComplexCompositionGenerator();
+    private ComplexCompositionGenerator generator;
     private Player worst1 = new Player("worst1",30);
     private Player worst2 = new Player("worst2",35);
     private Player worst3 = new Player("worst3",40);
@@ -48,9 +49,11 @@ public class ComplexCompositionGeneratorTest {
         config.setSplitBestPlayers(true);
         config.setSplitWorstPlayers(false);
         config.setSplitGoalKeepers(false);
+        generator = new ComplexCompositionGenerator(config);
+
         ComplexComposition randomCompo;
         for(int i=0; i<this.nbRandomTests;i++){
-            randomCompo = generator.buildRandomComposition(getPlayers(), config);
+            randomCompo = generator.buildRandomComposition(getPlayers());
             assertEquals(3, randomCompo.getTeams().size());
             assertFalse(this.playerOnTheSameTeam(randomCompo, best1, best2));
             assertFalse(this.playerOnTheSameTeam(randomCompo, best2, best3));
@@ -68,9 +71,10 @@ public class ComplexCompositionGeneratorTest {
         config.setSplitBestPlayers(false);
         config.setSplitWorstPlayers(true);
         config.setSplitGoalKeepers(false);
+        generator = new ComplexCompositionGenerator(config);
         ComplexComposition randomCompo;
         for(int i=0; i<this.nbRandomTests;i++){
-            randomCompo = generator.buildRandomComposition(getPlayers(), config);
+            randomCompo = generator.buildRandomComposition(getPlayers());
             assertEquals(3, randomCompo.getTeams().size());
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst1, worst2));
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst1, worst3));
@@ -88,13 +92,14 @@ public class ComplexCompositionGeneratorTest {
         config.setSplitBestPlayers(true);
         config.setSplitWorstPlayers(false);
         config.setSplitGoalKeepers(false);
+        generator = new ComplexCompositionGenerator(config);
         ComplexComposition randomCompo;
         for(int i=0; i<this.nbRandomTests;i++){
             List<Player> players = getPlayers();
             players.add(new Player("player J", 50));
             players.add(new Player("player k", 50));
             players.add(new Player("player L", 50));
-            randomCompo = generator.buildRandomComposition(players, config);
+            randomCompo = generator.buildRandomComposition(players);
             assertEquals(4, randomCompo.getTeams().size());
             assertFalse(this.playerOnTheSameTeam(randomCompo, best1, best2));
             assertFalse(this.playerOnTheSameTeam(randomCompo, best1, best3));
@@ -116,13 +121,14 @@ public class ComplexCompositionGeneratorTest {
         config.setSplitBestPlayers(false);
         config.setSplitWorstPlayers(true);
         config.setSplitGoalKeepers(false);
+        generator = new ComplexCompositionGenerator(config);
         ComplexComposition randomCompo;
         for(int i=0; i<this.nbRandomTests;i++) {
             List<Player> players = getPlayers();
             players.add(new Player("player J", 50));
             players.add(new Player("player k", 50));
             players.add(new Player("player L", 50));
-            randomCompo = generator.buildRandomComposition(players, config);
+            randomCompo = generator.buildRandomComposition(players);
             assertEquals(4, randomCompo.getTeams().size());
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst1, worst2));
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst1, worst3));
@@ -143,13 +149,14 @@ public class ComplexCompositionGeneratorTest {
         config.setSplitBestPlayers(false);
         config.setSplitWorstPlayers(true);
         config.setSplitGoalKeepers(true);
+        generator = new ComplexCompositionGenerator(config);
         worst2.setPosition(PlayerPosition.GK);
         worst4.setPosition(PlayerPosition.GK);
         best4.setPosition(PlayerPosition.GK);
         ComplexComposition randomCompo;
 
         for(int i=0; i<this.nbRandomTests;i++){
-            randomCompo = generator.buildRandomComposition(getPlayers(), config);
+            randomCompo = generator.buildRandomComposition(getPlayers());
             assertEquals(3, randomCompo.getTeams().size());
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, worst4));
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, best4));
@@ -167,12 +174,13 @@ public class ComplexCompositionGeneratorTest {
         config.setSplitBestPlayers(false);
         config.setSplitWorstPlayers(true);
         config.setSplitGoalKeepers(true);
+        generator = new ComplexCompositionGenerator(config);
         worst2.setPosition(PlayerPosition.GK);
         worst4.setPosition(PlayerPosition.GK);
         ComplexComposition randomCompo;
 
         for(int i=0; i<this.nbRandomTests;i++){
-            randomCompo = generator.buildRandomComposition(getPlayers(), config);
+            randomCompo = generator.buildRandomComposition(getPlayers());
             assertEquals(3, randomCompo.getTeams().size());
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, worst4));
             assertTrue(randomCompo.getTeams().get(0).getPlayers().size()==3);
@@ -188,6 +196,7 @@ public class ComplexCompositionGeneratorTest {
         config.setSplitBestPlayers(false);
         config.setSplitWorstPlayers(true);
         config.setSplitGoalKeepers(true);
+        generator = new ComplexCompositionGenerator(config);
         worst2.setPosition(PlayerPosition.GK);
         worst4.setPosition(PlayerPosition.GK);
         best2.setPosition(PlayerPosition.GK);
@@ -195,7 +204,7 @@ public class ComplexCompositionGeneratorTest {
         ComplexComposition randomCompo;
 
         for(int i=0; i<this.nbRandomTests;i++){
-            randomCompo = generator.buildRandomComposition(getPlayers(), config);
+            randomCompo = generator.buildRandomComposition(getPlayers());
             assertEquals(3, randomCompo.getTeams().size());
             assertTrue(randomCompo.getTeams().get(0).getPlayers().size()==3);
             assertTrue(randomCompo.getTeams().get(1).getPlayers().size()==3);
@@ -219,7 +228,8 @@ public class ComplexCompositionGeneratorTest {
     public void testNBestResult(){
         GeneratorConfiguration config = new GeneratorConfiguration();
         config.setNbCompositionsNeeded(5);
-        List<AbstractComposition> result = generator.getNBestCompositions(getPlayers(), config);
+        generator = new ComplexCompositionGenerator(config);
+        List<AbstractComposition> result = generator.getNBestCompositions(getPlayers());
         assertTrue(Math.abs(result.get(0).getRatingDifference())<=Math.abs(result.get(1).getRatingDifference()));
         assertTrue(Math.abs(result.get(1).getRatingDifference())<=Math.abs(result.get(2).getRatingDifference()));
         assertTrue(Math.abs(result.get(2).getRatingDifference())<=Math.abs(result.get(3).getRatingDifference()));

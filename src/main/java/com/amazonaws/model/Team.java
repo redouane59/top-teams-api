@@ -84,6 +84,16 @@ public class Team {
         return false;
     }
 
+    public List<Player> getPlayersByPosition(PlayerPosition position){
+        List<Player> result = new ArrayList<>();
+        for(Player p : this.players){
+            if(p.getPosition()==position){
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object obj){
         if(obj instanceof Team)

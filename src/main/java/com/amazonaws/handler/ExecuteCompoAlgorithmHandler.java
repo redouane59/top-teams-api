@@ -6,11 +6,9 @@ import com.amazonaws.compositionGenerator.GeneratorConfiguration;
 import com.amazonaws.compositionGenerator.ICompositionGenerator;
 import com.amazonaws.model.GameType;
 import com.amazonaws.model.Player;
-import com.amazonaws.model.PlayerPosition;
 import com.amazonaws.model.libraries.UtilsValidate;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
-import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;
 import java.io.IOException;
@@ -21,26 +19,24 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class ExecuteCompoAlgorithmHandler implements RequestStreamHandler {
+public class ExecuteCompoAlgorithmHandler extends AbstractHandler  {
 
-    private LambdaLogger logger;
 
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
-        this.logger = context.getLogger();
-        this.logger.log("inputStream : " + inputStream);
-        JSONObject inputObject = UtilsValidate.asJSONObject(inputStream);
+        super.handleRequest(inputStream, outputStream, context);
+        JSONObject inputObject = this.asJSONObject(inputStream);
         GeneratorConfiguration config = this.getCompoGeneratorConfiguration(inputObject);
-        List<Player> players = this.getPlayersFromJsonObject(inputObject);
+        List<Player> players = this.getPlayerListFromJsonObject(inputObject);
         ICompositionGenerator generator;
         if(config.getNbTeamsNeeded()==2) {
-            generator = new CompositionGenerator();
+            generator = new CompositionGenerator(config);
         } else{
-            generator = new ComplexCompositionGenerator();
+            generator = new ComplexCompositionGenerator(config);
         }
-        new ObjectMapper().writeValue(outputStream, generator.getNBestCompositions(players, config));
+        new ObjectMapper().writeValue(outputStream, generator.getNBestCompositions(players));
     }
 
-    private List<Player> getPlayersFromJsonObject(JSONObject request){
+    private List<Player> getPlayerListFromJsonObject(JSONObject request){
         ArrayList<LinkedHashMap<String, Object>> result = (ArrayList<LinkedHashMap<String, Object>>)request.get(RequestConstants.PLAYERS);
         if(result==null || result.size()==0){
             System.err.println("No players found");
@@ -50,30 +46,8 @@ public class ExecuteCompoAlgorithmHandler implements RequestStreamHandler {
         for(LinkedHashMap<String, Object> p : result){
             players.add(this.getPlayerFromLinkedHashMap(p));
         }
-        this.logger.log("players found : " + players);
+        this.getLogger().log("players found : " + players);
         return players;
-    }
-
-    private Player getPlayerFromLinkedHashMap(LinkedHashMap<String, Object> p){
-        try {
-            Player player = new Player();
-            // id
-            String playerId = p.get(RequestConstants.PLAYER_ID).toString();
-            player.setId(playerId);
-            // ratingAverage
-            Object playerRatingObject = p.get(RequestConstants.PLAYER_RATING_VALUE);
-            Double playerRatingValue = UtilsValidate.asDouble(playerRatingObject);
-            player.setRatingValue(playerRatingValue);
-            // position
-            if (p.get(RequestConstants.PLAYER_POSITION) instanceof String) {
-                PlayerPosition position = PlayerPosition.valueOf(p.get(RequestConstants.PLAYER_POSITION).toString());
-                player.setPosition(position);
-            }
-            return player;
-        } catch(Exception e){
-            System.err.println("error parsing player " + p + " : " + e +". ");
-            return new Player("ErrorPlayer", 0);
-        }
     }
 
     private GeneratorConfiguration getCompoGeneratorConfiguration(JSONObject request){
@@ -81,36 +55,38 @@ public class ExecuteCompoAlgorithmHandler implements RequestStreamHandler {
 
         Object splitBestObject = request.get(RequestConstants.SPLIT_BEST_PLAYERS);
         if(splitBestObject instanceof Boolean){
-            Boolean splitBestPlayers = (Boolean)splitBestObject;
-            config.setSplitBestPlayers(splitBestPlayers);
+            config.setSplitBestPlayers((Boolean)splitBestObject);
         }
         Object splitWorstObject = request.get(RequestConstants.SPLIT_WORST_PLAYERS);
         if(splitWorstObject instanceof  Boolean){
-            Boolean splitWorstPlayers = (Boolean)splitWorstObject;
-            config.setSplitWorstPlayers(splitWorstPlayers);
+            config.setSplitWorstPlayers((Boolean)splitWorstObject);
         }
         Object splitGKObject = request.get(RequestConstants.SPLIT_GOAL_KEEPERS);
         if(splitGKObject instanceof Boolean){
-            Boolean splitGK = (Boolean)splitGKObject;
-            config.setSplitGoalKeepers(splitGK);
+            config.setSplitGoalKeepers((Boolean)splitGKObject);
+        }
+        Object splitDefendersObject = request.get(RequestConstants.SPLIT_DEFENDERS);
+        if(splitDefendersObject instanceof Boolean){
+            config.setSplitDefenders((Boolean)splitDefendersObject);
+        }
+        Object splitStrikersObject = request.get(RequestConstants.SPLIT_STRIKERS);
+        if(splitStrikersObject instanceof Boolean){
+            config.setSplitStrikers((Boolean)splitStrikersObject);
         }
         Object nbTeamsObject = request.get(RequestConstants.NB_TEAMS_NEEDED);
         if(nbTeamsObject instanceof String && ((String)nbTeamsObject).length()>0){
-            int nbTeamsNeeded = Integer.valueOf((String)nbTeamsObject);
-            config.setNbTeamsNeeded(nbTeamsNeeded);
+            config.setNbTeamsNeeded(Integer.valueOf((String)nbTeamsObject));
         }
         Object nbCompoObject = request.get(RequestConstants.NB_COMPOSITIONS_NEEDED);
         if(nbCompoObject instanceof String && ((String)nbCompoObject).length()>0){
-            int nbCompoNeeded = Integer.valueOf((String)nbCompoObject);
-            config.setNbCompositionsNeeded(nbCompoNeeded);
+            config.setNbCompositionsNeeded(Integer.valueOf((String)nbCompoObject));
         }
         Object gameTypeObject = request.get(RequestConstants.GAME_TYPE);
         if(gameTypeObject instanceof String && ((String)nbCompoObject).length()>0
                 && Arrays.asList(GameType.values()).toString().contains((String)gameTypeObject)) {
-            GameType gameType = GameType.valueOf((String)gameTypeObject);
-            config.setGameType(gameType);
+            config.setGameType(GameType.valueOf((String)gameTypeObject));
         }
-        this.logger.log("config = " + config);
+        this.getLogger().log("config = " + config);
         return config;
     }
 }

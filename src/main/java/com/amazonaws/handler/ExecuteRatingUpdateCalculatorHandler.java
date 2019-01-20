@@ -15,15 +15,13 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-public class ExecuteRatingUpdateCalculatorHandler implements RequestStreamHandler {
+public class ExecuteRatingUpdateCalculatorHandler extends AbstractHandler {
 
-    private LambdaLogger logger;
 
     @Override
     public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
-        this.logger = context.getLogger();
-        this.logger.log("inputStream : " + inputStream);
-        JSONObject inputObject = UtilsValidate.asJSONObject(inputStream);
+        super.handleRequest(inputStream, outputStream, context);
+        JSONObject inputObject = this.asJSONObject(inputStream);
         Composition composition = this.getCompositionFromJsonObject(inputObject);
         Score score = this.getScoreFromJsonObject(inputObject);
         Game game = new Game(composition, score);
@@ -41,7 +39,7 @@ public class ExecuteRatingUpdateCalculatorHandler implements RequestStreamHandle
         if(relativeDistributionObj instanceof String && ((String)(relativeDistributionObj)).length()>0){
             config.setRelativeDistribution(RelativeDistribution.valueOf((String)relativeDistributionObj));
         }
-        this.logger.log("config : " + config);
+        this.getLogger().log("config : " + config);
         return config;
     }
 
@@ -66,18 +64,10 @@ public class ExecuteRatingUpdateCalculatorHandler implements RequestStreamHandle
         Team teamA = new Team();
         Team teamB = new Team();
         for(LinkedHashMap o : teamAobject){
-            String playerId = o.get(RequestConstants.PLAYER_ID).toString();
-            double playerRating = UtilsValidate.asDouble(o.get(RequestConstants.PLAYER_RATING_VALUE));
-            int playerNbGames = (int)o.get(RequestConstants.PLAYER_NB_GAMES_PLAYED);
-            Player player = new Player(playerId, playerRating, playerNbGames);
-            teamA.addPlayer(player);
+            teamA.addPlayer(this.getPlayerFromLinkedHashMap(o));
         }
         for(LinkedHashMap o : teamBobject){
-            String playerId = o.get(RequestConstants.PLAYER_ID).toString();
-            double playerRating = UtilsValidate.asDouble(o.get(RequestConstants.PLAYER_RATING_VALUE));
-            int playerNbGames = (int)o.get(RequestConstants.PLAYER_NB_GAMES_PLAYED);
-            Player player = new Player(playerId, playerRating, playerNbGames);
-            teamB.addPlayer(player);
+            teamB.addPlayer(this.getPlayerFromLinkedHashMap(o));
         }
         int nbPlayers = teamA.getPlayers().size() + teamB.getPlayers().size();
 
@@ -90,17 +80,16 @@ public class ExecuteRatingUpdateCalculatorHandler implements RequestStreamHandle
         teamA.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(nbPlayers, gameType));
         teamB.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(nbPlayers, gameType));
         Composition composition = new Composition(teamA, teamB);
-        this.logger.log("composition : " + composition);
+        this.getLogger().log("composition : " + composition);
         return composition;
     }
 
     private int getMaxNbPlayerPerTeamOnField(int nbPlayers, GameType gameType){
-        if (gameType == GameType.FREE && nbPlayers%2==1){
+        if (gameType == GameType.ODD && nbPlayers%2==1){
             return nbPlayers/2 + 1;
         } else{
             return nbPlayers/2;
         }
     }
-
 
 }

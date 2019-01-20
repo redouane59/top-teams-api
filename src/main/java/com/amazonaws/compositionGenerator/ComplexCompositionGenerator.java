@@ -10,26 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@AllArgsConstructor
 public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
 
+    public ComplexCompositionGenerator(){
+        super();
+    }
+
+    public ComplexCompositionGenerator(GeneratorConfiguration configuration){
+        super(configuration);
+    }
+
     @Override
-    public ComplexComposition buildRandomComposition(List<Player> availablePlayers, GeneratorConfiguration config) {
+    public ComplexComposition buildRandomComposition(List<Player> availablePlayers) {
         ComplexComposition randomComposition = new ComplexComposition(availablePlayers);
-        int nbPlayerPerTeam = availablePlayers.size()/config.getNbTeamsNeeded();
+        int nbPlayerPerTeam = availablePlayers.size()/this.getConfiguration().getNbTeamsNeeded();
 
         List<Team> teamList = new ArrayList<>();
         // init teamList
-        for(int i=0;i<config.getNbTeamsNeeded();i++){
+        for(int i=0;i<this.getConfiguration().getNbTeamsNeeded();i++){
             teamList.add(new Team());
         }
 
-        if(config.isSplitGoalKeepers()){
+        if(this.getConfiguration().isSplitGoalKeepers()){
             this.splitPlayersByPosition(teamList, availablePlayers, PlayerPosition.GK);
         }
 
-        if(config.isSplitBestPlayers()){
-            List<Player> bestPlayers = getNSortedPlayers(availablePlayers, config.getNbTeamsNeeded(), true);
+        if(this.getConfiguration().isSplitBestPlayers()){
+            List<Player> bestPlayers = getNSortedPlayers(availablePlayers, this.getConfiguration().getNbTeamsNeeded(), true);
             if(bestPlayers!=null) {
                 for(int i=0; i<teamList.size();i++){
                     teamList.get(i).addPlayer(bestPlayers.get(i));
@@ -37,8 +44,8 @@ public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
             }
         }
 
-        if(config.isSplitWorstPlayers()){
-            List<Player> worstPlayers = getNSortedPlayers(availablePlayers, config.getNbTeamsNeeded(), false);
+        if(this.getConfiguration().isSplitWorstPlayers()){
+            List<Player> worstPlayers = getNSortedPlayers(availablePlayers, this.getConfiguration().getNbTeamsNeeded(), false);
             if(worstPlayers!=null) {
                 for(int i=0; i<teamList.size();i++){
                     teamList.get(i).addPlayer(worstPlayers.get(i));
@@ -46,7 +53,7 @@ public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
             }
         }
 
-        for(int i=0;i<config.getNbTeamsNeeded();i++){
+        for(int i=0;i<this.getConfiguration().getNbTeamsNeeded();i++){
             Team team = buildRandomTeam(teamList.get(i), availablePlayers, nbPlayerPerTeam);
             teamList.set(i,team);
         }

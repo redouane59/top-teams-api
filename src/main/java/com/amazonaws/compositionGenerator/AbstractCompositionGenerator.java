@@ -8,28 +8,32 @@ import java.util.*;
 public abstract class AbstractCompositionGenerator implements ICompositionGenerator {
 
     private int NBTRY = 1000;
+    private GeneratorConfiguration configuration;
 
-    @Override
-    public AbstractComposition getBestComposition(List<Player> players) {
-        return this.getBestComposition(players, new GeneratorConfiguration());
+    public AbstractCompositionGenerator(){
+        this.configuration = new GeneratorConfiguration();
+    }
+
+    public AbstractCompositionGenerator(GeneratorConfiguration configuration){
+        this.configuration = configuration;
     }
 
     @Override
-    public AbstractComposition getBestComposition(List<Player> players, GeneratorConfiguration config){
-        return this.getNBestCompositions(players, config).get(0);
+    public AbstractComposition getBestComposition(List<Player> players){
+        return this.getNBestCompositions(players).get(0);
     }
 
     @Override
-    public List<AbstractComposition> getNBestCompositions(List<Player> players, GeneratorConfiguration config) {
+    public List<AbstractComposition> getNBestCompositions(List<Player> players) {
         List<AbstractComposition> generatedCompositions = new ArrayList<>();
         for (int i = 0; i < NBTRY; i++) {
-            AbstractComposition randomCompo = buildRandomComposition(getClonedPlayers(players), config);
+            AbstractComposition randomCompo = buildRandomComposition(getClonedPlayers(players));
             if(!this.doesAlreadyExist(randomCompo, generatedCompositions)){
                 generatedCompositions.add(randomCompo);
             }
         }
         Collections.sort(generatedCompositions);
-        int nbCompositions = config.getNbCompositionsNeeded();
+        int nbCompositions = this.configuration.getNbCompositionsNeeded();
         if(nbCompositions>=generatedCompositions.size()){
             nbCompositions = generatedCompositions.size()-1;
         }
@@ -37,10 +41,9 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
     }
 
     @Override
-    public abstract AbstractComposition buildRandomComposition(List<Player> availablePlayers, GeneratorConfiguration config);
+    public abstract AbstractComposition buildRandomComposition(List<Player> availablePlayers);
 
-
-    List<Player> getClonedPlayers(List<Player> players) {
+    public List<Player> getClonedPlayers(List<Player> players) {
         List<Player> clone = new ArrayList<>(players.size());
         for (Player p : players) {
             clone.add(new Player(p));
@@ -90,18 +93,9 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
         }
     }
 
-    public int getMaxNbPlayerPerTeam(int nbPlayers, GeneratorConfiguration config){
-        int nbTeams = config.getNbTeamsNeeded();
-        if(nbPlayers%nbTeams==0 || config.getGameType() == GameType.SAME_NB_OF_PLAYERS_PER_TEAM){
-            return nbPlayers/nbTeams;
-        } else{
-            return nbPlayers/nbTeams + 1;
-        }
-    }
-
-    public int getMaxNbPlayerPerTeamOnField(int nbPlayers, GeneratorConfiguration config){
-        int nbTeams = config.getNbTeamsNeeded();
-        if (config.getGameType() == GameType.FREE && nbPlayers%2==1){
+    public int getNbPlayersPerTeamOnField(int nbPlayers){
+        int nbTeams = this.configuration.getNbTeamsNeeded();
+        if (this.configuration.getGameType() == GameType.ODD && nbPlayers%2==1){
             return nbPlayers/nbTeams + 1;
         } else{
             return nbPlayers/nbTeams;

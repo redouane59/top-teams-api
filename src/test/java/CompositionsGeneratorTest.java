@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class CompositionsGeneratorTest {
 
 	private int nbRandomTests = 3;
-	private CompositionGenerator generator = new CompositionGenerator();
+	private CompositionGenerator generator;
 	private Player best1 = new Player("best1",90);
 	private Player best2 = new Player("best2",89);
 	private Player worst1 = new Player("worst1",20);
@@ -59,7 +59,8 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		Composition resultCompo = (Composition)generator.getBestComposition(this.getPlayers(), config);
+		generator = new CompositionGenerator(config);
+		Composition resultCompo = (Composition)generator.getBestComposition(this.getPlayers());
 		assertTrue(playerOnTheSameTeam(resultCompo, best1, best2));
 		assertTrue(resultCompo.getRatingAverageDifference()<4);
 	}
@@ -69,9 +70,10 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(true);
 		config.setSplitWorstPlayers(false);
+		generator = new CompositionGenerator(config);
 		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
-			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers(), config);
+			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());
 			assertFalse(playerOnTheSameTeam(randomCompo, best1, best2));
 		}
 	}
@@ -81,9 +83,10 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(true);
+		generator = new CompositionGenerator(config);
 		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
-			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers(), config);
+			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());
 			assertFalse(playerOnTheSameTeam(randomCompo, worst1, worst2));
 		}
 	}
@@ -93,9 +96,10 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(true);
 		config.setSplitWorstPlayers(true);
+		generator = new CompositionGenerator(config);
 		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
-			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers(), config);
+			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());
 			assertFalse(playerOnTheSameTeam(randomCompo, best1, best2));
 			assertFalse(playerOnTheSameTeam(randomCompo, worst1, worst2));
 		}
@@ -106,7 +110,8 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		Composition resultCompo = (Composition)generator.getBestComposition(this.getPlayers(), config);
+		generator = new CompositionGenerator(config);
+		Composition resultCompo = (Composition)generator.getBestComposition(this.getPlayers());
 		assertTrue(resultCompo.getRatingAverageDifference()<1.1);
 	}
 
@@ -115,8 +120,9 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		config.setGameType(GameType.FREE);
-		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers(), config);
+		config.setGameType(GameType.ODD);
+		generator = new CompositionGenerator(config);
+		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		assertTrue(resultCompo.getTeamA().getPlayers().size()!=resultCompo.getTeamB().getPlayers().size());
 		assertTrue(resultCompo.getRatingAverageDifference()<4);
 		//assertTrue(resultCompo.getRatingDifference()<4);
@@ -135,8 +141,9 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		config.setGameType(GameType.SAME_NB_OF_PLAYERS_PER_TEAM);
-		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers(), config);
+		config.setGameType(GameType.REGULAR);
+		generator = new CompositionGenerator(config);
+		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
 		List<Player> playersB = resultCompo.getTeamB().getPlayers();
 		assertTrue(resultCompo.getTeamA().getPlayers().size()==resultCompo.getTeamB().getPlayers().size());
@@ -154,8 +161,9 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		config.setGameType(GameType.SAME_NB_OF_PLAYERS_ON_FIELD);
-		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers(), config);
+		config.setGameType(GameType.SUBSTITUTION);
+		generator = new CompositionGenerator(config);
+		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		assertTrue(resultCompo.getTeamA().getPlayers().size()!=resultCompo.getTeamB().getPlayers().size());
 		assertTrue(resultCompo.getRatingDifference()<4);
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
@@ -179,9 +187,10 @@ public class CompositionsGeneratorTest {
 		config.setSplitGoalKeepers(true);
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
+		generator = new CompositionGenerator(config);
 		Composition compo;
 		for(int i=0;i<nbRandomTests;i++){
-			compo = (Composition)generator.buildRandomComposition(players, config);
+			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
 			assertFalse(playerOnTheSameTeam(compo, p1,p2));
 		}
 	}
@@ -195,12 +204,93 @@ public class CompositionsGeneratorTest {
 		p2.setPosition(PlayerPosition.GK);
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitGoalKeepers(true);
+		generator = new CompositionGenerator(config);
 		Composition compo;
 		for(int i=0;i<nbRandomTests;i++){
-			compo = (Composition)generator.buildRandomComposition(players, config);
+			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
 			assertFalse(playerOnTheSameTeam(compo, p1,p2));
 			assertFalse(playerOnTheSameTeam(compo, best1,best2));
 			assertFalse(playerOnTheSameTeam(compo, worst1,worst2));
+		}
+	}
+
+	@Test
+	public void testSplittingAllByPosition() {
+		List<Player> players = getPlayers();
+		Player p1 = players.get(0);
+		p1.setPosition(PlayerPosition.DEF);
+		Player p2 = players.get(1);
+		p2.setPosition(PlayerPosition.DEF);
+		Player p3 = players.get(2);
+		p3.setPosition(PlayerPosition.DEF);
+		Player p4 = players.get(3);
+		p4.setPosition(PlayerPosition.DEF);
+		GeneratorConfiguration config = new GeneratorConfiguration();
+		config.setSplitDefenders(true);
+		generator = new CompositionGenerator(config);
+
+		Composition compo;
+		for(int i=0;i<nbRandomTests;i++){
+			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			assertEquals(compo.getTeamA().getPlayersByPosition(PlayerPosition.DEF).size(),
+					compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size());
+		}
+	}
+
+	@Test
+	public void testSplittingAllByPositionWitOddNumber() {
+		List<Player> players = getPlayers();
+		Player p1 = players.get(0);
+		p1.setPosition(PlayerPosition.DEF);
+		Player p2 = players.get(1);
+		p2.setPosition(PlayerPosition.DEF);
+		Player p3 = players.get(2);
+		p3.setPosition(PlayerPosition.DEF);
+		Player p4 = players.get(3);
+		p4.setPosition(PlayerPosition.DEF);
+		Player p5 = players.get(4);
+		p5.setPosition(PlayerPosition.DEF);
+		GeneratorConfiguration config = new GeneratorConfiguration();
+		config.setSplitDefenders(true);
+		generator = new CompositionGenerator(config);
+
+		Composition compo;
+		for(int i=0;i<nbRandomTests;i++){
+			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			assertEquals(1, Math.abs(compo.getTeamA().getPlayersByPosition(PlayerPosition.DEF).size()-
+					compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size()));
+		}
+	}
+
+	@Test
+	public void testBestCompoSplittingAllByPosition() {
+		List<Player> players = getPlayers();
+		Player p1 = players.get(0);
+		p1.setPosition(PlayerPosition.DEF);
+		Player p2 = players.get(1);
+		p2.setPosition(PlayerPosition.DEF);
+		Player p3 = players.get(2);
+		p3.setPosition(PlayerPosition.DEF);
+		Player p4 = players.get(3);
+		p4.setPosition(PlayerPosition.DEF);
+		Player p5 = players.get(4);
+		p5.setPosition(PlayerPosition.ATT);
+		Player p6 = players.get(5);
+		p6.setPosition(PlayerPosition.ATT);
+		Player p7 = players.get(6);
+		p7.setPosition(PlayerPosition.ATT);
+		Player p8 = players.get(7);
+		p8.setPosition(PlayerPosition.ATT);
+		GeneratorConfiguration config = new GeneratorConfiguration();
+		config.setSplitDefenders(true);
+		generator = new CompositionGenerator(config);
+		Composition compo;
+		for(int i=0;i<nbRandomTests;i++){
+			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			assertEquals(compo.getTeamA().getPlayersByPosition(PlayerPosition.DEF).size(),
+					compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size());
+			assertEquals(compo.getTeamA().getPlayersByPosition(PlayerPosition.ATT).size(),
+					compo.getTeamB().getPlayersByPosition(PlayerPosition.ATT).size());
 		}
 	}
 
