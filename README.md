@@ -18,6 +18,7 @@ https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.1.0
 ## Player definition 
 - id (String) : must be unique
 - ratingValue (double) : must be between 0 & 100. 
+
 Recommended values
 ```
 Novice : 40
