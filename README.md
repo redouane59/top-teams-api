@@ -28,7 +28,9 @@ Professionnal : 80
 ```
 - position (enum) : is optionnal.
 ```
-Goal Keper : GK
+Goal Keeper : GK
 Defender : DEF
 Attacker : ATT
 ```
+- nbGamesPlayed (int) : is optionnal. Only used for *Rating updates calculator* function.
+
