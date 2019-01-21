@@ -15,3 +15,20 @@ https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.1.0
 
 # Process Summary
 ![Process Summary](https://i.ibb.co/mhHFccT/process-summary.png)
+## Player definition 
+- id (String) : must be unique
+- ratingValue (double) : must be between 0 & 100. 
+Recommended values
+```
+Novice : 40
+Beginner : 50
+Intermediate : 60
+Advance : 70
+Professionnal : 80
+```
+- position (enum) : is optionnal.
+```
+Goal Keper : GK
+Defender : DEF
+Attacker : ATT
+```
