@@ -4,7 +4,7 @@ Using [AWS Lambda](https://aws.amazon.com/lambda/?nc1=h_ls) functions and [API G
 
 
 
-## Team composition algorithms
+## Team composition generator
 **Generate balanced teams** from a list of available players, each of them identified by a unique id and having an individual rating value between 0 & 100, representing his level. 
 
 ## Rating updates calculator
