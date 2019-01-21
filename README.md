@@ -13,4 +13,4 @@ This algorithm takes into account the global level of the two teams, the final g
 # Swagger
 https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.1.0
 
-![Process Summary](https://drive.google.com/file/d/1nr2JZuetCbImPtZxpW57gIN3dGS4Usor/view?usp=sharing)
+![Process Summary](https://i.ibb.co/X8XkKJK/process-summary.png)
