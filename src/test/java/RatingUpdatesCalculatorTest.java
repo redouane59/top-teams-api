@@ -57,7 +57,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testWinAndLoosePoints(){
+    public void testWinAndLoosePointsAwins(){
         Composition composition = this.getIdenticalComposition();
         CalculatorConfiguration configuration = new CalculatorConfiguration();
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
@@ -71,6 +71,25 @@ public class RatingUpdatesCalculatorTest {
                 assertTrue(value>0);
             }else{
                 assertTrue(value<0);
+            }
+        }
+    }
+
+    @Test
+    public void testWinAndLoosePointsBWins(){
+        Composition composition = this.getIdenticalComposition();
+        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
+        Game game = new Game(composition, new Score(0,10));
+        Map<String, Double> result = calculator.getRatingUpdates(game);
+        for(Map.Entry<String, Double> entry : result.entrySet()) {
+            String key = entry.getKey();
+            Double value = entry.getValue();
+            if(key.equals("player1") || key.equals("player2") || key.equals("player3") || key.equals("player4")
+                    || key.equals("player5")){
+                assertTrue(value<0);
+            }else{
+                assertTrue(value>0);
             }
         }
     }

@@ -15,10 +15,10 @@ public class Game {
 
     /**
      * @param kf the factor
-     * @return the absolute différence between the prediction and the observed result using a factor
+     * @return the différence between the prediction and the observed result using a factor
      */
     public double getPredictionError(double kf){
-        return Math.abs(this.composition.getPrediction(kf)-this.getScore().getGoalDifference());
+        return this.getScore().getGoalDifference()-this.composition.getPrediction(kf);
     }
 
 
