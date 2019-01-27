@@ -1,4 +1,5 @@
-import com.amazonaws.functions.approxAlgorithm.ApproxCalculator;
+package com.amazonaws.functions.approxAlgorithm;
+
 import com.amazonaws.model.*;
 import org.junit.Test;
 

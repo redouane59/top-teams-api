@@ -1,5 +1,6 @@
 package com.amazonaws.functions.compositionGenerator;
 import com.amazonaws.model.AbstractComposition;
+import com.amazonaws.model.CompositionType;
 import com.amazonaws.model.Player;
 
 import java.util.List;

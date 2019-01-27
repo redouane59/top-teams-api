@@ -1,7 +1,6 @@
-import com.amazonaws.model.Composition;
+package com.amazonaws.model;
+
 import com.amazonaws.model.complex.ComplexComposition;
-import com.amazonaws.model.Player;
-import com.amazonaws.model.Team;
 import org.junit.Test;
 
 import java.util.ArrayList;

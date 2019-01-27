@@ -1,3 +1,5 @@
+package com.amazonaws.functions.CompositionGenerator;
+
 import com.amazonaws.functions.compositionGenerator.ComplexCompositionGenerator;
 import com.amazonaws.functions.compositionGenerator.GeneratorConfiguration;
 import com.amazonaws.model.AbstractComposition;
@@ -224,9 +226,8 @@ public class ComplexCompositionGeneratorTest {
 
     @Test
     public void testNBestResult(){
-        GeneratorConfiguration config = new GeneratorConfiguration();
-        config.setNbCompositionsNeeded(5);
-        generator = new ComplexCompositionGenerator(config);
+        generator = new ComplexCompositionGenerator();
+        generator.getConfiguration().setNbCompositionsNeeded(5);
         List<AbstractComposition> result = generator.getNBestCompositions(getPlayers());
         assertTrue(Math.abs(result.get(0).getRatingDifference())<=Math.abs(result.get(1).getRatingDifference()));
         assertTrue(Math.abs(result.get(1).getRatingDifference())<=Math.abs(result.get(2).getRatingDifference()));

@@ -95,7 +95,7 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
 
     public int getNbPlayersPerTeamOnField(int nbPlayers){
         int nbTeams = this.configuration.getNbTeamsNeeded();
-        if (this.configuration.getGameType() == GameType.ODD && nbPlayers%2==1){
+        if (this.configuration.getCompositionType() == CompositionType.ODD && nbPlayers%2==1){
             return nbPlayers/nbTeams + 1;
         } else{
             return nbPlayers/nbTeams;

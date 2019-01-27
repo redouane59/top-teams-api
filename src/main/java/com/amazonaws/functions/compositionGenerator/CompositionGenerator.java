@@ -1,5 +1,6 @@
 package com.amazonaws.functions.compositionGenerator;
 
+import com.amazonaws.model.TeamSide;
 import com.amazonaws.model.*;
 
 import java.util.Collections;
@@ -21,8 +22,8 @@ public class CompositionGenerator extends AbstractCompositionGenerator {
         Composition randomComposition = new Composition(availablePlayers);
         Team teamA = new Team();
         Team teamB = new Team();
-        int nbPlayersTeamA = getNbPlayersInTeamA(availablePlayers.size());
-        int nbPlayersTeamB = getNbPlayersInTeamB(availablePlayers.size(), nbPlayersTeamA);
+        int nbPlayersTeamA = randomComposition.getNbPlayersInTeam(this.getConfiguration().getCompositionType(), TeamSide.A);
+        int nbPlayersTeamB = randomComposition.getNbPlayersInTeam(this.getConfiguration().getCompositionType(), TeamSide.B);
         int maxNbPlayerPerTeamOnField = getNbPlayersPerTeamOnField(availablePlayers.size());
 
         if(this.getConfiguration().isSplitGoalKeepers()){
@@ -54,29 +55,11 @@ public class CompositionGenerator extends AbstractCompositionGenerator {
 
         teamA = buildRandomTeam(teamA, availablePlayers, nbPlayersTeamA);
         teamB = buildRandomTeam(teamB, availablePlayers, nbPlayersTeamB);
-        teamA.setNbPlayersOnField(maxNbPlayerPerTeamOnField);
-        teamB.setNbPlayersOnField(maxNbPlayerPerTeamOnField);
+        randomComposition.setNbPlayersOnField(maxNbPlayerPerTeamOnField);
 
         randomComposition.setTeamA(teamA);
         randomComposition.setTeamB(teamB);
         return randomComposition;
-    }
-
-    private int getNbPlayersInTeamA(int nbPlayers){
-        int nbTeams = this.getConfiguration().getNbTeamsNeeded();
-        if(nbPlayers%nbTeams==0 || this.getConfiguration().getGameType() == GameType.REGULAR){
-            return nbPlayers/nbTeams;
-        } else{
-            return nbPlayers/nbTeams + 1;
-        }
-    }
-
-    private int getNbPlayersInTeamB(int nbAvailablePlayers, int nbPlayersTeamA){
-        if(nbAvailablePlayers%2==0 || this.getConfiguration().getGameType()==GameType.REGULAR){
-            return nbPlayersTeamA;
-        } else{
-            return nbPlayersTeamA-1;
-        }
     }
 
     private void splitTwoPlayersByPosition(Team teamA, Team teamB, List<Player> availablePlayers, PlayerPosition position){

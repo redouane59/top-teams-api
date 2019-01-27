@@ -13,16 +13,14 @@ public class Team {
 
     private List<Player> players = new ArrayList<>();
     private double ratingAverage;
-    private int nbPlayersOnField;
 
     public Team(List<Player> players){
         this.players = players;
-        this.nbPlayersOnField = players.size();
+        this.updateRating();
     }
 
     public Team(Player... players){
         Collections.addAll(this.players, players);
-        this.nbPlayersOnField = players.length;
         this.updateRating();
     }
 
@@ -36,11 +34,7 @@ public class Team {
         for(Player p : this.players){
             ratingSum += p.getRatingValue();
         }
-        if(this.nbPlayersOnField!=0 && this.nbPlayersOnField>this.players.size()){
-            this.ratingAverage = ratingSum/this.nbPlayersOnField;
-        } else{
-            this.ratingAverage = ratingSum/this.players.size();
-        }
+        this.ratingAverage = ratingSum/this.players.size();
     }
 
     public void setPlayers(List<Player> players){
@@ -48,28 +42,24 @@ public class Team {
         this.updateRating();
     }
 
-    public void setNbPlayersOnField(int nbPlayersOnField){
-        this.nbPlayersOnField = nbPlayersOnField;
-    }
-
-    public double getRatingAverage(){
-        if(this.nbPlayersOnField!=0 && nbPlayersOnField>this.players.size()){
-            return this.getRatingAverage(this.nbPlayersOnField);
-        } else{
-            return this.ratingAverage;
-        }
-    }
-
     public double getRatingSum(){
-        if(this.nbPlayersOnField!=0 && nbPlayersOnField<this.players.size()) {
+            return this.players.size()*this.ratingAverage;
+    }
+
+    public double getRatingSum(int nbPlayersOnField){
+        if(nbPlayersOnField<=this.players.size() && nbPlayersOnField>0){
             return this.getRatingAverage()*nbPlayersOnField;
         } else{
-            return this.players.size()*this.ratingAverage;
+            return this.getRatingAverage()*this.players.size();
         }
     }
 
-    private double getRatingAverage(int nbPlayersOnField){
-        return (this.ratingAverage /(nbPlayersOnField))*this.players.size();
+    public double getRatingAverage(int nbPlayersOnField){
+        if(nbPlayersOnField<=this.players.size()){
+            return this.ratingAverage;
+        } else{
+            return (this.ratingAverage /(nbPlayersOnField))*this.players.size();
+        }
     }
 
     public boolean isPlayerOnTeam(String playerId){

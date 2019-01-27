@@ -11,6 +11,7 @@ import java.util.List;
 public abstract class AbstractComposition implements IComposition, Comparable<AbstractComposition>, Cloneable  {
 
     private List<Player> availablePlayers;
+    private int nbPlayersOnField;
 
     public AbstractComposition(List<Player> players){
         this.availablePlayers = players;

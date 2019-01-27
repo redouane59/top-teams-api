@@ -13,7 +13,7 @@ public class RequestConstants {
     public static final String SPLIT_GOAL_KEEPERS = "splitGoalKeepers";
     public static final String SPLIT_DEFENDERS = "splitDefenders";
     public static final String SPLIT_STRIKERS = "splitStrikers";
-    public static final String GAME_TYPE = "gameType";
+    public static final String GAME_TYPE = "compositionType";
     public static final String NB_TEAMS_NEEDED = "nbTeamsNeeded";
     public static final String NB_COMPOSITIONS_NEEDED = "nbCompositionsNeeded";
 

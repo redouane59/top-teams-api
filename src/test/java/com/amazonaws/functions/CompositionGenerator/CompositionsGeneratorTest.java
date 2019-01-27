@@ -1,3 +1,5 @@
+package com.amazonaws.functions.CompositionGenerator;
+
 import com.amazonaws.functions.compositionGenerator.CompositionGenerator;
 import com.amazonaws.model.*;
 import com.amazonaws.functions.compositionGenerator.GeneratorConfiguration;
@@ -61,6 +63,7 @@ public class CompositionsGeneratorTest {
 		config.setSplitWorstPlayers(false);
 		generator = new CompositionGenerator(config);
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getPlayers());
+		System.out.println(resultCompo);
 		assertTrue(playerOnTheSameTeam(resultCompo, best1, best2));
 		assertTrue(resultCompo.getRatingAverageDifference()<4);
 	}
@@ -93,10 +96,7 @@ public class CompositionsGeneratorTest {
 
 	@Test
 	public void testSplittingWorstAndBest() {
-		GeneratorConfiguration config = new GeneratorConfiguration();
-		config.setSplitBestPlayers(true);
-		config.setSplitWorstPlayers(true);
-		generator = new CompositionGenerator(config);
+		generator = new CompositionGenerator();
 		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
 			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());
@@ -120,7 +120,8 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		config.setGameType(GameType.ODD);
+		config.setCompositionType(CompositionType.ODD);
+		int maxPlayerOnField = 5;
 		generator = new CompositionGenerator(config);
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		assertTrue(resultCompo.getTeamA().getPlayers().size()!=resultCompo.getTeamB().getPlayers().size());
@@ -128,10 +129,10 @@ public class CompositionsGeneratorTest {
 		//assertTrue(resultCompo.getRatingDifference()<4);
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
 		List<Player> playersB = resultCompo.getTeamB().getPlayers();
-		assertTrue(resultCompo.getTeamA().getRatingAverage() ==
+		assertTrue(resultCompo.getTeamA().getRatingAverage(maxPlayerOnField) ==
 				(playersA.get(0).getRatingValue()+playersA.get(1).getRatingValue()+playersA.get(2).getRatingValue()
 						+ playersA.get(3).getRatingValue() + playersA.get(4).getRatingValue())/playersA.size());
-		assertTrue(resultCompo.getTeamB().getRatingAverage() ==
+		assertTrue(resultCompo.getTeamB().getRatingAverage(maxPlayerOnField) ==
 				(playersB.get(0).getRatingValue()+playersB.get(1).getRatingValue()+playersB.get(2).getRatingValue()
 						+ playersB.get(3).getRatingValue())/(playersB.size()+1));
 	}
@@ -141,7 +142,7 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		config.setGameType(GameType.REGULAR);
+		config.setCompositionType(CompositionType.REGULAR);
 		generator = new CompositionGenerator(config);
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
@@ -161,7 +162,7 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
-		config.setGameType(GameType.SUBSTITUTION);
+		config.setCompositionType(CompositionType.SUBSTITUTION);
 		generator = new CompositionGenerator(config);
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		assertTrue(resultCompo.getTeamA().getPlayers().size()!=resultCompo.getTeamB().getPlayers().size());

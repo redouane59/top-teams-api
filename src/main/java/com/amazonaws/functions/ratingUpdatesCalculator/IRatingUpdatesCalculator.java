@@ -1,4 +1,4 @@
-package com.amazonaws.functions.ratingUpdateCalculator;
+package com.amazonaws.functions.ratingUpdatesCalculator;
 
 import com.amazonaws.model.Game;
 

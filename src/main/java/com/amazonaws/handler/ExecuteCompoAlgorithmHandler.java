@@ -4,7 +4,7 @@ import com.amazonaws.functions.compositionGenerator.ComplexCompositionGenerator;
 import com.amazonaws.functions.compositionGenerator.CompositionGenerator;
 import com.amazonaws.functions.compositionGenerator.GeneratorConfiguration;
 import com.amazonaws.functions.compositionGenerator.ICompositionGenerator;
-import com.amazonaws.model.GameType;
+import com.amazonaws.model.CompositionType;
 import com.amazonaws.model.Player;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,8 +64,8 @@ public class ExecuteCompoAlgorithmHandler extends AbstractHandler  {
         }
         Object gameTypeObject = request.get(RequestConstants.GAME_TYPE);
         if(gameTypeObject instanceof String && ((String)nbCompoObject).length()>0
-                && Arrays.asList(GameType.values()).toString().contains((String)gameTypeObject)) {
-            config.setGameType(GameType.valueOf((String)gameTypeObject));
+                && Arrays.asList(CompositionType.values()).toString().contains((String)gameTypeObject)) {
+            config.setCompositionType(CompositionType.valueOf((String)gameTypeObject));
         }
         this.getLogger().log("config = " + config);
         return config;

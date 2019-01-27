@@ -94,20 +94,19 @@ public abstract class AbstractHandler implements RequestStreamHandler {
         int nbPlayers = teamA.getPlayers().size() + teamB.getPlayers().size();
 
         Object gameTypeObj = request.get(RequestConstants.GAME_TYPE);
-        GameType gameType = null;
-        if(gameTypeObj instanceof GameType){
-            gameType = GameType.valueOf((String)gameTypeObj);
+        CompositionType compositionType = null;
+        if(gameTypeObj instanceof CompositionType){
+            compositionType = CompositionType.valueOf((String)gameTypeObj);
         }
 
-        teamA.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(nbPlayers, gameType));
-        teamB.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(nbPlayers, gameType));
         Composition composition = new Composition(teamA, teamB);
+        composition.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(nbPlayers, compositionType));
         this.getLogger().log("composition : " + composition);
         return composition;
     }
 
-    private int getMaxNbPlayerPerTeamOnField(int nbPlayers, GameType gameType){
-        if (gameType == GameType.ODD && nbPlayers%2==1){
+    private int getMaxNbPlayerPerTeamOnField(int nbPlayers, CompositionType compositionType){
+        if (compositionType == CompositionType.ODD && nbPlayers%2==1){
             return nbPlayers/2 + 1;
         } else{
             return nbPlayers/2;

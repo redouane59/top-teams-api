@@ -1,6 +1,5 @@
 package com.amazonaws.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -21,11 +20,13 @@ public class Composition extends AbstractComposition {
 
     @Override
     public double getRatingDifference(){
-        return (this.getTeamA().getRatingSum() - this.getTeamB().getRatingSum());
+        return (this.getTeamA().getRatingSum(this.getNbPlayersOnField())
+                - this.getTeamB().getRatingSum(this.getNbPlayersOnField()));
     }
 
     public double getRatingAverageDifference(){
-        return (this.getTeamA().getRatingAverage() - this.getTeamB().getRatingAverage());
+        return (this.getTeamA().getRatingAverage(this.getNbPlayersOnField())
+                - this.getTeamB().getRatingAverage(this.getNbPlayersOnField()));
     }
 
     public double getPrediction(double kf){
@@ -66,10 +67,24 @@ public class Composition extends AbstractComposition {
             for (Player p : this.getTeamB().getPlayers()) {
                 s.append("- ").append(p).append("\n");
             }
-
             return s.toString();
         } catch (Exception e){
             return e.toString();
+        }
+    }
+
+    public int getNbPlayersInTeam(CompositionType compositionType, TeamSide teamSide){
+        int totalNumberOfPlayers = this.getAvailablePlayers().size()
+                + this.teamA.getPlayers().size()+this.teamB.getPlayers().size();
+
+        if(totalNumberOfPlayers%2==0 || compositionType == CompositionType.REGULAR){
+            return totalNumberOfPlayers/2;
+        } else{
+            if(teamSide == TeamSide.A){
+                return totalNumberOfPlayers/2 + 1;
+            } else{
+                return totalNumberOfPlayers/2;
+            }
         }
     }
 }

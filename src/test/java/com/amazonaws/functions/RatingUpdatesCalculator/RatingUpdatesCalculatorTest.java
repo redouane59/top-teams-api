@@ -1,7 +1,9 @@
-import com.amazonaws.functions.ratingUpdateCalculator.RelativeDistribution;
+package com.amazonaws.functions.RatingUpdatesCalculator;
+
+import com.amazonaws.functions.ratingUpdatesCalculator.RelativeDistribution;
 import com.amazonaws.model.*;
-import com.amazonaws.functions.ratingUpdateCalculator.CalculatorConfiguration;
-import com.amazonaws.functions.ratingUpdateCalculator.RatingUpdatesCalculator;
+import com.amazonaws.functions.ratingUpdatesCalculator.CalculatorConfiguration;
+import com.amazonaws.functions.ratingUpdatesCalculator.RatingUpdatesCalculator;
 import org.junit.Test;
 
 import java.util.Map;
@@ -63,6 +65,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration();
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
+        System.out.println(game);
         Map<String, Double> result = calculator.getRatingUpdates(game);
         for(Map.Entry<String, Double> entry : result.entrySet()) {
             String key = entry.getKey();
@@ -214,10 +217,9 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testUnbalancedCompositionSameFree(){
+    public void testUnbalancedCompositionSameOdd(){
         Composition composition = this.getdUnbalancedComposition();
-        composition.getTeamA().setNbPlayersOnField(5);
-        composition.getTeamB().setNbPlayersOnField(4);
+        composition.setNbPlayersOnField(5);
         CalculatorConfiguration configuration = new CalculatorConfiguration();
         configuration.setSplitPointsByTeam(true);
         configuration.setRelativeDistribution(RelativeDistribution.NONE);

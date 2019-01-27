@@ -40,16 +40,6 @@ public class Player implements Comparable<Player> {
         this.nbGamesPlayed = player.nbGamesPlayed;
     }
 
-    public double getRatingValueByPosition(PlayerPosition position){
-        if(this.position == position || (this.position==PlayerPosition.GK && position==PlayerPosition.DEF)){
-            return this.ratingValue;
-        } else if (this.position == null){
-            return this.ratingValue;
-        } else{
-            return this.ratingValue;
-        }
-    }
-
     @Override
     public int compareTo(Player o) {
         return Double.compare(this.getRatingValue(), o.getRatingValue());

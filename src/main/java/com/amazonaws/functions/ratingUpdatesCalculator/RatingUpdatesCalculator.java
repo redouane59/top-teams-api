@@ -1,4 +1,4 @@
-package com.amazonaws.functions.ratingUpdateCalculator;
+package com.amazonaws.functions.ratingUpdatesCalculator;
 
 import com.amazonaws.model.*;
 import lombok.AllArgsConstructor;
@@ -22,8 +22,8 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator{
         Team teamA = game.getComposition().getTeamA();
         Team teamB = game.getComposition().getTeamB();
         int nbPlayersOnField;
-        if(teamA.getNbPlayersOnField()!=0){
-            nbPlayersOnField = teamA.getNbPlayersOnField();
+        if(game.getComposition().getNbPlayersOnField()!=0){
+            nbPlayersOnField = game.getComposition().getNbPlayersOnField();
         } else{
             nbPlayersOnField = teamA.getPlayers().size();
         }

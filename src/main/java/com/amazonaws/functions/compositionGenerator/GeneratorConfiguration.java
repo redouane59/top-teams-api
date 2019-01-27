@@ -1,13 +1,11 @@
 package com.amazonaws.functions.compositionGenerator;
 
-import com.amazonaws.model.GameType;
-import lombok.AllArgsConstructor;
+import com.amazonaws.model.CompositionType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class GeneratorConfiguration {
 
     private boolean splitBestPlayers = true;
@@ -17,7 +15,6 @@ public class GeneratorConfiguration {
     private boolean splitStrikers = true;
     private int nbTeamsNeeded = 2;
     private int nbCompositionsNeeded = 1;
-    private GameType gameType = GameType.REGULAR;
+    private CompositionType compositionType = CompositionType.REGULAR;
 }
-
 

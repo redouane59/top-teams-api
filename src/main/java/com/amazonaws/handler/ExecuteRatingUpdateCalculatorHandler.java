@@ -1,9 +1,9 @@
 package com.amazonaws.handler;
 
-import com.amazonaws.functions.ratingUpdateCalculator.RelativeDistribution;
+import com.amazonaws.functions.ratingUpdatesCalculator.RelativeDistribution;
 import com.amazonaws.model.*;
-import com.amazonaws.functions.ratingUpdateCalculator.CalculatorConfiguration;
-import com.amazonaws.functions.ratingUpdateCalculator.RatingUpdatesCalculator;
+import com.amazonaws.functions.ratingUpdatesCalculator.CalculatorConfiguration;
+import com.amazonaws.functions.ratingUpdatesCalculator.RatingUpdatesCalculator;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;

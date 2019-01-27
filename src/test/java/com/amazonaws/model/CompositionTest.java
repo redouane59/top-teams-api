@@ -1,7 +1,6 @@
-import com.amazonaws.model.Composition;
-import com.amazonaws.model.Player;
-import com.amazonaws.model.Team;
-import com.amazonaws.functions.ratingUpdateCalculator.CalculatorConfiguration;
+package com.amazonaws.model;
+
+import com.amazonaws.functions.ratingUpdatesCalculator.CalculatorConfiguration;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -89,37 +88,61 @@ public class CompositionTest {
     }
 
     @Test
-    public void testRatingDifferenceSameNbplayersOnTeam(){
+    public void testRatingDifferenceRegularMode(){
         Composition c1 = new Composition(null);
         Player player1 = new Player("player1", 10);
-        Player player2 = new Player("player1", 20);
-        Player player3 = new Player("player1", 30);
+        Player player2 = new Player("player2", 20);
+        Player player3 = new Player("player", 30);
         Team teamA = new Team(player1, player2, player3);
-        teamA.setNbPlayersOnField(3);
-        Player player4 = new Player("player1", 10);
-        Player player5 = new Player("player1", 20);
-        Player player6 = new Player("player1", 30);
+        Player player4 = new Player("player4", 10);
+        Player player5 = new Player("player5", 20);
+        Player player6 = new Player("player6", 30);
         Team teamB = new Team(player4, player5, player6);
-        teamB.setNbPlayersOnField(3);
         Composition composition = new Composition(teamA, teamB);
-        assertTrue(composition.getRatingDifference() == 0);
+        composition.setNbPlayersOnField(3);
+        assertTrue(composition.getRatingAverageDifference() ==
+                (teamA.getRatingAverage(composition.getNbPlayersOnField())-teamB.getRatingAverage(composition.getNbPlayersOnField()))); // -15
+        assertTrue(composition.getRatingDifference() ==
+                ((teamA.getRatingSum(composition.getNbPlayersOnField()) - teamB.getRatingSum(composition.getNbPlayersOnField()))));
+
     }
 
     @Test
-    public void testRatingDifferenceSameNbplayersOnField(){
+    public void testRatingDifferenceSubstituteMode(){
         Player player1 = new Player("player1", 10);
-        Player player2 = new Player("player1", 20);
-        Player player3 = new Player("player1", 30);
-        Player player4 = new Player("player1", 40);
+        Player player2 = new Player("player2", 20);
+        Player player3 = new Player("player3", 30);
+        Player player4 = new Player("player4", 40);
         Team teamA = new Team(player1, player2, player3, player4);
-        teamA.setNbPlayersOnField(3);
-        Player player5 = new Player("player1", 10);
-        Player player6 = new Player("player1", 20);
+        Player player5 = new Player("player5", 10);
+        Player player6 = new Player("player6", 20);
         Player player7 = new Player("player7", 30);
         Team teamB = new Team(player5, player6, player7);
-        teamB.setNbPlayersOnField(3);
         Composition composition = new Composition(teamA, teamB);
-        assertTrue(composition.getRatingAverageDifference() == (25-20));
+        composition.setNbPlayersOnField(3);
+        assertTrue(composition.getRatingAverageDifference() ==
+                (teamA.getRatingAverage(composition.getNbPlayersOnField())-teamB.getRatingAverage(composition.getNbPlayersOnField()))); // -15
+        assertTrue(composition.getRatingDifference() ==
+                ((teamA.getRatingSum(composition.getNbPlayersOnField())) - teamB.getRatingSum(composition.getNbPlayersOnField())));
+    }
+
+    @Test
+    public void testRatingDifferenceFreeMode(){
+        Player player1 = new Player("player1", 10);
+        Player player2 = new Player("player2", 20);
+        Player player3 = new Player("player3", 30);
+        Player player4 = new Player("player4", 40);
+        Team teamA = new Team(player1, player2, player3, player4);
+        Player player5 = new Player("player5", 10);
+        Player player6 = new Player("player6", 20);
+        Player player7 = new Player("player7", 30);
+        Team teamB = new Team(player5, player6, player7);
+        Composition composition = new Composition(teamA, teamB);
+        composition.setNbPlayersOnField(4);
+        assertTrue(composition.getRatingAverageDifference() ==
+                (teamA.getRatingAverage(composition.getNbPlayersOnField())-teamB.getRatingAverage(composition.getNbPlayersOnField()))); // -15
+        assertTrue(composition.getRatingDifference() ==
+                ((teamA.getRatingSum(composition.getNbPlayersOnField())) - teamB.getRatingSum(composition.getNbPlayersOnField())));
     }
 
     @Test

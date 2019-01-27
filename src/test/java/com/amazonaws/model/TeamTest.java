@@ -1,3 +1,5 @@
+package com.amazonaws.model;
+
 import com.amazonaws.model.Player;
 import com.amazonaws.model.Team;
 import org.junit.Test;
@@ -50,29 +52,27 @@ public class TeamTest {
 
 	@Test
 	public void testRatingValueWithNbPlayersOnField() {
-		Team team = new Team();
-		Player p1 = new Player("a",30);
-		Player p2 = new Player("a",40);
-		Player p3 = new Player("a",50);
-		team.addPlayer(p1);
-		team.addPlayer(p2);
-		team.addPlayer(p3);
+		List<Player> players = new ArrayList<>();
+		Player p1 = new Player("a",30, PlayerPosition.GK);
+		Player p2 = new Player();
+		p2.setRatingValue(40);
+		Player p3 = new Player();
+		p3.setRatingValue(50);
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+		Team team = new Team(players);
 		double ratingSum = p1.getRatingValue()+p2.getRatingValue()+p3.getRatingValue();
-		team.setNbPlayersOnField(3);
-		assertTrue(team.getRatingAverage() == ratingSum/3);
-		assertTrue(team.getRatingSum() == ratingSum);
-		team.setNbPlayersOnField(2);
-		assertTrue(team.getRatingAverage() == ratingSum/3);
-		assertTrue(team.getRatingSum() == ratingSum*2/3);
-		team.setNbPlayersOnField(4);
-		assertTrue(team.getRatingAverage() == ratingSum/4);
-		assertTrue(team.getRatingSum() == ratingSum);
-		team.setNbPlayersOnField(2);
-		assertTrue(team.getRatingAverage() == ratingSum/3);
-		assertTrue(team.getRatingSum() == ratingSum*2/3);
-		team.setNbPlayersOnField(3);
-		assertTrue(team.getRatingAverage() == ratingSum/3);
-		assertTrue(team.getRatingSum() == ratingSum);
+		assertTrue(team.getRatingAverage(3) == ratingSum/3);
+		assertTrue(team.getRatingSum(3) == ratingSum);
+		assertTrue(team.getRatingAverage(2) == ratingSum/3);
+		assertTrue(team.getRatingSum(2) == ratingSum*2/3);
+		assertTrue(team.getRatingAverage(4) == ratingSum/4);
+		assertTrue(team.getRatingSum(4) == ratingSum);
+		assertTrue(team.getRatingAverage(2) == ratingSum/3);
+		assertTrue(team.getRatingSum(2) == ratingSum*2/3);
+		assertTrue(team.getRatingAverage(3) == ratingSum/3);
+		assertTrue(team.getRatingSum(3) == ratingSum);
 	}
 
 	@Test
@@ -82,10 +82,8 @@ public class TeamTest {
 		Player p3 = new Player("p3", 5);
 		Player p4 = new Player("p4", 5);
 		Player p5 = new Player("p5", 5);
-
 		Team teamA = new Team(p1,p2,p3,p4,p5);
 		Team teamB = new Team(p5,p4,p3,p2,p1);
-
 		assertTrue(teamA.equals(teamB));
 		assertTrue(teamB.equals(teamA));
 	}
