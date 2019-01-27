@@ -1,18 +1,16 @@
-import com.amazonaws.compositionGenerator.CompositionGenerator;
+import com.amazonaws.functions.compositionGenerator.ComplexCompositionGenerator;
+import com.amazonaws.functions.compositionGenerator.GeneratorConfiguration;
 import com.amazonaws.model.AbstractComposition;
+import com.amazonaws.model.Player;
 import com.amazonaws.model.PlayerPosition;
 import com.amazonaws.model.Team;
-import com.amazonaws.compositionGenerator.GeneratorConfiguration;
 import com.amazonaws.model.complex.ComplexComposition;
-import com.amazonaws.compositionGenerator.ComplexCompositionGenerator;
-import com.amazonaws.model.Player;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 public class ComplexCompositionGeneratorTest {
 

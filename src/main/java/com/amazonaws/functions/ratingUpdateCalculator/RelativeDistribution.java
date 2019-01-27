@@ -1,4 +1,4 @@
-package com.amazonaws.model;
+package com.amazonaws.functions.ratingUpdateCalculator;
 
 public enum RelativeDistribution {
 

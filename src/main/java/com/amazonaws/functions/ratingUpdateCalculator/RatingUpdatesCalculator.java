@@ -1,4 +1,4 @@
-package com.amazonaws.ratingUpdateCalculator;
+package com.amazonaws.functions.ratingUpdateCalculator;
 
 import com.amazonaws.model.*;
 import lombok.AllArgsConstructor;

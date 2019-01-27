@@ -28,7 +28,6 @@ public class Composition extends AbstractComposition {
         return (this.getTeamA().getRatingAverage() - this.getTeamB().getRatingAverage());
     }
 
-
     public double getPrediction(double kf){
         return this.getRatingDifference()/kf;
     }

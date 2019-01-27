@@ -1,4 +1,4 @@
-package com.amazonaws.compositionGenerator;
+package com.amazonaws.functions.compositionGenerator;
 import com.amazonaws.model.AbstractComposition;
 import com.amazonaws.model.Player;
 

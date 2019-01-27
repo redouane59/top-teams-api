@@ -1,6 +1,6 @@
-import com.amazonaws.compositionGenerator.CompositionGenerator;
+import com.amazonaws.functions.compositionGenerator.CompositionGenerator;
 import com.amazonaws.model.*;
-import com.amazonaws.compositionGenerator.GeneratorConfiguration;
+import com.amazonaws.functions.compositionGenerator.GeneratorConfiguration;
 import com.amazonaws.model.Composition;
 import com.amazonaws.model.Player;
 import org.junit.Test;

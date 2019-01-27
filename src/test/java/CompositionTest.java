@@ -1,7 +1,7 @@
 import com.amazonaws.model.Composition;
 import com.amazonaws.model.Player;
 import com.amazonaws.model.Team;
-import com.amazonaws.ratingUpdateCalculator.CalculatorConfiguration;
+import com.amazonaws.functions.ratingUpdateCalculator.CalculatorConfiguration;
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -1,10 +1,9 @@
-package com.amazonaws.compositionGenerator;
+package com.amazonaws.functions.compositionGenerator;
 
 import com.amazonaws.model.Player;
 import com.amazonaws.model.PlayerPosition;
 import com.amazonaws.model.Team;
 import com.amazonaws.model.complex.ComplexComposition;
-import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;

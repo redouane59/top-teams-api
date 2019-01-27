@@ -22,11 +22,8 @@ public class Team {
 
     public Team(Player... players){
         Collections.addAll(this.players, players);
+        this.nbPlayersOnField = players.length;
         this.updateRating();
-    }
-
-    public Team(int nbPlayersOnField){
-        this.nbPlayersOnField = nbPlayersOnField;
     }
 
     public void addPlayer(Player p){

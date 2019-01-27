@@ -1,9 +1,8 @@
-package com.amazonaws.ratingUpdateCalculator;
+package com.amazonaws.functions.ratingUpdateCalculator;
 
-import com.amazonaws.model.RelativeDistribution;
 import lombok.Data;
 
-import static com.amazonaws.model.RelativeDistribution.MEDIUM;
+import static com.amazonaws.functions.ratingUpdateCalculator.RelativeDistribution.MEDIUM;
 
 @Data
 public class CalculatorConfiguration {

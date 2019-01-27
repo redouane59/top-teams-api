@@ -1,10 +1,7 @@
 package com.amazonaws.model;
 
-import com.amazonaws.compositionGenerator.ComplexCompositionGenerator;
-import com.amazonaws.compositionGenerator.CompositionGenerator;
-import com.amazonaws.compositionGenerator.GeneratorConfiguration;
-import com.amazonaws.ratingUpdateCalculator.CalculatorConfiguration;
-import com.amazonaws.ratingUpdateCalculator.RatingUpdatesCalculator;
+import com.amazonaws.functions.ratingUpdateCalculator.CalculatorConfiguration;
+import com.amazonaws.functions.ratingUpdateCalculator.RatingUpdatesCalculator;
 
 import java.io.IOException;
 import java.util.ArrayList;

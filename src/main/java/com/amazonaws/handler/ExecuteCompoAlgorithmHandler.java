@@ -1,22 +1,18 @@
 package com.amazonaws.handler;
 
-import com.amazonaws.compositionGenerator.ComplexCompositionGenerator;
-import com.amazonaws.compositionGenerator.CompositionGenerator;
-import com.amazonaws.compositionGenerator.GeneratorConfiguration;
-import com.amazonaws.compositionGenerator.ICompositionGenerator;
+import com.amazonaws.functions.compositionGenerator.ComplexCompositionGenerator;
+import com.amazonaws.functions.compositionGenerator.CompositionGenerator;
+import com.amazonaws.functions.compositionGenerator.GeneratorConfiguration;
+import com.amazonaws.functions.compositionGenerator.ICompositionGenerator;
 import com.amazonaws.model.GameType;
 import com.amazonaws.model.Player;
-import com.amazonaws.model.libraries.UtilsValidate;
 import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ExecuteCompoAlgorithmHandler extends AbstractHandler  {

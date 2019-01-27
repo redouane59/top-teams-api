@@ -1,6 +1,7 @@
+import com.amazonaws.functions.ratingUpdateCalculator.RelativeDistribution;
 import com.amazonaws.model.*;
-import com.amazonaws.ratingUpdateCalculator.CalculatorConfiguration;
-import com.amazonaws.ratingUpdateCalculator.RatingUpdatesCalculator;
+import com.amazonaws.functions.ratingUpdateCalculator.CalculatorConfiguration;
+import com.amazonaws.functions.ratingUpdateCalculator.RatingUpdatesCalculator;
 import org.junit.Test;
 
 import java.util.Map;
