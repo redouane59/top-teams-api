@@ -1,7 +1,7 @@
 package com.amazonaws.handler;
 
 import com.amazonaws.model.*;
-import com.amazonaws.model.libraries.UtilsValidate;
+import com.amazonaws.model.utils.UtilValidate;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
@@ -46,11 +46,11 @@ public abstract class AbstractHandler implements RequestStreamHandler {
             player.setId(playerId);
             // ratingAverage
             Object playerRatingObject = p.get(RequestConstants.PLAYER_RATING_VALUE);
-            Double playerRatingValue = UtilsValidate.asDouble(playerRatingObject);
+            Double playerRatingValue = UtilValidate.asDouble(playerRatingObject);
             player.setRatingValue(playerRatingValue);
             // nbGames
             Object playerNbGamesObject = p.get(RequestConstants.PLAYER_NB_GAMES_PLAYED);
-            if(!UtilsValidate.isEmpty(playerNbGamesObject)){
+            if(!UtilValidate.isEmpty(playerNbGamesObject)){
                 player.setNbGamesPlayed((int)p.get(RequestConstants.PLAYER_NB_GAMES_PLAYED));
             }
             // position

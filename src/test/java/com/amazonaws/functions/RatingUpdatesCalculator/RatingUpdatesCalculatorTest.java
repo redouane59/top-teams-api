@@ -62,7 +62,8 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testWinAndLoosePointsAwins(){
         Composition composition = this.getIdenticalComposition();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
         System.out.println(game);
@@ -82,7 +83,7 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testWinAndLoosePointsBWins(){
         Composition composition = this.getIdenticalComposition();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(0,10));
         Map<String, Double> result = calculator.getRatingUpdates(game);
@@ -101,7 +102,7 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testRelativeDistributionNone(){
         Composition composition = this.getCompositionWithDifferentNbGames();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.NONE);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
@@ -119,7 +120,7 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testRelativeDistributionLow(){
         Composition composition = this.getCompositionWithDifferentNbGames();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.LOW);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
@@ -137,7 +138,7 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testRelativeDistributionMedium(){
         Composition composition = this.getCompositionWithDifferentNbGames();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.MEDIUM);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
@@ -155,7 +156,7 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testRelativeDistributionHigh(){
         Composition composition = this.getCompositionWithDifferentNbGames();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.HIGH);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
@@ -173,7 +174,7 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testSplitPointFalse(){
         Composition composition = this.getCompositionWithDifferentNbGames();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setSplitPointsByTeam(false);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
@@ -196,7 +197,7 @@ public class RatingUpdatesCalculatorTest {
     @Test
     public void testSplitPointTrue(){
         Composition composition = this.getCompositionWithDifferentNbGames();
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setSplitPointsByTeam(true);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = new Game(composition, new Score(10,0));
@@ -220,7 +221,7 @@ public class RatingUpdatesCalculatorTest {
     public void testUnbalancedCompositionSameOdd(){
         Composition composition = this.getdUnbalancedComposition();
         composition.setNbPlayersOnField(5);
-        CalculatorConfiguration configuration = new CalculatorConfiguration();
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getNbPlayersOnField());
         configuration.setSplitPointsByTeam(true);
         configuration.setRelativeDistribution(RelativeDistribution.NONE);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
@@ -247,12 +248,10 @@ public class RatingUpdatesCalculatorTest {
         Composition composition = this.getIdenticalComposition();
 
         Game game = new Game(composition, new Score(10,0));
+        double kf = CalculatorConfiguration.calculateKf(composition.getTeamA().getPlayers().size());
 
-
-        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator();
+        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(new CalculatorConfiguration(kf));
         Map<String, Double> result = calculator.getRatingUpdates(game);
-
-        double kf = calculator.getConfiguration().getKf(composition.getTeamA().getPlayers().size());
 
         assertTrue(composition.getPrediction(kf)==0);
 

@@ -40,9 +40,9 @@ public class Launcher {
 		Score score = new Score(4,0);
 		Game game = new Game(composition, score);
 
-		RatingUpdatesCalculator calculator = new RatingUpdatesCalculator();
-		CalculatorConfiguration calculatorConfiguration = new CalculatorConfiguration();
+		CalculatorConfiguration calculatorConfiguration = new CalculatorConfiguration(teamA.getPlayers().size());
 		calculatorConfiguration.setSplitPointsByTeam(false);
+		RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(calculatorConfiguration);
 		calculator.setConfiguration(calculatorConfiguration);
 		Map<String, Double> ratingUpdates = calculator.getRatingUpdates(game);
 		System.out.println(ratingUpdates);

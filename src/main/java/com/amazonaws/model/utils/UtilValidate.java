@@ -1,13 +1,6 @@
-package com.amazonaws.model.libraries;
+package com.amazonaws.model.utils;
 
-import com.amazonaws.util.IOUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-public class UtilsValidate {
+public class UtilValidate {
 
     public static Double asDouble(Object o) {
         Double val = null;

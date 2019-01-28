@@ -3,18 +3,18 @@ package com.amazonaws.functions.ratingUpdatesCalculator;
 import com.amazonaws.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@AllArgsConstructor
 @Data
 public class RatingUpdatesCalculator implements IRatingUpdatesCalculator{
 
     private CalculatorConfiguration configuration;
 
-    public RatingUpdatesCalculator(){
-        configuration = new CalculatorConfiguration();
+    public RatingUpdatesCalculator(CalculatorConfiguration configuration){
+        this.configuration = configuration;
     }
 
     @Override
@@ -41,8 +41,8 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator{
             modifB = this.getTeamPoints(globalModif, game, TeamSide.B);
         }
 
-        modifA = modifA*this.configuration.getKf(nbPlayersOnField);
-        modifB = modifB*this.configuration.getKf(nbPlayersOnField);
+        modifA = modifA*this.configuration.getKf();
+        modifB = modifB*this.configuration.getKf();
 
         Map<String, Double> playerRatingModifications = new LinkedHashMap<>();
 

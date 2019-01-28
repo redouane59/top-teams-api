@@ -7,7 +7,7 @@ import java.util.*;
 @Data
 public abstract class AbstractCompositionGenerator implements ICompositionGenerator {
 
-    private int NBTRY = 1000;
+    private final int NBTRY = 1000;
     private GeneratorConfiguration configuration;
 
     public AbstractCompositionGenerator(){

@@ -20,12 +20,13 @@ public class ExecuteRatingUpdateCalculatorHandler extends AbstractHandler {
         Composition composition = this.getCompositionFromJsonObject(inputObject);
         Score score = this.getScoreFromJsonObject(inputObject);
         Game game = new Game(composition, score);
-        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(this.getCalculatorConfigurationFromJsonObject(inputObject));
+        int nbPlayersPerTeam = game.getComposition().getTeamA().getPlayers().size();
+        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(this.getCalculatorConfigurationFromJsonObject(inputObject, nbPlayersPerTeam));
         new ObjectMapper().writeValue(outputStream, calculator.getRatingUpdates(game));
     }
 
-    private CalculatorConfiguration getCalculatorConfigurationFromJsonObject(JSONObject request){
-        CalculatorConfiguration config = new CalculatorConfiguration();
+    private CalculatorConfiguration getCalculatorConfigurationFromJsonObject(JSONObject request, int nbPlayersPerTeam){
+        CalculatorConfiguration config = new CalculatorConfiguration(nbPlayersPerTeam);
         Object splitPointsByTeamObj = request.get(RequestConstants.SPLIT_POINTS_BY_TEAM);
         if(splitPointsByTeamObj instanceof Boolean){
             config.setSplitPointsByTeam((Boolean)splitPointsByTeamObj);

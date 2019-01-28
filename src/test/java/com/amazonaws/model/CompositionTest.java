@@ -148,8 +148,8 @@ public class CompositionTest {
     @Test
     public void testPredictionWithKf(){
         Composition composition = this.getdTwoDifferentRatingTeamsComposition();
-        CalculatorConfiguration config = new CalculatorConfiguration();
-        assertTrue(composition.getPrediction(config.getKf(6))<composition.getPrediction(config.getKf(5)));
-        assertTrue(composition.getPrediction(config.getKf(5))<composition.getPrediction(config.getKf(4)));
+        CalculatorConfiguration config = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
+        assertTrue(composition.getPrediction(CalculatorConfiguration.calculateKf(6))<composition.getPrediction(config.calculateKf(5)));
+        assertTrue(composition.getPrediction(CalculatorConfiguration.calculateKf(5))<composition.getPrediction(config.calculateKf(4)));
     }
 }

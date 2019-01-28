@@ -3,9 +3,8 @@ package com.amazonaws.model.complex;
 import com.amazonaws.model.AbstractComposition;
 import com.amazonaws.model.Player;
 import com.amazonaws.model.Team;
-import com.amazonaws.model.libraries.Statistics;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -34,8 +33,8 @@ public class ComplexComposition extends AbstractComposition {
         for(int i = 0; i<this.teams.size(); i++){
             ratingValues[i] = this.teams.get(i).getRatingSum();
         }
-        Statistics statistics = new Statistics(ratingValues);
-        return statistics.getStdDev();
+        StandardDeviation stdDev = new StandardDeviation();
+        return stdDev.evaluate(ratingValues);
     }
 
     public double getRatingAverageDifference(){
@@ -43,11 +42,9 @@ public class ComplexComposition extends AbstractComposition {
         for(int i = 0; i<this.teams.size(); i++){
             ratingValues[i] = this.teams.get(i).getRatingAverage();
         }
-        Statistics statistics = new Statistics(ratingValues);
-        return statistics.getStdDev();
+        StandardDeviation stdDev = new StandardDeviation();
+        return stdDev.evaluate(ratingValues);
     }
-
-
 
     @Override
     public boolean equals(Object obj) {
