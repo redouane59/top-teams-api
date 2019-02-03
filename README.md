@@ -11,13 +11,13 @@ This module also let you the choice to define positions for players (*GK*, *DEF*
 This algorithm takes into account the global level of the two teams, the final goal average, and the number of games played by each player.
 
 # Swagger
-https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.1.0
+https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.2.0
 
 # Process Summary
 ![Process Summary](https://i.ibb.co/mhHFccT/process-summary.png)
 ## Player definition 
 - id (String) : must be unique
-- ratingValue (double) : must be between 0 & 100. 
+- rating_value (double) : must be between 0 & 100. 
 
 Recommended values
 ```
