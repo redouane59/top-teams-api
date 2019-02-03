@@ -4,25 +4,25 @@ public class RequestConstants {
 
     public static final String PLAYERS = "players";
     public static final String PLAYER_ID = "id";
-    public static final String PLAYER_RATING_VALUE = "ratingValue";
+    public static final String PLAYER_RATING_VALUE = "rating_value";
     public static final String PLAYER_POSITION = "position";
-    public static final String PLAYER_NB_GAMES_PLAYED = "nbGamesPlayed";
+    public static final String PLAYER_NB_GAMES_PLAYED = "nb_games_played";
 
-    public static final String SPLIT_BEST_PLAYERS = "splitBestPlayers";
-    public static final String SPLIT_WORST_PLAYERS = "splitWorstPlayers";
-    public static final String SPLIT_GOAL_KEEPERS = "splitGoalKeepers";
-    public static final String SPLIT_DEFENDERS = "splitDefenders";
-    public static final String SPLIT_STRIKERS = "splitStrikers";
-    public static final String GAME_TYPE = "compositionType";
-    public static final String NB_TEAMS_NEEDED = "nbTeamsNeeded";
-    public static final String NB_COMPOSITIONS_NEEDED = "nbCompositionsNeeded";
+    public static final String SPLIT_BEST_PLAYERS = "split_best_players";
+    public static final String SPLIT_WORST_PLAYERS = "split_worst_players";
+    public static final String SPLIT_GOAL_KEEPERS = "split_goal_keepers";
+    public static final String SPLIT_DEFENDERS = "split_defenders";
+    public static final String SPLIT_STRIKERS = "split_strikers";
+    public static final String GAME_TYPE = "composition_type";
+    public static final String NB_TEAMS_NEEDED = "nb_teams_needed";
+    public static final String NB_COMPOSITIONS_NEEDED = "nb_compositions_needed";
 
-    public static final String SPLIT_POINTS_BY_TEAM = "splitPointsByTeam";
-    public static final String RELATIVE_DISTRIBUTION = "relativeDistribution";
-    public static final String SCORE_A = "scoreA";
-    public static final String SCORE_B = "scoreB";
-    public static final String TEAM_A = "teamA";
-    public static final String TEAM_B = "teamB";
+    public static final String SPLIT_POINTS_BY_TEAM = "split_points_by_team";
+    public static final String RELATIVE_DISTRIBUTION = "relative_distribution";
+    public static final String SCORE_A = "score_A";
+    public static final String SCORE_B = "score_B";
+    public static final String TEAM_A = "team_A";
+    public static final String TEAM_B = "team_B";
     public static final String COMPOSITION = "composition";
 
 }
