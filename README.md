@@ -33,5 +33,5 @@ Goal Keeper : GK
 Defender : DEF
 Attacker : ATT
 ```
-- nbGamesPlayed (int) : is optionnal. Only used for *Rating updates calculator* function.
+- nb_games_played (int) : is optionnal. Only used for *Rating updates calculator* function.
 
