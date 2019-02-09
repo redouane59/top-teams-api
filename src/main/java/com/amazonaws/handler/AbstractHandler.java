@@ -93,10 +93,10 @@ public abstract class AbstractHandler implements RequestStreamHandler {
         }
         int nbPlayers = teamA.getPlayers().size() + teamB.getPlayers().size();
 
-        Object gameTypeObj = request.get(RequestConstants.GAME_TYPE);
+        Object compositionTypeObject = request.get(RequestConstants.COMPOSITION_TYPE);
         CompositionType compositionType = null;
-        if(gameTypeObj instanceof CompositionType){
-            compositionType = CompositionType.valueOf((String)gameTypeObj);
+        if(compositionTypeObject instanceof CompositionType){
+            compositionType = CompositionType.valueOf((String)compositionTypeObject);
         }
 
         Composition composition = new Composition(teamA, teamB);

@@ -62,10 +62,10 @@ public class ExecuteCompoAlgorithmHandler extends AbstractHandler  {
         if(nbCompoObject instanceof String && ((String)nbCompoObject).length()>0){
             config.setNbCompositionsNeeded(Integer.valueOf((String)nbCompoObject));
         }
-        Object gameTypeObject = request.get(RequestConstants.GAME_TYPE);
-        if(gameTypeObject instanceof String && ((String)nbCompoObject).length()>0
-                && Arrays.asList(CompositionType.values()).toString().contains((String)gameTypeObject)) {
-            config.setCompositionType(CompositionType.valueOf((String)gameTypeObject));
+        Object compositionTypeObject = request.get(RequestConstants.COMPOSITION_TYPE);
+        if(compositionTypeObject instanceof String && ((String)nbCompoObject).length()>0
+                && Arrays.asList(CompositionType.values()).toString().contains((String)compositionTypeObject)) {
+            config.setCompositionType(CompositionType.valueOf((String)compositionTypeObject));
         }
         this.getLogger().log("config = " + config);
         return config;

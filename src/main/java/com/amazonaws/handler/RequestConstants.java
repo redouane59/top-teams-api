@@ -13,9 +13,9 @@ public class RequestConstants {
     public static final String SPLIT_GOAL_KEEPERS = "split_goal_keepers";
     public static final String SPLIT_DEFENDERS = "split_defenders";
     public static final String SPLIT_STRIKERS = "split_strikers";
-    public static final String GAME_TYPE = "composition_type";
-    public static final String NB_TEAMS_NEEDED = "nb_teams_needed";
-    public static final String NB_COMPOSITIONS_NEEDED = "nb_compositions_needed";
+    public static final String COMPOSITION_TYPE = "composition_type";
+    public static final String NB_TEAMS_NEEDED = "expected_team_number";
+    public static final String NB_COMPOSITIONS_NEEDED = "expected_composition_number";
 
     public static final String SPLIT_POINTS_BY_TEAM = "split_points_by_team";
     public static final String RELATIVE_DISTRIBUTION = "relative_distribution";
