@@ -11,7 +11,8 @@ This module also let you the choice to define positions for players (*GK*, *DEF*
 This algorithm takes into account the global level of the two teams, the final goal average, and the number of games played by each player.
 
 # Swagger
-https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.2.0
+https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.2.0-oas3 
+(Thanks to Alex Faria !)
 
 # Process Summary
 ![Process Summary](https://i.ibb.co/mhHFccT/process-summary.png)
