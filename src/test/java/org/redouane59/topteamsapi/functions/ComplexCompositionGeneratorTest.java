@@ -227,7 +227,7 @@ public class ComplexCompositionGeneratorTest {
 
     @Test
     public void testNBestResult(){
-        generator = new ComplexCompositionGenerator();
+        generator = new ComplexCompositionGenerator(new GeneratorConfiguration());
         generator.getConfiguration().setNbCompositionsNeeded(5);
         List<AbstractComposition> result = generator.getNBestCompositions(getPlayers());
         assertTrue(Math.abs(result.get(0).getRatingDifference())<=Math.abs(result.get(1).getRatingDifference()));

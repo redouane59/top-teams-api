@@ -37,4 +37,9 @@ public class Player implements Comparable<Player> {
     public int compareTo(Player other) {
         return Double.compare(this.getRatingValue(), other.getRatingValue());
     }
+
+    @Override
+    public String toString() {
+        return this.id + " ("+this.ratingValue+")";
+    }
 }

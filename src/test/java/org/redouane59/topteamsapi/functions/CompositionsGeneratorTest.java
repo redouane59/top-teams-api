@@ -100,7 +100,7 @@ public class CompositionsGeneratorTest {
 
 	@Test
 	public void testSplittingWorstAndBest() {
-		generator = new CompositionGenerator();
+		generator = new CompositionGenerator(new GeneratorConfiguration());
 		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
 			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());

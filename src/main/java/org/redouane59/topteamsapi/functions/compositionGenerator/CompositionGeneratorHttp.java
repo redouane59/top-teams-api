@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.redouane59.topteamsapi.functions.AbstractHttpHelper;
 import org.redouane59.topteamsapi.model.Player;
@@ -19,30 +19,30 @@ public class CompositionGeneratorHttp extends AbstractHttpHelper implements Http
   public void service(final HttpRequest request, final HttpResponse response) throws Exception {
     String contentType = request.getContentType().orElse("");
     if(contentType.equals("application/json")){
-      Player[] players = null;
+      List<Player> players = new ArrayList<>();
       String body = this.getBody(request);
       if (!body.isEmpty()) {
-        players = OBJECT_MAPPER.readValue(body, Player[].class);
+        players = List.of(OBJECT_MAPPER.readValue(body, Player[].class));
       }
 
-      Optional<String> split_best_players = request.getFirstQueryParameter("split_best_players");
-      Optional<String> split_worst_players = request.getFirstQueryParameter("split_best_players");
-      Optional<String> split_goal_keepers = request.getFirstQueryParameter("split_goal_keepers");
-      Optional<String> split_defenders = request.getFirstQueryParameter("split_defenders");
-      Optional<String> split_strikers = request.getFirstQueryParameter("split_strikers");
-      Optional<String> expected_team_number = request.getFirstQueryParameter("expected_team_number");
-      Optional<String> expected_composition_number = request.getFirstQueryParameter("expected_composition_number");
-      Optional<String> composition_type = request.getFirstQueryParameter("composition_type");
+      Optional<String> splitBestPlayers = request.getFirstQueryParameter("split_best_players");
+      Optional<String> splitWorstPlayers = request.getFirstQueryParameter("split_best_players");
+      Optional<String> splitGoalKeepers = request.getFirstQueryParameter("split_goal_keepers");
+      Optional<String> splitDefenders = request.getFirstQueryParameter("split_defenders");
+      Optional<String> splitStrikers = request.getFirstQueryParameter("split_strikers");
+      Optional<String> expectedTeamNumber = request.getFirstQueryParameter("expected_team_number");
+      Optional<String> expectedCompositionNumber = request.getFirstQueryParameter("expected_composition_number");
+      Optional<String> compositionType = request.getFirstQueryParameter("composition_type");
 
       GeneratorConfiguration config = GeneratorConfiguration.builder()
-                                                     .splitBestPlayers(Boolean.parseBoolean(split_best_players.orElse("true")))
-                                                     .splitWorstPlayers(Boolean.parseBoolean(split_worst_players.orElse("true")))
-                                                     .splitGoalKeepers(Boolean.parseBoolean(split_goal_keepers.orElse("true")))
-                                                     .splitDefenders(Boolean.parseBoolean(split_defenders.orElse("true")))
-                                                     .splitStrikers(Boolean.parseBoolean(split_strikers.orElse("true")))
-                                                     .nbTeamsNeeded(Integer.parseInt(expected_team_number.orElse("2")))
-                                                     .nbCompositionsNeeded(Integer.parseInt(expected_composition_number.orElse("1")))
-                                                     .compositionType(CompositionType.valueOf(composition_type.orElse("REGULAR")))
+                                                     .splitBestPlayers(Boolean.parseBoolean(splitBestPlayers.orElse("true")))
+                                                     .splitWorstPlayers(Boolean.parseBoolean(splitWorstPlayers.orElse("true")))
+                                                     .splitGoalKeepers(Boolean.parseBoolean(splitGoalKeepers.orElse("true")))
+                                                     .splitDefenders(Boolean.parseBoolean(splitDefenders.orElse("true")))
+                                                     .splitStrikers(Boolean.parseBoolean(splitStrikers.orElse("true")))
+                                                     .nbTeamsNeeded(Integer.parseInt(expectedTeamNumber.orElse("2")))
+                                                     .nbCompositionsNeeded(Integer.parseInt(expectedCompositionNumber.orElse("1")))
+                                                     .compositionType(CompositionType.valueOf(compositionType.orElse("REGULAR")))
                                                      .build();
       ICompositionGenerator generator;
       if(config.getNbTeamsNeeded()==2) {
@@ -50,10 +50,7 @@ public class CompositionGeneratorHttp extends AbstractHttpHelper implements Http
       } else{
         generator = new ComplexCompositionGenerator(config);
       }
-
-      for(Player p : players){
-        response.getWriter().write("\n"+p.getId());
-      }
+      OBJECT_MAPPER.writeValue(response.getWriter(), generator.getNBestCompositions(players));
     }
   }
 
