@@ -1,47 +1,23 @@
-package org.redouane59.topteamsapi;
+package org.redouane59.topteamsapi.model;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.redouane59.topteamsapi.model.Player;
-import org.redouane59.topteamsapi.model.PlayerPosition;
-import org.redouane59.topteamsapi.model.Team;
 
 public class TeamTest {
 
-	private final Player best1 = Player.builder().id("best1").ratingValue(90).build();
-	private final Player best2 = Player.builder().id("best2").ratingValue(89).build();
-	private final Player worst1 = Player.builder().id("worst1").ratingValue(20).build();
-	private final Player worst2 = Player.builder().id("worst2").ratingValue(21).build();
-	private final Player playerA = Player.builder().id("playerA").ratingValue(30).build();
-	private final Player playerB = Player.builder().id("playerB").ratingValue(50).build();
-	private final Player playerC = Player.builder().id("playerC").ratingValue(50).build();
-	private final Player playerD = Player.builder().id("playerD").ratingValue(50).build();
-	private final Player playerE = Player.builder().id("playerE").ratingValue(50).build();
-	private final Player playerF = Player.builder().id("playerF").ratingValue(55).build();
-
-	public List<Player> getPlayers(){
-		List<Player> players = new ArrayList<>();
-		players.add(best1);
-		players.add(best2);
-		players.add(worst1);
-		players.add(worst2);
-		players.add(playerA);
-		players.add(playerB);
-		players.add(playerC);
-		players.add(playerD);
-		players.add(playerE);
-		players.add(playerF);
-		return players;
-	}
-
+	private final ObjectMapper MAPPER = new ObjectMapper();
 
 	@Test
 	public void testRatingValue() {
+		Player playerA = Player.builder().id("playerA").ratingValue(30).build();
+		Player playerB = Player.builder().id("playerB").ratingValue(50).build();
 		Team team = new Team();
 		team.getPlayers().add(playerA);
 		assertEquals(team.getRatingAverage(), playerA.getRatingValue());
@@ -102,6 +78,15 @@ public class TeamTest {
 		Team teamB = Team.builder().players(List.of(p5,p4,p3,p2,p6)).build();
 		assertNotEquals(teamA, teamB);
 		assertNotEquals(teamB, teamA);
+	}
+
+	@Test
+	public void testDeserialization() throws JsonProcessingException {
+		String teamJson = "{\"players\":[{\"id\":\"player3\",\"position\":\"GK\",\"rating_value\":59.0,\"nb_games_played\":0},{\"id\":\"player10\",\"rating_value\":88.0,\"nb_games_played\":0},{\"id\":\"player8\",\"rating_value\":45.0,\"nb_games_played\":0}]}";
+		Team team = MAPPER.readValue(teamJson, Team.class);
+		assertEquals(3, team.getPlayers().size());
+		assertEquals(64, team.getRatingAverage());
+		assertEquals(192, team.getRatingSum());
 	}
 
 

@@ -1,13 +1,10 @@
-package org.redouane59.topteamsapi.functions;
-
+package org.redouane59.topteamsapi.functions.compositionGenerator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.redouane59.topteamsapi.functions.compositionGenerator.CompositionGenerator;
-import org.redouane59.topteamsapi.functions.compositionGenerator.GeneratorConfiguration;
 import org.redouane59.topteamsapi.model.Player;
 import org.redouane59.topteamsapi.model.PlayerPosition;
 import org.redouane59.topteamsapi.model.composition.Composition;
@@ -130,7 +127,6 @@ public class CompositionsGeneratorTest {
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		assertTrue(resultCompo.getTeamA().getPlayers().size()!=resultCompo.getTeamB().getPlayers().size());
 		assertTrue(resultCompo.getRatingAverageDifference()<4);
-		//assertTrue(resultCompo.getRatingDifference()<4);
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
 		List<Player> playersB = resultCompo.getTeamB().getPlayers();
 		assertTrue(resultCompo.getTeamA().getRatingAverage(maxPlayerOnField) ==

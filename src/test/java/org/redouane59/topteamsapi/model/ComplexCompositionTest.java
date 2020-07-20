@@ -1,12 +1,10 @@
-package org.redouane59.topteamsapi;
+package org.redouane59.topteamsapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.redouane59.topteamsapi.model.Player;
-import org.redouane59.topteamsapi.model.Team;
 import org.redouane59.topteamsapi.model.composition.ComplexComposition;
 
 public class ComplexCompositionTest {

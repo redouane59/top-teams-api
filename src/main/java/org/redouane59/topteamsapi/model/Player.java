@@ -21,7 +21,6 @@ public class Player implements Comparable<Player> {
     private double ratingValue;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private PlayerPosition position;
-    @JsonIgnore
     @JsonProperty("nb_games_played")
     private int nbGamesPlayed;
 

@@ -1,14 +1,11 @@
-package org.redouane59.topteamsapi.functions;
+package org.redouane59.topteamsapi.functions.compositionGenerator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.redouane59.topteamsapi.functions.compositionGenerator.ComplexCompositionGenerator;
-import org.redouane59.topteamsapi.functions.compositionGenerator.GeneratorConfiguration;
 import org.redouane59.topteamsapi.model.Player;
 import org.redouane59.topteamsapi.model.PlayerPosition;
 import org.redouane59.topteamsapi.model.Team;
@@ -108,9 +105,9 @@ public class ComplexCompositionGeneratorTest {
             assertFalse(this.playerOnTheSameTeam(randomCompo, best2, best3));
             assertFalse(this.playerOnTheSameTeam(randomCompo, best2, best4));
             assertFalse(this.playerOnTheSameTeam(randomCompo, best3, best4));
-            assertTrue(randomCompo.getTeams().get(0).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(1).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(2).getPlayers().size()==3);
+            assertEquals(3, randomCompo.getTeams().get(0).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(1).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(2).getPlayers().size());
         }
 
     }
@@ -137,9 +134,9 @@ public class ComplexCompositionGeneratorTest {
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, worst3));
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, worst4));
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst3, worst4));
-            assertTrue(randomCompo.getTeams().get(0).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(1).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(2).getPlayers().size()==3);
+            assertEquals(3, randomCompo.getTeams().get(0).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(1).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(2).getPlayers().size());
         }
     }
 
@@ -162,9 +159,9 @@ public class ComplexCompositionGeneratorTest {
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, worst4));
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, best4));
             assertFalse(this.playerOnTheSameTeam(randomCompo, best4, worst4));
-            assertTrue(randomCompo.getTeams().get(0).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(1).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(2).getPlayers().size()==3);
+            assertEquals(3, randomCompo.getTeams().get(0).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(1).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(2).getPlayers().size());
         }
     }
 
@@ -184,9 +181,9 @@ public class ComplexCompositionGeneratorTest {
             randomCompo = generator.buildRandomComposition(getPlayers());
             assertEquals(3, randomCompo.getTeams().size());
             assertFalse(this.playerOnTheSameTeam(randomCompo, worst2, worst4));
-            assertTrue(randomCompo.getTeams().get(0).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(1).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(2).getPlayers().size()==3);
+            assertEquals(3, randomCompo.getTeams().get(0).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(1).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(2).getPlayers().size());
         }
     }
 
@@ -207,9 +204,9 @@ public class ComplexCompositionGeneratorTest {
         for(int i=0; i<this.nbRandomTests;i++){
             randomCompo = generator.buildRandomComposition(getPlayers());
             assertEquals(3, randomCompo.getTeams().size());
-            assertTrue(randomCompo.getTeams().get(0).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(1).getPlayers().size()==3);
-            assertTrue(randomCompo.getTeams().get(2).getPlayers().size()==3);
+            assertEquals(3, randomCompo.getTeams().get(0).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(1).getPlayers().size());
+            assertEquals(3, randomCompo.getTeams().get(2).getPlayers().size());
             assertTrue(randomCompo.getTeams().get(0).isPlayerOnTeam(worst2.getId())
                     || randomCompo.getTeams().get(0).isPlayerOnTeam(worst4.getId())
                     || randomCompo.getTeams().get(0).isPlayerOnTeam(best4.getId())
