@@ -1,4 +1,4 @@
-package org.redouane59.topteamsapi.functions.compositionGenerator;
+package org.redouane59.topteamsapi.functions.composition;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

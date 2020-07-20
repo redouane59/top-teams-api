@@ -1,5 +1,7 @@
-package org.redouane59.topteamsapi.functions.compositionGenerator;
+package org.redouane59.topteamsapi.functions.composition;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.Random;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 import org.redouane59.topteamsapi.model.Player;
 import org.redouane59.topteamsapi.model.PlayerPosition;
 import org.redouane59.topteamsapi.model.Team;
@@ -15,9 +18,10 @@ import org.redouane59.topteamsapi.model.composition.CompositionType;
 
 @Setter
 @Getter
+@Log
 public abstract class AbstractCompositionGenerator implements ICompositionGenerator {
 
-    private final int NBTRY = 1000;
+    private final static int       NBTRY         = 1000;
     @Builder.Default
     private GeneratorConfiguration configuration = new GeneratorConfiguration();
 
@@ -43,9 +47,6 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
         return generatedCompositions.subList(0, nbCompositions);
     }
 
-    @Override
-    public abstract AbstractComposition buildRandomComposition(List<Player> availablePlayers);
-
     public List<Player> getClonedPlayers(List<Player> players) {
         List<Player> clone = new ArrayList<>(players.size());
         for (Player p : players) {
@@ -55,22 +56,27 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
     }
 
     public Team buildRandomTeam(List<Player> availablePlayers, int maxNbPlayerPerTeam){
-        Random rand = new Random();
-        Team randomTeam = new Team();
-        int i = 0;
-        while(i < maxNbPlayerPerTeam && randomTeam.getPlayers().size()<maxNbPlayerPerTeam && availablePlayers.size()>0) {
-            int randomNum = rand.nextInt(availablePlayers.size());
-            randomTeam.getPlayers().add(availablePlayers.get(randomNum));
-            availablePlayers.remove(randomNum);
-            i++;
+        try {
+            Random rand = SecureRandom.getInstanceStrong();
+            Team randomTeam = new Team();
+            int i = 0;
+            while(i < maxNbPlayerPerTeam && randomTeam.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
+                int randomNum = rand.nextInt(availablePlayers.size());
+                randomTeam.getPlayers().add(availablePlayers.get(randomNum));
+                availablePlayers.remove(randomNum);
+                i++;
+            }
+            return randomTeam;
+        } catch (NoSuchAlgorithmException e) {
+            log.severe(e.getMessage());
         }
-        return randomTeam;
+        return new Team();
     }
 
     public Team buildRandomTeam(Team currentTeam, List<Player> availablePlayers, int nbPlayerPerTeam){
         Team finalTeam = buildRandomTeam(availablePlayers, nbPlayerPerTeam-currentTeam.getPlayers().size());
         for(Player p : currentTeam.
-                getPlayers()){
+                                      getPlayers()){
             finalTeam.getPlayers().add(p);
         }
         return finalTeam;
@@ -92,7 +98,7 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
             }
             return bestPlayers;
         }else{
-            return null;
+            return new ArrayList<>();
         }
     }
 

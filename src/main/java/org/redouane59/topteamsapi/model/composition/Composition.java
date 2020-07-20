@@ -49,6 +49,21 @@ public class Composition extends AbstractComposition {
         return false;
     }
 
+    public int getNbPlayersInTeam(CompositionType compositionType, TeamSide teamSide){
+        int totalNumberOfPlayers = this.getAvailablePlayers().size()
+                + this.teamA.getPlayers().size()+this.teamB.getPlayers().size();
+
+        if(totalNumberOfPlayers%2==0 || compositionType == CompositionType.REGULAR){
+            return totalNumberOfPlayers/2;
+        } else{
+            if(teamSide == TeamSide.A){
+                return totalNumberOfPlayers/2 + 1;
+            } else{
+                return totalNumberOfPlayers/2;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         try{
@@ -71,21 +86,6 @@ public class Composition extends AbstractComposition {
             return s.toString();
         } catch (Exception e){
             return e.toString();
-        }
-    }
-
-    public int getNbPlayersInTeam(CompositionType compositionType, TeamSide teamSide){
-        int totalNumberOfPlayers = this.getAvailablePlayers().size()
-                + this.teamA.getPlayers().size()+this.teamB.getPlayers().size();
-
-        if(totalNumberOfPlayers%2==0 || compositionType == CompositionType.REGULAR){
-            return totalNumberOfPlayers/2;
-        } else{
-            if(teamSide == TeamSide.A){
-                return totalNumberOfPlayers/2 + 1;
-            } else{
-                return totalNumberOfPlayers/2;
-            }
         }
     }
 }

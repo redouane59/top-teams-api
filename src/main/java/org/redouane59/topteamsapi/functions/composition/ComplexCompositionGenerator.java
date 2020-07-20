@@ -1,13 +1,17 @@
-package org.redouane59.topteamsapi.functions.compositionGenerator;
+package org.redouane59.topteamsapi.functions.composition;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import lombok.extern.java.Log;
 import org.redouane59.topteamsapi.model.Player;
 import org.redouane59.topteamsapi.model.PlayerPosition;
 import org.redouane59.topteamsapi.model.Team;
 import org.redouane59.topteamsapi.model.composition.ComplexComposition;
 
+@Log
 public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
 
     public ComplexCompositionGenerator(GeneratorConfiguration configuration){
@@ -60,13 +64,17 @@ public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
     public void splitPlayersByPosition(List<Team> teamList, List<Player> availablePlayers, PlayerPosition position){
         List<Player> goalKeepers = getPlayersByPosition(availablePlayers, position);
         int goalKeepersAffected = 0;
-        while(goalKeepers.size()>0 && goalKeepersAffected<teamList.size() || goalKeepersAffected<goalKeepers.size()){
-            Random rand = new Random();
-            Player goalKeeper = goalKeepers.get(rand.nextInt(goalKeepers.size()));
-            teamList.get(goalKeepersAffected).getPlayers().add(goalKeeper);
-            availablePlayers.remove(goalKeeper);
-            goalKeepers.remove(goalKeeper);
-            goalKeepersAffected++;
+        while(!goalKeepers.isEmpty() && goalKeepersAffected<teamList.size() || goalKeepersAffected<goalKeepers.size()){
+            try {
+                Random rand = SecureRandom.getInstanceStrong();
+                Player goalKeeper = goalKeepers.get(rand.nextInt(goalKeepers.size()));
+                teamList.get(goalKeepersAffected).getPlayers().add(goalKeeper);
+                availablePlayers.remove(goalKeeper);
+                goalKeepers.remove(goalKeeper);
+                goalKeepersAffected++;
+            } catch (NoSuchAlgorithmException e) {
+                log.severe(e.getMessage());
+            }
         }
     }
 

@@ -12,8 +12,6 @@ public abstract class AbstractComposition implements IComposition, Comparable<Ab
     private List<Player> availablePlayers;
     private int          nbPlayersOnField;
 
-    public abstract double getRatingDifference();
-
     @Override
     public int compareTo(AbstractComposition o) {
         try{

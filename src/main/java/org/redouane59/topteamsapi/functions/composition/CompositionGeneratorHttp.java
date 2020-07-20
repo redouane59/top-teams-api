@@ -1,4 +1,4 @@
-package org.redouane59.topteamsapi.functions.compositionGenerator;
+package org.redouane59.topteamsapi.functions.composition;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.functions.HttpFunction;
@@ -13,7 +13,7 @@ import org.redouane59.topteamsapi.model.composition.CompositionType;
 
 public class CompositionGeneratorHttp extends AbstractHttpHelper implements HttpFunction {
 
-  private final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+  private final ObjectMapper MAPPER = new ObjectMapper();
   // curl -v "localhost:8080/?split_best_players=true&split_worst_players=true&split_goal_keepers=true&split_defenders=true&split_strikers=true&expected_team_number=2&expected_composition_number=1&composition_type=REGULAR" -H "Content-Type: application/json" -d "[{\"id\":\"player1\",\"rating_value\":54,\"position\":\"GK\"},{\"id\":\"player2\",\"rating_value\":77},{\"id\":\"player3\",\"rating_value\":59,\"position\":\"GK\"},{\"id\":\"player4\",\"rating_value\":81},{\"id\":\"player5\",\"rating_value\":52},{\"id\":\"player6\",\"rating_value\":84},{\"id\":\"player7\",\"rating_value\":55},{\"id\":\"player8\",\"rating_value\":45},{\"id\":\"player9\",\"rating_value\":60},{\"id\":\"player10\",\"rating_value\":88}]"
   @Override
   public void service(final HttpRequest request, final HttpResponse response) throws Exception {
@@ -22,7 +22,7 @@ public class CompositionGeneratorHttp extends AbstractHttpHelper implements Http
       List<Player> players = new ArrayList<>();
       String body = this.getBody(request);
       if (!body.isEmpty()) {
-        players = List.of(OBJECT_MAPPER.readValue(body, Player[].class));
+        players = List.of(MAPPER.readValue(body, Player[].class));
       }
 
       Optional<String> splitBestPlayers = request.getFirstQueryParameter("split_best_players");
@@ -50,7 +50,7 @@ public class CompositionGeneratorHttp extends AbstractHttpHelper implements Http
       } else{
         generator = new ComplexCompositionGenerator(config);
       }
-      OBJECT_MAPPER.writeValue(response.getWriter(), generator.getNBestCompositions(players));
+      MAPPER.writeValue(response.getWriter(), generator.getNBestCompositions(players));
     }
   }
 

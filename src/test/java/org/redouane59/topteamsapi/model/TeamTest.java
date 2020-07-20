@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 public class TeamTest {
 
-	private final ObjectMapper MAPPER = new ObjectMapper();
+	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	@Test
 	public void testRatingValue() {

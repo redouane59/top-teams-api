@@ -1,16 +1,12 @@
 package org.redouane59.topteamsapi.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Singular;
 
 @Setter
 @Getter
@@ -29,7 +25,6 @@ public class Team {
         }
         return ratingSum/this.players.size();
     }
-
 
     public double getRatingSum(){
         double ratingSum = 0;

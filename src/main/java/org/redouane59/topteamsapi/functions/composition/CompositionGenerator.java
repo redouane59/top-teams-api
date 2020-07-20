@@ -1,10 +1,13 @@
-package org.redouane59.topteamsapi.functions.compositionGenerator;
+package org.redouane59.topteamsapi.functions.composition;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 import org.redouane59.topteamsapi.model.Player;
 import org.redouane59.topteamsapi.model.PlayerPosition;
 import org.redouane59.topteamsapi.model.Team;
@@ -14,9 +17,17 @@ import org.redouane59.topteamsapi.model.composition.Composition;
 
 @Setter
 @Getter
+@Log
 public class CompositionGenerator extends AbstractCompositionGenerator {
 
+    private Random rand;
+
     public CompositionGenerator(GeneratorConfiguration configuration){
+        try {
+            rand = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            log.severe(e.getMessage());
+        }
         this.setConfiguration(configuration);
     }
 
@@ -42,7 +53,7 @@ public class CompositionGenerator extends AbstractCompositionGenerator {
 
         if(this.getConfiguration().isSplitBestPlayers()){
             List<Player> twoBestPlayers = getNSortedPlayers(availablePlayers, 2, true);
-            if(twoBestPlayers!=null) {
+            if(twoBestPlayers.size()>1) {
                 Collections.shuffle(twoBestPlayers);
                 teamA.getPlayers().add(twoBestPlayers.get(0));
                 teamB.getPlayers().add(twoBestPlayers.get(1));
@@ -50,7 +61,7 @@ public class CompositionGenerator extends AbstractCompositionGenerator {
         }
         if(this.getConfiguration().isSplitWorstPlayers()){
             List<Player> twoWorstPlayers = getNSortedPlayers(availablePlayers, 2, false);
-            if(twoWorstPlayers!=null) {
+            if(twoWorstPlayers.size()>1) {
                 Collections.shuffle(twoWorstPlayers);
                 teamA.getPlayers().add(twoWorstPlayers.get(0));
                 teamB.getPlayers().add(twoWorstPlayers.get(1));
@@ -69,7 +80,6 @@ public class CompositionGenerator extends AbstractCompositionGenerator {
     private void splitTwoPlayersByPosition(Team teamA, Team teamB, List<Player> availablePlayers, PlayerPosition position){
         List<Player> playersFound = getPlayersByPosition(availablePlayers, position);
         if(playersFound.size()>1){
-            Random rand = new Random();
             Player firstPlayer = playersFound.get(rand.nextInt(playersFound.size()));
             teamA.getPlayers().add(firstPlayer);
             playersFound.remove(firstPlayer);
@@ -84,7 +94,6 @@ public class CompositionGenerator extends AbstractCompositionGenerator {
     private void splitAllPlayersByPosition(Team teamA, Team teamB, List<Player> availablePlayers, PlayerPosition position){
         List<Player> playersFound = getPlayersByPosition(availablePlayers, position);
         while(playersFound.size()>1){
-            Random rand = new Random();
             Player firstPlayer = playersFound.get(rand.nextInt(playersFound.size()));
             teamA.getPlayers().add(firstPlayer);
             playersFound.remove(firstPlayer);
@@ -95,6 +104,5 @@ public class CompositionGenerator extends AbstractCompositionGenerator {
             availablePlayers.remove(secondPlayer);
         }
     }
-
 }
 

@@ -50,8 +50,9 @@ public class ComplexComposition extends AbstractComposition {
             for(Team otherTeam : other.getTeams()){
                 boolean found = false;
                 for(Team team : this.getTeams()){
-                    if(team.equals(otherTeam)){
+                    if (team.equals(otherTeam)) {
                         found = true;
+                        break;
                     }
                 }
                 if(!found){
@@ -71,7 +72,7 @@ public class ComplexComposition extends AbstractComposition {
             for(int i = 0; i<this.teams.size(); i++){
                 Team team = this.teams.get(i);
                 team.getPlayers().sort(Collections.reverseOrder());
-                s.append("TEAM " + (i+1) +" [").append(new DecimalFormat("##.##").format(team.getRatingAverage())).append("]\n");
+                s.append("TEAM ").append(i + 1).append(" [").append(new DecimalFormat("##.##").format(team.getRatingAverage())).append("]\n");
                 for (Player p : team.getPlayers()) {
                     s.append("- ").append(p).append("\n");
                 }
