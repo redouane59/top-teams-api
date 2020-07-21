@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.redouane59.topteamsapi</groupId>
+    <groupId>com.github.redouane59.topteamsapi</groupId>
     <artifactId>top-teams-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
@@ -34,7 +34,7 @@
                 <artifactId>function-maven-plugin</artifactId>
                 <version>0.9.2</version>
                 <configuration>
-                    <functionTarget>org.redouane59.topteamsapi.functions.composition.CompositionGeneratorHttp</functionTarget>
+                    <functionTarget>com.github.redouane59.topteamsapi.functions.composition.CompositionGeneratorHttp</functionTarget>
                 </configuration>
             </plugin>
             <plugin>
