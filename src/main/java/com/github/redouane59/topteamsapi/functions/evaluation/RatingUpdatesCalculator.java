@@ -9,9 +9,11 @@ import java.util.Map;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 @Getter
 @Setter
+@Log
 public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
 
     private CalculatorConfiguration configuration;
@@ -75,8 +77,11 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
         for (Player p : team.getPlayers()) {
             denominator += (1 / (p.getNbGamesPlayed() + 1 + configuration.getLambda()));
         }
+        if(denominator==0) {
+            log.severe("denominator=0");
+            return 0.0;
+        }
         double numerator = (1 / (player.getNbGamesPlayed() + 1 + configuration.getLambda()));
-
         return (numerator / denominator);
     }
 
@@ -90,7 +95,7 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
         for(Player p : g.getComposition().getTeamB().getPlayers()){
             nbGamesB += p.getNbGamesPlayed();
         }
-
+        if(nbGamesA+nbGamesB==0) return 0;
         if(side == TeamSide.A){
             return globalModif*(1-(nbGamesA)/(double)(nbGamesA+nbGamesB));
         } else if (side == TeamSide.B){

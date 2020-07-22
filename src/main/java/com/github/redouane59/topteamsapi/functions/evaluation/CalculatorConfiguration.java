@@ -23,7 +23,7 @@ public class CalculatorConfiguration {
     }
 
     public double getLambda() {
-        double lambda = 0;
+        double lambda;
         switch (this.relativeDistribution) {
             case LOW:
                 lambda = 50;
@@ -33,6 +33,9 @@ public class CalculatorConfiguration {
                 break;
             case HIGH:
                 lambda = 1;
+                break;
+            default:
+                lambda = 0;
                 break;
         }
         return lambda;

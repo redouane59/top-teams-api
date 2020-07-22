@@ -1,16 +1,14 @@
 package com.github.redouane59.topteamsapi.functions.composition;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.github.redouane59.topteamsapi.functions.AbstractHttpHelper;
+import com.github.redouane59.topteamsapi.model.Player;
+import com.github.redouane59.topteamsapi.model.composition.CompositionType;
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import com.github.redouane59.topteamsapi.functions.AbstractHttpHelper;
-import com.github.redouane59.topteamsapi.model.Player;
-import com.github.redouane59.topteamsapi.model.composition.CompositionType;
 
 public class CompositionGeneratorHttp extends AbstractHttpHelper implements HttpFunction {
 

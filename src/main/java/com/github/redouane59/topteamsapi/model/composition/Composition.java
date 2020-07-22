@@ -1,7 +1,9 @@
 package com.github.redouane59.topteamsapi.model.composition;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.redouane59.topteamsapi.model.Player;
+import com.github.redouane59.topteamsapi.model.Team;
+import com.github.redouane59.topteamsapi.model.TeamSide;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import lombok.AllArgsConstructor;
@@ -9,9 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.github.redouane59.topteamsapi.model.Player;
-import com.github.redouane59.topteamsapi.model.Team;
-import com.github.redouane59.topteamsapi.model.TeamSide;
 
 @Builder
 @Setter
