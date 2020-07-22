@@ -1,5 +1,7 @@
 package com.github.redouane59.topteamsapi.model;
 
+import static org.apache.commons.math3.util.Precision.round;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,7 @@ public class Team {
         for(Player p : this.players){
             ratingSum += p.getRatingValue();
         }
-        return ratingSum/this.players.size();
+        return round(ratingSum/this.players.size(), 2);
     }
 
     public double getRatingSum(){

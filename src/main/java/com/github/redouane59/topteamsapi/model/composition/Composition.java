@@ -1,5 +1,7 @@
 package com.github.redouane59.topteamsapi.model.composition;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import lombok.AllArgsConstructor;
@@ -17,8 +19,10 @@ import com.github.redouane59.topteamsapi.model.TeamSide;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Composition extends AbstractComposition {
-    
+
+    @JsonProperty("team_A")
     private Team teamA = new Team();
+    @JsonProperty("team_B")
     private Team teamB = new Team();
 
     @Override
