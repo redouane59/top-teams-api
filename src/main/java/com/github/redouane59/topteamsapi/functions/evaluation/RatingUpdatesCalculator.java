@@ -33,33 +33,32 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
             nbPlayersOnField = teamA.getPlayers().size();
         }
 
-        double globalModif = game.getPredictionError(nbPlayersOnField);
-
-        double modifA;
-        double modifB;
-
-        if(this.configuration.isSplitPointsByTeam()){
-            modifA = globalModif/2;
-            modifB = -globalModif/2;
-        } else{
-            modifA = this.getTeamPoints(globalModif, game, TeamSide.A);
-            modifB = this.getTeamPoints(globalModif, game, TeamSide.B);
-        }
-
-        modifA = modifA*this.configuration.getKf();
-        modifB = modifB*this.configuration.getKf();
-
+        double modifA = this.getModif(game, nbPlayersOnField, TeamSide.A);
+        double modifB = this.getModif(game, nbPlayersOnField, TeamSide.B);
         Map<String, Double> playerRatingModifications = new LinkedHashMap<>();
-
-        for(Player p : teamA.getPlayers()){
-            playerRatingModifications.put(p.getId(), calculatePlayerRatingUpdate(teamA, modifA, p));
-        }
-
-        for(Player p : teamB.getPlayers()){
-            playerRatingModifications.put(p.getId(), calculatePlayerRatingUpdate(teamB, modifB, p));
-        }
+        teamA.getPlayers().forEach(p -> playerRatingModifications.put(p.getId(), calculatePlayerRatingUpdate(teamA, modifA, p)));
+        teamB.getPlayers().forEach(p -> playerRatingModifications.put(p.getId(), calculatePlayerRatingUpdate(teamB, modifB, p)));
 
         return playerRatingModifications;
+    }
+
+    private double getModif(Game game, int nbPlayersOnField, TeamSide teamSide){
+        double modif;
+        double globalModif = game.getPredictionError(nbPlayersOnField);
+        if(this.configuration.isSplitPointsByTeam()){
+            if(teamSide==TeamSide.A) {
+                modif = globalModif / 2;
+            } else{
+                modif = -globalModif/2;
+            }
+        } else{
+            if(teamSide==TeamSide.A) {
+                modif = this.getTeamPoints(globalModif, game, TeamSide.A);
+            } else{
+                modif = this.getTeamPoints(globalModif, game, TeamSide.B);
+            }
+        }
+        return modif*this.configuration.getKf();
     }
 
     private double calculatePlayerRatingUpdate(Team team, double teamModif, Player p){
@@ -90,7 +89,6 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
         for(Player p : g.getComposition().getTeamA().getPlayers()){
             nbGamesA += p.getNbGamesPlayed();
         }
-
         int nbGamesB = 0;
         for(Player p : g.getComposition().getTeamB().getPlayers()){
             nbGamesB += p.getNbGamesPlayed();
@@ -104,6 +102,4 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
             return 0;
         }
     }
-
-
 }

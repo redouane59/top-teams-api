@@ -34,7 +34,7 @@ public class RatingUpdateCalculatorHttp extends AbstractHttpHelper implements Ht
                 CalculatorConfiguration.builder()
                                        .splitPointsByTeam(Boolean.parseBoolean(splitPointsByTeam.orElse("true")))
                                        .relativeDistribution(RelativeDistribution.valueOf(relativeDistribution.orElse("MEDIUM")))
-                                       .kf(Double.parseDouble(kf.orElse("1")))
+                                       .kf(Double.parseDouble(kf.orElse("4")))
                                        .build();
             RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(calculatorConfiguration);
             composition.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(composition.getTeamA().getPlayers().size() + composition.getTeamB().getPlayers().size(),

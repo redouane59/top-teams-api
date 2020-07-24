@@ -21,3 +21,17 @@ paths:
           description: A successful response
           schema:
             type: string
+  /games/evaluate:
+    post:
+      summary: Evaluate players after game
+      operationId: evaluation
+      x-google-backend:
+        address: https://europe-west1-inlaid-keyword-242218.cloudfunctions.net/game-evaluator
+        protocol: h2
+      responses:
+        '200':
+          description: A successful response
+        '404' :
+          description: 404 not found
+          schema:
+            type: string
