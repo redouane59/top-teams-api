@@ -1,5 +1,7 @@
 package com.github.redouane59.topteamsapi.functions.composition;
 
+import com.github.redouane59.topteamsapi.model.composition.AbstractComposition;
+import com.github.redouane59.topteamsapi.model.composition.Composition;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.PlayerPosition;
 import com.github.redouane59.topteamsapi.model.Team;
 import com.github.redouane59.topteamsapi.model.composition.ComplexComposition;
+import org.apache.commons.math3.complex.Complex;
 
 @Log
 public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
@@ -19,9 +22,16 @@ public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
     }
 
     @Override
-    public ComplexComposition buildRandomComposition(List<Player> availablePlayers) {
-        ComplexComposition randomComposition = new ComplexComposition();
-        randomComposition.setAvailablePlayers(availablePlayers);
+    public List<AbstractComposition> getBestCompositions(List<Player> players){
+        ComplexComposition composition = ComplexComposition.builder().availablePlayers(players).build();
+        return this.getBestCompositions(composition);
+    }
+
+/*
+    @Override
+    public ComplexComposition buildRandomComposition(AbstractComposition composition) {
+        List<Player> availablePlayers = new ArrayList<>(composition.getAvailablePlayers());
+        ComplexComposition randomComposition = ComplexComposition.builder().availablePlayers(availablePlayers).build();
         int nbPlayerPerTeam = availablePlayers.size()/this.getConfiguration().getNbTeamsNeeded();
 
         List<Team> teamList = new ArrayList<>();
@@ -54,13 +64,14 @@ public class ComplexCompositionGenerator extends AbstractCompositionGenerator {
 
         for(int i=0;i<this.getConfiguration().getNbTeamsNeeded();i++){
             Team team = buildRandomTeam(teamList.get(i), availablePlayers, nbPlayerPerTeam);
+            availablePlayers.removeAll(team.getPlayers());
             teamList.set(i,team);
         }
 
         randomComposition.setTeams(teamList);
         return randomComposition;
     }
-
+  */
     public void splitPlayersByPosition(List<Team> teamList, List<Player> availablePlayers, PlayerPosition position){
         List<Player> goalKeepers = getPlayersByPosition(availablePlayers, position);
         int goalKeepersAffected = 0;

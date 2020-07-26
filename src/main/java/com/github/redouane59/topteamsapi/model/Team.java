@@ -23,7 +23,7 @@ public class Team {
     public double getRatingAverage(){
         double ratingSum = 0;
         for(Player p : this.players){
-            ratingSum += p.getRatingValue();
+            ratingSum += p.getRating();
         }
         return round(ratingSum/this.players.size(), 2);
     }
@@ -31,7 +31,7 @@ public class Team {
     public double getRatingSum(){
         double ratingSum = 0;
         for(Player p : this.players){
-            ratingSum += p.getRatingValue();
+            ratingSum += p.getRating();
         }
         return ratingSum;
     }

@@ -18,11 +18,10 @@ public class RatingUpdateCalculatorHttp extends AbstractHttpHelper implements Ht
     public void service(final HttpRequest request, final HttpResponse response) throws Exception {
         String contentType = request.getContentType().orElse("");
         if (contentType.equals("application/json")) {
-            Composition composition = new Composition();
+            Composition composition;
             String       body    = this.getBody(request);
-            if (!body.isEmpty()) {
-                composition = AbstractHttpHelper.MAPPER.readValue(body, Composition.class);
-            }
+            if (body.isEmpty()) log.severe("empty body");
+            composition = AbstractHttpHelper.MAPPER.readValue(body, Composition.class);
             Optional<String> scoreA               = request.getFirstQueryParameter("score_A");
             Optional<String> scoreB               = request.getFirstQueryParameter("score_B");
             Optional<String> splitPointsByTeam    = request.getFirstQueryParameter("split_points_by_team");
@@ -53,4 +52,5 @@ public class RatingUpdateCalculatorHttp extends AbstractHttpHelper implements Ht
             return nbPlayers/2;
         }
     }
+
 }

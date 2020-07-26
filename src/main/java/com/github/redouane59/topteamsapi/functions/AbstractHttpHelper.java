@@ -21,4 +21,14 @@ public class AbstractHttpHelper {
     }
     return buffer.toString();
   }
+
+  public boolean checkJsonCompatibility(String jsonStr, Class<?> valueType) {
+    try {
+      MAPPER.readValue(jsonStr, valueType);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
 }

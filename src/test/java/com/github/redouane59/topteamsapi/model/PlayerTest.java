@@ -13,20 +13,20 @@ public class PlayerTest {
 
   @Test
   public void testDeserializeWithoutPosition() throws JsonProcessingException {
-    final String playerJson = "{\"id\":\"player1\",\"rating_value\":77.0,\"nb_games_played\":4}";
+    final String playerJson = "{\"id\":\"player1\",\"rating\":77.0,\"nb_games_played\":4}";
     Player       player      = MAPPER.readValue(playerJson, Player.class);
       assertEquals("player1",player.getId());
-      assertEquals(77,player.getRatingValue());
+      assertEquals(77,player.getRating());
       assertEquals(4,player.getNbGamesPlayed());
       assertNull(player.getPosition());
   }
 
   @Test
   public void testDeserializeWithoutGames() throws JsonProcessingException {
-    final String playerJson = "{\"id\":\"player1\",\"rating_value\":77.0, \"position\":\"GK\"}";
+    final String playerJson = "{\"id\":\"player1\",\"rating\":77.0, \"position\":\"GK\"}";
     Player       player      = MAPPER.readValue(playerJson, Player.class);
     assertEquals("player1",player.getId());
-    assertEquals(77,player.getRatingValue());
+    assertEquals(77,player.getRating());
     assertEquals(PlayerPosition.GK, player.getPosition());
     assertEquals(0,player.getNbGamesPlayed());
   }

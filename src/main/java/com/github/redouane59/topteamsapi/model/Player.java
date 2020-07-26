@@ -1,5 +1,6 @@
 package com.github.redouane59.topteamsapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,11 +15,14 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Player implements Comparable<Player> {
 
-    private String id;
-    @JsonProperty("rating_value")
-    private double ratingValue;
+    private String         id;
+    private double         rating;
+    @JsonProperty("previous_rating")
+    @JsonInclude(Include.NON_DEFAULT)
+    private double         previousRating;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private PlayerPosition position;
     @JsonInclude(Include.NON_DEFAULT)
@@ -26,15 +30,15 @@ public class Player implements Comparable<Player> {
     private int nbGamesPlayed;
 
     public Player(Player player){
-        this.id = player.getId();
-        this.ratingValue = player.getRatingValue();
+        this.id       = player.getId();
+        this.rating   = player.getRating();
         this.position = player.getPosition();
         this.nbGamesPlayed = player.nbGamesPlayed;
     }
 
     @Override
     public int compareTo(Player other) {
-        return Double.compare(this.getRatingValue(), other.getRatingValue());
+        return Double.compare(this.getRating(), other.getRating());
     }
 
     @Override
@@ -46,6 +50,6 @@ public class Player implements Comparable<Player> {
 
     @Override
     public String toString() {
-        return this.id + " ("+this.ratingValue+")";
+        return this.id + " (" + this.rating + ")";
     }
 }

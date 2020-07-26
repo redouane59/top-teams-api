@@ -15,50 +15,50 @@ import org.junit.jupiter.api.Test;
 public class RatingUpdatesCalculatorTest {
 
     private Composition getIdenticalComposition(){
-        Player p1 = Player.builder().id("player1").ratingValue(50).nbGamesPlayed(1).build();
-        Player p2 = Player.builder().id("player2").ratingValue(50).nbGamesPlayed(1).build();
-        Player p3 = Player.builder().id("player3").ratingValue(50).nbGamesPlayed(1).build();
-        Player p4 = Player.builder().id("player4").ratingValue(50).nbGamesPlayed(1).build();
-        Player p5 = Player.builder().id("player5").ratingValue(50).nbGamesPlayed(1).build();
-        Player p6 = Player.builder().id("player6").ratingValue(50).nbGamesPlayed(1).build();
-        Player p7 = Player.builder().id("player7").ratingValue(50).nbGamesPlayed(1).build();
-        Player p8 = Player.builder().id("player8").ratingValue(50).nbGamesPlayed(1).build();
-        Player p9 = Player.builder().id("player9").ratingValue(50).nbGamesPlayed(1).build();
-        Player p10 = Player.builder().id("player10").ratingValue(50).nbGamesPlayed(1).build();
+        Player p1 = Player.builder().id("player1").rating(50).nbGamesPlayed(1).build();
+        Player p2 = Player.builder().id("player2").rating(50).nbGamesPlayed(1).build();
+        Player p3 = Player.builder().id("player3").rating(50).nbGamesPlayed(1).build();
+        Player p4 = Player.builder().id("player4").rating(50).nbGamesPlayed(1).build();
+        Player p5 = Player.builder().id("player5").rating(50).nbGamesPlayed(1).build();
+        Player p6 = Player.builder().id("player6").rating(50).nbGamesPlayed(1).build();
+        Player p7 = Player.builder().id("player7").rating(50).nbGamesPlayed(1).build();
+        Player p8 = Player.builder().id("player8").rating(50).nbGamesPlayed(1).build();
+        Player p9 = Player.builder().id("player9").rating(50).nbGamesPlayed(1).build();
+        Player p10 = Player.builder().id("player10").rating(50).nbGamesPlayed(1).build();
         Team   teamA = Team.builder().players(List.of(p1, p2, p3, p4, p5)).build();
         Team   teamB = Team.builder().players(List.of(p6, p7, p8, p9, p10)).build();
-        return new Composition(teamA, teamB);
+        return Composition.builder().teamA(teamA).teamB(teamB).build();
     }
 
     private Composition getCompositionWithDifferentNbGames(){
-        Player p1 = Player.builder().id("player1").ratingValue(50).nbGamesPlayed(1).build();
-        Player p2 = Player.builder().id("player2").ratingValue(50).nbGamesPlayed(10).build();
-        Player p3 = Player.builder().id("player3").ratingValue(50).nbGamesPlayed(20).build();
-        Player p4 = Player.builder().id("player4").ratingValue(50).nbGamesPlayed(30).build();
-        Player p5 = Player.builder().id("player5").ratingValue(50).nbGamesPlayed(40).build();
-        Player p6 = Player.builder().id("player6").ratingValue(50).nbGamesPlayed(5).build();
-        Player p7 = Player.builder().id("player7").ratingValue(50).nbGamesPlayed(15).build();
-        Player p8 = Player.builder().id("player8").ratingValue(50).nbGamesPlayed(25).build();
-        Player p9 = Player.builder().id("player9").ratingValue(50).nbGamesPlayed(35).build();
-        Player p10   = Player.builder().id("player10").ratingValue(50).nbGamesPlayed(45).build();
+        Player p1 = Player.builder().id("player1").rating(50).nbGamesPlayed(1).build();
+        Player p2 = Player.builder().id("player2").rating(50).nbGamesPlayed(10).build();
+        Player p3 = Player.builder().id("player3").rating(50).nbGamesPlayed(20).build();
+        Player p4 = Player.builder().id("player4").rating(50).nbGamesPlayed(30).build();
+        Player p5 = Player.builder().id("player5").rating(50).nbGamesPlayed(40).build();
+        Player p6 = Player.builder().id("player6").rating(50).nbGamesPlayed(5).build();
+        Player p7 = Player.builder().id("player7").rating(50).nbGamesPlayed(15).build();
+        Player p8 = Player.builder().id("player8").rating(50).nbGamesPlayed(25).build();
+        Player p9 = Player.builder().id("player9").rating(50).nbGamesPlayed(35).build();
+        Player p10   = Player.builder().id("player10").rating(50).nbGamesPlayed(45).build();
         Team   teamA = Team.builder().players(List.of(p1, p2, p3, p4, p5)).build();
         Team   teamB = Team.builder().players(List.of(p6, p7, p8, p9, p10)).build();
-        return new Composition(teamA, teamB);
+        return Composition.builder().teamA(teamA).teamB(teamB).build();
     }
 
     private Composition getdUnbalancedComposition(){
-        Player p1 = Player.builder().id("player1").ratingValue(50).nbGamesPlayed(1).build();
-        Player p2 = Player.builder().id("player2").ratingValue(50).nbGamesPlayed(1).build();
-        Player p3 = Player.builder().id("player3").ratingValue(50).nbGamesPlayed(1).build();
-        Player p4 = Player.builder().id("player4").ratingValue(50).nbGamesPlayed(1).build();
-        Player p5 = Player.builder().id("player5").ratingValue(50).nbGamesPlayed(1).build();
-        Player p6 = Player.builder().id("player6").ratingValue(50).nbGamesPlayed(1).build();
-        Player p7 = Player.builder().id("player7").ratingValue(50).nbGamesPlayed(1).build();
-        Player p8 = Player.builder().id("player8").ratingValue(50).nbGamesPlayed(1).build();
-        Player p9 = Player.builder().id("player9").ratingValue(50).nbGamesPlayed(1).build();
+        Player p1 = Player.builder().id("player1").rating(50).nbGamesPlayed(1).build();
+        Player p2 = Player.builder().id("player2").rating(50).nbGamesPlayed(1).build();
+        Player p3 = Player.builder().id("player3").rating(50).nbGamesPlayed(1).build();
+        Player p4 = Player.builder().id("player4").rating(50).nbGamesPlayed(1).build();
+        Player p5 = Player.builder().id("player5").rating(50).nbGamesPlayed(1).build();
+        Player p6 = Player.builder().id("player6").rating(50).nbGamesPlayed(1).build();
+        Player p7 = Player.builder().id("player7").rating(50).nbGamesPlayed(1).build();
+        Player p8 = Player.builder().id("player8").rating(50).nbGamesPlayed(1).build();
+        Player p9 = Player.builder().id("player9").rating(50).nbGamesPlayed(1).build();
         Team   teamA = Team.builder().players(List.of(p1, p2, p3, p4, p5)).build();
         Team   teamB = Team.builder().players(List.of(p6, p7, p8, p9)).build();;
-        return new Composition(teamA, teamB);
+        return Composition.builder().teamA(teamA).teamB(teamB).build();
     }
 
     @Test
@@ -259,11 +259,11 @@ public class RatingUpdatesCalculatorTest {
 
         for(int i=0; i<composition.getTeamA().getPlayers().size(); i++) {
             Player p = composition.getTeamA().getPlayers().get(i);
-            p.setRatingValue(p.getRatingValue()+result.get(p.getId()));
+            p.setRating(p.getRating() + result.get(p.getId()));
         }
         for(int i=0; i<composition.getTeamB().getPlayers().size(); i++) {
             Player p = composition.getTeamB().getPlayers().get(i);
-            p.setRatingValue(p.getRatingValue()+result.get(p.getId()));
+            p.setRating(p.getRating() + result.get(p.getId()));
         }
         assertEquals(10, composition.getPrediction(kf));
     }

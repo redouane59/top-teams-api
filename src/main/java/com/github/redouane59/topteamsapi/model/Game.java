@@ -3,8 +3,11 @@ package com.github.redouane59.topteamsapi.model;
 import lombok.Builder;
 import lombok.Data;
 import com.github.redouane59.topteamsapi.model.composition.Composition;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class Game {
 

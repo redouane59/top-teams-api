@@ -2,6 +2,10 @@ package com.github.redouane59.topteamsapi.functions.composition;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.github.redouane59.topteamsapi.model.Team;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -14,16 +18,16 @@ public class CompositionsGeneratorTest {
 
 	private final int                  nbRandomTests = 10;
 	private CompositionGenerator generator;
-	private final Player               best1         = Player.builder().id("best1").ratingValue(90).build();
-	private final Player               best2         = Player.builder().id("best2").ratingValue(89).build();
-	private final Player               worst1        = Player.builder().id("worst1").ratingValue(20).build();
-	private final Player               worst2        = Player.builder().id("worst2").ratingValue(21).build();
-	private final Player               playerA       = Player.builder().id("playerA").ratingValue(30).build();
-	private final Player               playerB       = Player.builder().id("playerB").ratingValue(50).build();
-	private final Player               playerC       = Player.builder().id("playerC").ratingValue(50).build();
-	private final Player               playerD       = Player.builder().id("playerD").ratingValue(50).build();
-	private final Player               playerE       = Player.builder().id("playerE").ratingValue(50).build();
-	private final Player               playerF       = Player.builder().id("playerF").ratingValue(55).build();
+	private final Player               best1         = Player.builder().id("best1").rating(90).build();
+	private final Player               best2         = Player.builder().id("best2").rating(89).build();
+	private final Player               worst1        = Player.builder().id("worst1").rating(20).build();
+	private final Player               worst2        = Player.builder().id("worst2").rating(21).build();
+	private final Player               playerA       = Player.builder().id("playerA").rating(30).build();
+	private final Player               playerB       = Player.builder().id("playerB").rating(50).build();
+	private final Player               playerC       = Player.builder().id("playerC").rating(50).build();
+	private final Player               playerD       = Player.builder().id("playerD").rating(50).build();
+	private final Player               playerE       = Player.builder().id("playerE").rating(50).build();
+	private final Player               playerF       = Player.builder().id("playerF").rating(55).build();
 
 	public List<Player> getPlayers(){
 		List<Player> players = new ArrayList<>();
@@ -42,15 +46,15 @@ public class CompositionsGeneratorTest {
 
 	public List<Player> getOddPlayers(){
 		List<Player> players = new ArrayList<>();
-		players.add(Player.builder().id("Player1").ratingValue(40).build());
-		players.add(Player.builder().id("Player2").ratingValue(40).build());
-		players.add(Player.builder().id("Player3").ratingValue(50).build());
-		players.add(Player.builder().id("Player4").ratingValue(50).build());
-		players.add(Player.builder().id("Player5").ratingValue(60).build());
-		players.add(Player.builder().id("Player6").ratingValue(60).build());
-		players.add(Player.builder().id("Player7").ratingValue(70).build());
-		players.add(Player.builder().id("Player8").ratingValue(70).build());
-		players.add(Player.builder().id("Player9").ratingValue(80).build());
+		players.add(Player.builder().id("Player1").rating(40).build());
+		players.add(Player.builder().id("Player2").rating(40).build());
+		players.add(Player.builder().id("Player3").rating(50).build());
+		players.add(Player.builder().id("Player4").rating(50).build());
+		players.add(Player.builder().id("Player5").rating(60).build());
+		players.add(Player.builder().id("Player6").rating(60).build());
+		players.add(Player.builder().id("Player7").rating(70).build());
+		players.add(Player.builder().id("Player8").rating(70).build());
+		players.add(Player.builder().id("Player9").rating(80).build());
 		return players;
 	}
 
@@ -66,8 +70,6 @@ public class CompositionsGeneratorTest {
 		assertTrue(resultCompo.getRatingAverageDifference()<4);
 	}
 
-	private void assertTrue(final boolean playerOnTheSameTeam) {
-	}
 
 	@Test
 	public void testSplittingBest() {
@@ -75,9 +77,9 @@ public class CompositionsGeneratorTest {
 		config.setSplitBestPlayers(true);
 		config.setSplitWorstPlayers(false);
 		generator = new CompositionGenerator(config);
-		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
-			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());
+			Composition randomCompo = Composition.builder().availablePlayers(this.getPlayers()).build();
+			randomCompo = (Composition)randomCompo.generateRandomComposition(config);
 			assertFalse(playerOnTheSameTeam(randomCompo, best1, best2));
 		}
 	}
@@ -88,9 +90,9 @@ public class CompositionsGeneratorTest {
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(true);
 		generator = new CompositionGenerator(config);
-		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
-			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());
+			Composition randomCompo = Composition.builder().availablePlayers(this.getPlayers()).build();
+			randomCompo = (Composition)randomCompo.generateRandomComposition(config);
 			assertFalse(playerOnTheSameTeam(randomCompo, worst1, worst2));
 		}
 	}
@@ -98,9 +100,9 @@ public class CompositionsGeneratorTest {
 	@Test
 	public void testSplittingWorstAndBest() {
 		generator = new CompositionGenerator(new GeneratorConfiguration());
-		Composition randomCompo;
 		for(int i=0;i<nbRandomTests;i++){
-			randomCompo = (Composition)generator.buildRandomComposition(this.getPlayers());
+			Composition randomCompo = Composition.builder().availablePlayers(this.getPlayers()).build();
+			randomCompo = (Composition)randomCompo.generateRandomComposition(new GeneratorConfiguration());
 			assertFalse(playerOnTheSameTeam(randomCompo, best1, best2));
 			assertFalse(playerOnTheSameTeam(randomCompo, worst1, worst2));
 		}
@@ -125,16 +127,16 @@ public class CompositionsGeneratorTest {
 		int maxPlayerOnField = 5;
 		generator = new CompositionGenerator(config);
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
-		assertTrue(resultCompo.getTeamA().getPlayers().size()!=resultCompo.getTeamB().getPlayers().size());
+		assertNotEquals(resultCompo.getTeamA().getPlayers().size(),resultCompo.getTeamB().getPlayers().size());
 		assertTrue(resultCompo.getRatingAverageDifference()<4);
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
 		List<Player> playersB = resultCompo.getTeamB().getPlayers();
-		assertTrue(resultCompo.getTeamA().getRatingAverage(maxPlayerOnField) ==
-				(playersA.get(0).getRatingValue()+playersA.get(1).getRatingValue()+playersA.get(2).getRatingValue()
-						+ playersA.get(3).getRatingValue() + playersA.get(4).getRatingValue())/playersA.size());
-		assertTrue(resultCompo.getTeamB().getRatingAverage(maxPlayerOnField) ==
-				(playersB.get(0).getRatingValue()+playersB.get(1).getRatingValue()+playersB.get(2).getRatingValue()
-						+ playersB.get(3).getRatingValue())/(playersB.size()+1));
+		assertEquals(resultCompo.getTeamA().getRatingAverage(maxPlayerOnField),
+								 (playersA.get(0).getRating() + playersA.get(1).getRating() + playersA.get(2).getRating()
+									+ playersA.get(3).getRating() + playersA.get(4).getRating()) / playersA.size());
+		assertEquals(resultCompo.getTeamB().getRatingAverage(maxPlayerOnField),
+								 (playersB.get(0).getRating() + playersB.get(1).getRating() + playersB.get(2).getRating()
+									+ playersB.get(3).getRating()) / (playersB.size() + 1));
 	}
 
 	@Test
@@ -147,13 +149,11 @@ public class CompositionsGeneratorTest {
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
 		List<Player> playersB = resultCompo.getTeamB().getPlayers();
-		assertTrue(resultCompo.getTeamA().getPlayers().size()==resultCompo.getTeamB().getPlayers().size());
-		assertTrue(resultCompo.getTeamA().getRatingAverage() ==
-				(playersA.get(0).getRatingValue()+playersA.get(1).getRatingValue()+playersA.get(2).getRatingValue()
-						+ playersA.get(3).getRatingValue())/playersA.size());
-		assertTrue(resultCompo.getTeamB().getRatingAverage() ==
-				(playersB.get(0).getRatingValue()+playersB.get(1).getRatingValue()+playersB.get(2).getRatingValue()
-						+ playersB.get(3).getRatingValue())/playersB.size());
+		assertEquals(resultCompo.getTeamA().getPlayers().size(), resultCompo.getTeamB().getPlayers().size());
+		assertEquals(resultCompo.getTeamA().getRatingAverage(), (playersA.get(0).getRating() + playersA.get(1).getRating() + playersA.get(2).getRating()
+																														 + playersA.get(3).getRating()) / playersA.size());
+		assertEquals(resultCompo.getTeamB().getRatingAverage(), (playersB.get(0).getRating() + playersB.get(1).getRating() + playersB.get(2).getRating()
+																														 + playersB.get(3).getRating()) / playersB.size());
 		assertTrue(resultCompo.getRatingDifference()<4);
 	}
 
@@ -165,16 +165,14 @@ public class CompositionsGeneratorTest {
 		config.setCompositionType(CompositionType.SUBSTITUTION);
 		generator = new CompositionGenerator(config);
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getOddPlayers());
-		assertTrue(resultCompo.getTeamA().getPlayers().size()!=resultCompo.getTeamB().getPlayers().size());
+		assertNotEquals(resultCompo.getTeamA().getPlayers().size(),resultCompo.getTeamB().getPlayers().size());
 		assertTrue(resultCompo.getRatingDifference()<4);
 		List<Player> playersA = resultCompo.getTeamA().getPlayers();
 		List<Player> playersB = resultCompo.getTeamB().getPlayers();
-		assertTrue(resultCompo.getTeamA().getRatingAverage() ==
-				(playersA.get(0).getRatingValue()+playersA.get(1).getRatingValue()+playersA.get(2).getRatingValue()
-						+ playersA.get(3).getRatingValue() + playersA.get(4).getRatingValue())/playersA.size());
-		assertTrue(resultCompo.getTeamB().getRatingAverage() ==
-				(playersB.get(0).getRatingValue()+playersB.get(1).getRatingValue()+playersB.get(2).getRatingValue()
-						+ playersB.get(3).getRatingValue())/(playersB.size()));
+		assertEquals(resultCompo.getTeamA().getRatingAverage(), (playersA.get(0).getRating() + playersA.get(1).getRating() + playersA.get(2).getRating()
+																														 + playersA.get(3).getRating() + playersA.get(4).getRating()) / playersA.size());
+		assertEquals(resultCompo.getTeamB().getRatingAverage(), (playersB.get(0).getRating() + playersB.get(1).getRating() + playersB.get(2).getRating()
+																														 + playersB.get(3).getRating()) / (playersB.size()));
 	}
 
 	@Test
@@ -189,9 +187,9 @@ public class CompositionsGeneratorTest {
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
 		generator = new CompositionGenerator(config);
-		Composition compo;
 		for(int i=0;i<nbRandomTests;i++){
-			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			Composition compo = (Composition)Composition.builder().availablePlayers(generator.getClonedPlayers(players)).build()
+																									.generateRandomComposition(config);
 			assertFalse(playerOnTheSameTeam(compo, p1,p2));
 		}
 	}
@@ -206,9 +204,9 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitGoalKeepers(true);
 		generator = new CompositionGenerator(config);
-		Composition compo;
 		for(int i=0;i<nbRandomTests;i++){
-			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			Composition compo = (Composition)Composition.builder().availablePlayers(generator.getClonedPlayers(players)).build()
+																									.generateRandomComposition(config);
 			assertFalse(playerOnTheSameTeam(compo, p1,p2));
 			assertFalse(playerOnTheSameTeam(compo, best1,best2));
 			assertFalse(playerOnTheSameTeam(compo, worst1,worst2));
@@ -230,11 +228,11 @@ public class CompositionsGeneratorTest {
 		config.setSplitDefenders(true);
 		generator = new CompositionGenerator(config);
 
-		Composition compo;
 		for(int i=0;i<nbRandomTests;i++){
-			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			Composition compo = (Composition)Composition.builder().availablePlayers(generator.getClonedPlayers(players)).build()
+					.generateRandomComposition(config);
 			assertEquals(compo.getTeamA().getPlayersByPosition(PlayerPosition.DEF).size(),
-					compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size());
+									 compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size());
 		}
 	}
 
@@ -254,11 +252,11 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitDefenders(true);
 		generator = new CompositionGenerator(config);
-		Composition compo;
 		for(int i=0;i<nbRandomTests;i++){
-			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			Composition compo = (Composition)Composition.builder().availablePlayers(generator.getClonedPlayers(players)).build()
+																									.generateRandomComposition(config);
 			assertEquals(1, Math.abs(compo.getTeamA().getPlayersByPosition(PlayerPosition.DEF).size()-
-					compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size()));
+															 compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size()));
 		}
 	}
 
@@ -284,18 +282,75 @@ public class CompositionsGeneratorTest {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitDefenders(true);
 		generator = new CompositionGenerator(config);
-		Composition compo;
 		for(int i=0;i<nbRandomTests;i++){
-			compo = (Composition)generator.buildRandomComposition(generator.getClonedPlayers(players));
+			Composition compo = (Composition)Composition.builder().availablePlayers(generator.getClonedPlayers(players)).build()
+																									.generateRandomComposition(config);
 			assertEquals(compo.getTeamA().getPlayersByPosition(PlayerPosition.DEF).size(),
-					compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size());
+									 compo.getTeamB().getPlayersByPosition(PlayerPosition.DEF).size());
 			assertEquals(compo.getTeamA().getPlayersByPosition(PlayerPosition.ATT).size(),
-					compo.getTeamB().getPlayersByPosition(PlayerPosition.ATT).size());
+									 compo.getTeamB().getPlayersByPosition(PlayerPosition.ATT).size());
+		}
+	}
+/*
+	@Test
+	public void testGenerateRandomTeam(){
+		generator = new CompositionGenerator(new GeneratorConfiguration());
+		for(int i=0;i<nbRandomTests;i++) {
+			List<Player> availablePlayers = List.of(playerC, playerD, playerE);
+			Team team = generator.buildRandomTeam(availablePlayers,3);
+			assertEquals(3,team.getPlayers().size());
+			assertTrue(team.isPlayerOnTeam(playerC.getId()));
+			assertTrue(team.isPlayerOnTeam(playerD.getId()));
+			assertTrue(team.isPlayerOnTeam(playerE.getId()));
+		}
+	}
+
+	@Test
+	public void testGenerateRandomTeamFromOtherTeam(){
+		generator = new CompositionGenerator(new GeneratorConfiguration());
+		Team teamA = Team.builder().players(List.of(playerA)).build();
+		for(int i=0;i<nbRandomTests;i++) {
+			List<Player> availablePlayers = List.of(playerB, playerC);
+			Team team = generator.buildRandomTeam(teamA, availablePlayers,3);
+			assertEquals(3,team.getPlayers().size());
+			assertTrue(team.isPlayerOnTeam(playerA.getId()));
+			assertTrue(team.isPlayerOnTeam(playerB.getId()));
+			assertTrue(team.isPlayerOnTeam(playerC.getId()));
+		}
+	} */
+
+	@Test
+	public void testGenerateCompositionFromOtherComposition(){
+		Team teamA = Team.builder().players(List.of(playerA)).build();
+		Team teamB = Team.builder().players(List.of(playerB)).build();
+		Composition initCompo = Composition.builder().teamA(teamA).teamB(teamB)
+																			 .availablePlayers(List.of(playerC, playerD, playerE, playerF))
+																			 .build();
+		GeneratorConfiguration configuration = GeneratorConfiguration.builder()
+																																 .splitBestPlayers(false)
+																																 .splitDefenders(false)
+																																 .splitStrikers(false)
+																																 .splitGoalKeepers(false)
+																																 .splitBestPlayers(false)
+																																 .splitWorstPlayers(false)
+																																 .build();
+		generator = new CompositionGenerator(configuration);
+		for(int i=0;i<nbRandomTests;i++) {
+			Composition resultCompo = (Composition)initCompo.generateRandomComposition(configuration);
+			assertFalse(this.playerOnTheSameTeam(resultCompo, playerA, playerB));
+			assertTrue(resultCompo.getTeamA().isPlayerOnTeam(playerA.getId()) || resultCompo.getTeamB().isPlayerOnTeam(playerA.getId()));
+			assertTrue(resultCompo.getTeamA().isPlayerOnTeam(playerB.getId()) || resultCompo.getTeamB().isPlayerOnTeam(playerB.getId()));
+			assertTrue(resultCompo.getTeamA().isPlayerOnTeam(playerC.getId()) || resultCompo.getTeamB().isPlayerOnTeam(playerC.getId()));
+			assertTrue(resultCompo.getTeamA().isPlayerOnTeam(playerD.getId()) || resultCompo.getTeamB().isPlayerOnTeam(playerD.getId()));
+			assertTrue(resultCompo.getTeamA().isPlayerOnTeam(playerE.getId()) || resultCompo.getTeamB().isPlayerOnTeam(playerE.getId()));
+			assertTrue(resultCompo.getTeamA().isPlayerOnTeam(playerF.getId()) || resultCompo.getTeamB().isPlayerOnTeam(playerF.getId()));
+			assertEquals(3,resultCompo.getTeamA().getPlayers().size());
+			assertEquals(3,resultCompo.getTeamB().getPlayers().size());
 		}
 	}
 
 	private boolean playerOnTheSameTeam(Composition compo, Player p1, Player p2){
 		return (compo.getTeamA().getPlayers().contains(p1) && compo.getTeamA().getPlayers().contains(p2))
-				|| (compo.getTeamB().getPlayers().contains(p1) && compo.getTeamB().getPlayers().contains(p2));
+					 || (compo.getTeamB().getPlayers().contains(p1) && compo.getTeamB().getPlayers().contains(p2));
 	}
 }

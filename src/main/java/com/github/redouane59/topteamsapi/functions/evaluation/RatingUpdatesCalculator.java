@@ -5,8 +5,8 @@ import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.Team;
 import com.github.redouane59.topteamsapi.model.TeamSide;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -40,6 +40,15 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
         teamB.getPlayers().forEach(p -> playerRatingModifications.put(p.getId(), calculatePlayerRatingUpdate(teamB, modifB, p)));
 
         return playerRatingModifications;
+    }
+
+    // @todo to test
+    public List<Player> getUpdatedPlayers(Game game){
+        List<Player> players = game.getComposition().getTeamA().getPlayers();
+        players.addAll(game.getComposition().getTeamB().getPlayers());
+        Map<String, Double> ratingUpdates = this.getRatingUpdates(game);
+        players.forEach(p -> p.setRating(p.getRating() + ratingUpdates.get(p.getId())));
+        return players;
     }
 
     private double getModif(Game game, int nbPlayersOnField, TeamSide teamSide){

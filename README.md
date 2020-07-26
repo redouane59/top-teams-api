@@ -17,7 +17,7 @@ https://app.swaggerhub.com/apis-docs/TopTeams/TopTeams/1.2.0
 ![Process Summary](https://i.ibb.co/mhHFccT/process-summary.png)
 ## Player definition 
 - id (String) : must be unique
-- rating_value (double) : must be between 0 & 100. 
+- rating (double) : must be between 0 & 100. 
 
 Recommended values
 ```

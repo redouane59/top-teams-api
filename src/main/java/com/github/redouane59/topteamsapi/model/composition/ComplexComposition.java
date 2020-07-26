@@ -1,28 +1,39 @@
 package com.github.redouane59.topteamsapi.model.composition;
 
+import com.github.redouane59.topteamsapi.functions.composition.GeneratorConfiguration;
+import com.github.redouane59.topteamsapi.model.Player;
+import com.github.redouane59.topteamsapi.model.PlayerPosition;
+import com.github.redouane59.topteamsapi.model.Team;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import java.util.Random;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.java.Log;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
-import com.github.redouane59.topteamsapi.model.Player;
-import com.github.redouane59.topteamsapi.model.Team;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Log
 public class ComplexComposition extends AbstractComposition {
 
     @Builder.Default
     private List<Team> teams = new ArrayList<>();
 
+    @Builder
+    public ComplexComposition(List<Player> availablePlayers, List<Team> teams){
+        super(availablePlayers, 0);
+        if(teams!=null){
+            this.teams = teams;
+        } else{
+            this.teams = new ArrayList<>();
+        }
+    }
     @Override
     public double getRatingDifference(){
         double[] ratingValues = new double[this.teams.size()];
@@ -31,6 +42,15 @@ public class ComplexComposition extends AbstractComposition {
         }
         StandardDeviation stdDev = new StandardDeviation();
         return stdDev.evaluate(ratingValues);
+    }
+
+    @Override
+    public List<Player> getAllPlayers() {
+        List<Player> result = this.getAvailablePlayers();
+        for(Team team : this.teams){
+            result.addAll(team.getPlayers());
+        }
+        return result;
     }
 
     public double getRatingAverageDifference(){
@@ -81,6 +101,91 @@ public class ComplexComposition extends AbstractComposition {
             return s.toString();
         } catch (Exception e){
             return e.toString();
+        }
+    }
+
+    @Override
+    public AbstractComposition generateRandomComposition(GeneratorConfiguration configuration) {
+        ComplexComposition randomComposition = ComplexComposition.builder()
+                                                                 .availablePlayers(new ArrayList<>(this.getAvailablePlayers()))
+                                                                 .build();
+
+        List<Team> teamList = new ArrayList<>();
+        this.teams.forEach(t -> teamList.add(Team.builder().players(new ArrayList<>(t.getPlayers())).build()));
+        randomComposition.setTeams(teamList);
+        while(randomComposition.getTeams().size()<configuration.getNbTeamsNeeded()){
+            randomComposition.getTeams().add(new Team());
+        }
+        int nbPlayerPerTeam = randomComposition.getAvailablePlayers().size()/configuration.getNbTeamsNeeded();
+
+        if(configuration.isSplitGoalKeepers()){
+            this.splitPlayersByPosition(teamList, randomComposition.getAvailablePlayers(), PlayerPosition.GK);
+        }
+
+        if(configuration.isSplitBestPlayers()){
+            List<Player> bestPlayers = getNSortedPlayers(randomComposition.getAvailablePlayers(), configuration.getNbTeamsNeeded(), true);
+            if(bestPlayers!=null) {
+                for(int i=0; i<teamList.size();i++){
+                    teamList.get(i).getPlayers().add(bestPlayers.get(i));
+                    randomComposition.getAvailablePlayers().remove(bestPlayers.get(i));
+                }
+            }
+        }
+
+        if(configuration.isSplitWorstPlayers()){
+            List<Player> worstPlayers = getNSortedPlayers(randomComposition.getAvailablePlayers(), configuration.getNbTeamsNeeded(), false);
+            if(worstPlayers!=null) {
+                for(int i=0; i<teamList.size();i++){
+                    teamList.get(i).getPlayers().add(worstPlayers.get(i));
+                    randomComposition.getAvailablePlayers().remove(worstPlayers.get(i));
+                }
+            }
+        }
+
+        for(int i=0;i<configuration.getNbTeamsNeeded();i++){
+            Team team = generateRandomTeam(randomComposition, i, nbPlayerPerTeam);
+            randomComposition.getAvailablePlayers().removeAll(team.getPlayers());
+            teamList.set(i,team);
+        }
+
+        randomComposition.setTeams(teamList);
+        return randomComposition;
+    }
+
+    public Team generateRandomTeam(ComplexComposition composition, int index, int maxNbPlayerPerTeam){
+        List<Player> availablePlayers = new ArrayList<>(composition.getAvailablePlayers());
+        try {
+            Random rand       = SecureRandom.getInstanceStrong();
+            int    i          = 0;
+            Team team = composition.getTeams().get(index);
+            while(i < maxNbPlayerPerTeam && team.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
+                int randomNum = rand.nextInt(availablePlayers.size());
+                team.getPlayers().add(availablePlayers.get(randomNum));
+                availablePlayers.remove(randomNum);
+                i++;
+            }
+            composition.setAvailablePlayers(availablePlayers);
+            return team;
+        } catch (NoSuchAlgorithmException e) {
+            log.severe(e.getMessage());
+        }
+        return new Team();
+    }
+
+    public void splitPlayersByPosition(List<Team> teamList, List<Player> availablePlayers, PlayerPosition position){
+        List<Player> goalKeepers = getPlayersByPosition(availablePlayers, position);
+        int goalKeepersAffected = 0;
+        while(!goalKeepers.isEmpty() && goalKeepersAffected<teamList.size() || goalKeepersAffected<goalKeepers.size()){
+            try {
+                Random rand = SecureRandom.getInstanceStrong();
+                Player goalKeeper = goalKeepers.get(rand.nextInt(goalKeepers.size()));
+                teamList.get(goalKeepersAffected).getPlayers().add(goalKeeper);
+                availablePlayers.remove(goalKeeper);
+                goalKeepers.remove(goalKeeper);
+                goalKeepersAffected++;
+            } catch (NoSuchAlgorithmException e) {
+                log.severe(e.getMessage());
+            }
         }
     }
 

@@ -34,8 +34,8 @@
                 <artifactId>function-maven-plugin</artifactId>
                 <version>0.9.2</version>
                 <configuration>
-                    <functionTarget>com.github.redouane59.topteamsapi.functions.composition.CompositionGeneratorHttp</functionTarget>
                     <functionTarget>com.github.redouane59.topteamsapi.functions.evaluation.RatingUpdateCalculatorHttp</functionTarget>
+                    <functionTarget>com.github.redouane59.topteamsapi.functions.composition.CompositionGeneratorHttp</functionTarget>
                 </configuration>
             </plugin>
             <plugin>

@@ -1,19 +1,15 @@
 package com.github.redouane59.topteamsapi.functions.composition;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import com.github.redouane59.topteamsapi.model.Player;
+import com.github.redouane59.topteamsapi.model.PlayerPosition;
+import com.github.redouane59.topteamsapi.model.composition.AbstractComposition;
+import com.github.redouane59.topteamsapi.model.composition.Composition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
-import com.github.redouane59.topteamsapi.model.Player;
-import com.github.redouane59.topteamsapi.model.PlayerPosition;
-import com.github.redouane59.topteamsapi.model.Team;
-import com.github.redouane59.topteamsapi.model.composition.AbstractComposition;
-import com.github.redouane59.topteamsapi.model.composition.CompositionType;
 
 @Setter
 @Getter
@@ -23,16 +19,23 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
     private final static int       NBTRY         = 1000;
     private GeneratorConfiguration configuration;
 
+
     @Override
-    public AbstractComposition getBestComposition(List<Player> players){
-        return this.getNBestCompositions(players).get(0);
+    public AbstractComposition getBestComposition(AbstractComposition composition) {
+        return this.getBestCompositions(composition).get(0);
     }
 
     @Override
-    public List<AbstractComposition> getNBestCompositions(List<Player> players) {
+    public AbstractComposition getBestComposition(List<Player> players){
+        Composition composition = Composition.builder().availablePlayers(players).build();
+        return this.getBestCompositions(composition).get(0);
+    }
+
+    @Override
+    public List<AbstractComposition> getBestCompositions(AbstractComposition composition) {
         List<AbstractComposition> generatedCompositions = new ArrayList<>();
         for (int i = 0; i < NBTRY; i++) {
-            AbstractComposition randomCompo = buildRandomComposition(getClonedPlayers(players));
+            AbstractComposition randomCompo = composition.generateRandomComposition(this.configuration);
             if(!this.doesAlreadyExist(randomCompo, generatedCompositions)){
                 generatedCompositions.add(randomCompo);
             }
@@ -51,62 +54,6 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
             clone.add(new Player(p));
         }
         return clone;
-    }
-
-    public Team buildRandomTeam(List<Player> availablePlayers, int maxNbPlayerPerTeam){
-        try {
-            Random rand = SecureRandom.getInstanceStrong();
-            Team randomTeam = new Team();
-            int i = 0;
-            while(i < maxNbPlayerPerTeam && randomTeam.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
-                int randomNum = rand.nextInt(availablePlayers.size());
-                randomTeam.getPlayers().add(availablePlayers.get(randomNum));
-                availablePlayers.remove(randomNum);
-                i++;
-            }
-            return randomTeam;
-        } catch (NoSuchAlgorithmException e) {
-            log.severe(e.getMessage());
-        }
-        return new Team();
-    }
-
-    public Team buildRandomTeam(Team currentTeam, List<Player> availablePlayers, int nbPlayerPerTeam){
-        Team finalTeam = buildRandomTeam(availablePlayers, nbPlayerPerTeam-currentTeam.getPlayers().size());
-        for(Player p : currentTeam.
-                                      getPlayers()){
-            finalTeam.getPlayers().add(p);
-        }
-        return finalTeam;
-    }
-
-    public List<Player> getNSortedPlayers(List<Player> availablePlayers, int n, boolean best) {
-        if(availablePlayers.size()>=n) {
-            if (best) {
-                Collections.sort(availablePlayers, Collections.reverseOrder());
-            } else {
-                Collections.sort(availablePlayers);
-            }
-            List<Player> bestPlayers = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                bestPlayers.add(availablePlayers.get(i));
-            }
-            for (Player bp : bestPlayers) {
-                availablePlayers.remove(bp);
-            }
-            return bestPlayers;
-        }else{
-            return new ArrayList<>();
-        }
-    }
-
-    public int getNbPlayersPerTeamOnField(int nbPlayers){
-        int nbTeams = this.configuration.getNbTeamsNeeded();
-        if (this.configuration.getCompositionType() == CompositionType.ODD && nbPlayers % 2 == 1){
-            return nbPlayers/nbTeams + 1;
-        } else{
-            return nbPlayers/nbTeams;
-        }
     }
 
     public List<Player> getPlayersByPosition(List<Player> players, PlayerPosition position){
