@@ -56,16 +56,6 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
         return clone;
     }
 
-    public List<Player> getPlayersByPosition(List<Player> players, PlayerPosition position){
-        List<Player> result = new ArrayList<>();
-        for(Player p:players){
-            if(p.getPosition()==position){
-                result.add(p);
-            }
-        }
-        return result;
-    }
-
     private boolean doesAlreadyExist(AbstractComposition newCompo, List<AbstractComposition> allCompositions){
         for(AbstractComposition compo : allCompositions){
             if(compo.equals(newCompo)){

@@ -4,16 +4,17 @@ import com.github.redouane59.topteamsapi.functions.composition.GeneratorConfigur
 import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.PlayerPosition;
 import com.github.redouane59.topteamsapi.model.Team;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
@@ -27,12 +28,8 @@ public class ComplexComposition extends AbstractComposition {
 
     @Builder
     public ComplexComposition(List<Player> availablePlayers, List<Team> teams){
-        super(availablePlayers, 0);
-        if(teams!=null){
-            this.teams = teams;
-        } else{
-            this.teams = new ArrayList<>();
-        }
+        super(availablePlayers != null ? availablePlayers : new ArrayList<>(), 0);
+        this.teams = Objects.requireNonNullElseGet(teams, ArrayList::new);
     }
     @Override
     public double getRatingDifference(){
@@ -46,9 +43,9 @@ public class ComplexComposition extends AbstractComposition {
 
     @Override
     public List<Player> getAllPlayers() {
-        List<Player> result = this.getAvailablePlayers();
+        List<Player> result = new ArrayList<>(this.getAvailablePlayers());
         for(Team team : this.teams){
-            result.addAll(team.getPlayers());
+            result.addAll(new ArrayList<>(team.getPlayers()));
         }
         return result;
     }
@@ -86,22 +83,17 @@ public class ComplexComposition extends AbstractComposition {
 
     @Override
     public String toString() {
-        try{
-            StringBuilder s = new StringBuilder();
-
-            for(int i = 0; i<this.teams.size(); i++){
-                Team team = this.teams.get(i);
-                team.getPlayers().sort(Collections.reverseOrder());
-                s.append("TEAM ").append(i + 1).append(" [").append(new DecimalFormat("##.##").format(team.getRatingAverage())).append("]\n");
-                for (Player p : team.getPlayers()) {
-                    s.append("- ").append(p).append("\n");
-                }
-                s.append("\n");
+        StringBuilder s = new StringBuilder();
+        for(int i = 0; i<this.teams.size(); i++){
+            Team team = this.teams.get(i);
+            team.getPlayers().sort(Collections.reverseOrder());
+            s.append("TEAM ").append(i + 1).append(" [").append(new DecimalFormat("##.##").format(team.getRatingAverage())).append("]\n");
+            for (Player p : team.getPlayers()) {
+                s.append("- ").append(p).append("\n");
             }
-            return s.toString();
-        } catch (Exception e){
-            return e.toString();
+            s.append("\n");
         }
+        return s.toString();
     }
 
     @Override
@@ -152,40 +144,33 @@ public class ComplexComposition extends AbstractComposition {
         return randomComposition;
     }
 
+    @SneakyThrows
     public Team generateRandomTeam(ComplexComposition composition, int index, int maxNbPlayerPerTeam){
         List<Player> availablePlayers = new ArrayList<>(composition.getAvailablePlayers());
-        try {
-            Random rand       = SecureRandom.getInstanceStrong();
-            int    i          = 0;
-            Team team = composition.getTeams().get(index);
-            while(i < maxNbPlayerPerTeam && team.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
-                int randomNum = rand.nextInt(availablePlayers.size());
-                team.getPlayers().add(availablePlayers.get(randomNum));
-                availablePlayers.remove(randomNum);
-                i++;
-            }
-            composition.setAvailablePlayers(availablePlayers);
-            return team;
-        } catch (NoSuchAlgorithmException e) {
-            log.severe(e.getMessage());
+        Random rand       = SecureRandom.getInstanceStrong();
+        int    i          = 0;
+        Team team = composition.getTeams().get(index);
+        while(i < maxNbPlayerPerTeam && team.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
+            int randomNum = rand.nextInt(availablePlayers.size());
+            team.getPlayers().add(availablePlayers.get(randomNum));
+            availablePlayers.remove(randomNum);
+            i++;
         }
-        return new Team();
+        composition.setAvailablePlayers(availablePlayers);
+        return team;
     }
 
+    @SneakyThrows
     public void splitPlayersByPosition(List<Team> teamList, List<Player> availablePlayers, PlayerPosition position){
         List<Player> goalKeepers = getPlayersByPosition(availablePlayers, position);
         int goalKeepersAffected = 0;
         while(!goalKeepers.isEmpty() && goalKeepersAffected<teamList.size() || goalKeepersAffected<goalKeepers.size()){
-            try {
-                Random rand = SecureRandom.getInstanceStrong();
-                Player goalKeeper = goalKeepers.get(rand.nextInt(goalKeepers.size()));
-                teamList.get(goalKeepersAffected).getPlayers().add(goalKeeper);
-                availablePlayers.remove(goalKeeper);
-                goalKeepers.remove(goalKeeper);
-                goalKeepersAffected++;
-            } catch (NoSuchAlgorithmException e) {
-                log.severe(e.getMessage());
-            }
+            Random rand = SecureRandom.getInstanceStrong();
+            Player goalKeeper = goalKeepers.get(rand.nextInt(goalKeepers.size()));
+            teamList.get(goalKeepersAffected).getPlayers().add(goalKeeper);
+            availablePlayers.remove(goalKeeper);
+            goalKeepers.remove(goalKeeper);
+            goalKeepersAffected++;
         }
     }
 

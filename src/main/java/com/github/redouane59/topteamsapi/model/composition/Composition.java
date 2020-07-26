@@ -38,12 +38,6 @@ public class Composition extends AbstractComposition {
         this.teamB = teamB!=null ? teamB : new Team();
     }
 
-    public Composition(Composition copy){
-        this.setAvailablePlayers(new ArrayList<>(copy.getAvailablePlayers()));
-        this.teamA = Team.builder().players(new ArrayList<Player>(copy.getTeamA().getPlayers())).build();
-        this.teamB = Team.builder().players(new ArrayList<Player>(copy.getTeamB().getPlayers())).build();
-    }
-
     @Override
     public double getRatingDifference(){
         return (this.getTeamA().getRatingSum(this.getNbPlayersOnField())
@@ -59,22 +53,9 @@ public class Composition extends AbstractComposition {
         return this.getRatingDifference()/kf;
     }
 
-    @Override
-    public boolean equals (Object obj){
-        if(obj instanceof Composition)
-        {
-            Composition other = (Composition) obj;
-            return (other.getTeamA().equals(this.getTeamA())
-                    && other.getTeamB().equals(this.getTeamB()))
-                   || (other.getTeamA().equals(this.getTeamB())
-                       && other.getTeamB().equals(this.getTeamA()));
-        }
-        return false;
-    }
-
     public int getNbPlayersInTeam(CompositionType compositionType, TeamSide teamSide){
         int totalNumberOfPlayers = this.getAvailablePlayers().size()
-                + this.teamA.getPlayers().size()+this.teamB.getPlayers().size();
+                                   + this.teamA.getPlayers().size()+this.teamB.getPlayers().size();
 
         if(totalNumberOfPlayers%2==0 || compositionType == CompositionType.REGULAR){
             return totalNumberOfPlayers/2;
@@ -84,31 +65,6 @@ public class Composition extends AbstractComposition {
             } else{
                 return totalNumberOfPlayers/2;
             }
-        }
-    }
-
-    @Override
-    public String toString() {
-        try{
-            StringBuilder s = new StringBuilder();
-
-            this.getTeamA().getPlayers().sort(Collections.reverseOrder());
-
-            s.append("TEAM A [").append(new DecimalFormat("##.##").format(this.getTeamA().getRatingAverage())).append("]\n");
-            for (Player p : this.getTeamA().getPlayers()) {
-                s.append("- ").append(p).append("\n");
-            }
-
-            s.append("[VS]\n");
-            s.append("TEAM B [").append(new DecimalFormat("##.##").format(this.getTeamB().getRatingAverage())).append("]\n");
-            this.getTeamB().getPlayers().sort(Collections.reverseOrder());
-
-            for (Player p : this.getTeamB().getPlayers()) {
-                s.append("- ").append(p).append("\n");
-            }
-            return s.toString();
-        } catch (Exception e){
-            return e.toString();
         }
     }
 
@@ -200,25 +156,52 @@ public class Composition extends AbstractComposition {
         }
     }
 
+    @SneakyThrows
     public Team generateRandomTeam(Composition composition, TeamSide teamSide, int maxNbPlayerPerTeam){
         List<Player> availablePlayers = new ArrayList<>(composition.getAvailablePlayers());
-        try {
-            Random rand       = SecureRandom.getInstanceStrong();
-            int    i          = 0;
-            Team team = teamSide==TeamSide.A ? composition.getTeamA() : composition.getTeamB();
-            while(i < maxNbPlayerPerTeam && team.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
-                int randomNum = rand.nextInt(availablePlayers.size());
-                team.getPlayers().add(availablePlayers.get(randomNum));
-                availablePlayers.remove(randomNum);
-                i++;
-            }
-            composition.setAvailablePlayers(availablePlayers);
-            return team;
-        } catch (NoSuchAlgorithmException e) {
-            log.severe(e.getMessage());
+        Random rand       = SecureRandom.getInstanceStrong();
+        int    i          = 0;
+        Team team = teamSide==TeamSide.A ? composition.getTeamA() : composition.getTeamB();
+        while(i < maxNbPlayerPerTeam && team.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
+            int randomNum = rand.nextInt(availablePlayers.size());
+            team.getPlayers().add(availablePlayers.get(randomNum));
+            availablePlayers.remove(randomNum);
+            i++;
         }
-        return new Team();
+        composition.setAvailablePlayers(availablePlayers);
+        return team;
     }
 
+    @Override
+    public boolean equals (Object obj){
+        if(obj instanceof Composition)
+        {
+            Composition other = (Composition) obj;
+            return (other.getTeamA().equals(this.getTeamA())
+                    && other.getTeamB().equals(this.getTeamB()))
+                   || (other.getTeamA().equals(this.getTeamB())
+                       && other.getTeamB().equals(this.getTeamA()));
+        }
+        return false;
+    }
 
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        List<Player> playersA = new ArrayList<>(this.getTeamA().getPlayers());
+        playersA.sort(Collections.reverseOrder());
+        s.append("TEAM A [").append(new DecimalFormat("##.##").format(this.getTeamA().getRatingAverage())).append("]\n");
+        for (Player p : playersA) {
+            s.append("- ").append(p).append("\n");
+        }
+        s.append("[VS]\n");
+        s.append("TEAM B [").append(new DecimalFormat("##.##").format(this.getTeamB().getRatingAverage())).append("]\n");
+        List<Player> playersB = new ArrayList<>(this.getTeamB().getPlayers());
+        playersB.sort(Collections.reverseOrder());
+        for (Player p : playersB) {
+            s.append("- ").append(p).append("\n");
+        }
+        return s.toString();
+
+    }
 }

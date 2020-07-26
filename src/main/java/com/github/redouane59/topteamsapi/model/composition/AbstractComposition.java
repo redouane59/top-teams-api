@@ -1,9 +1,9 @@
 package com.github.redouane59.topteamsapi.model.composition;
 
 import com.github.redouane59.topteamsapi.functions.composition.GeneratorConfiguration;
+import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.PlayerPosition;
 import com.github.redouane59.topteamsapi.model.Team;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.java.Log;
-import com.github.redouane59.topteamsapi.model.Player;
 
 @Getter
 @Setter
@@ -28,13 +28,7 @@ public abstract class AbstractComposition implements IComposition, Comparable<Ab
 
     @Override
     public int compareTo(AbstractComposition o) {
-        try{
-            return Double.compare(Math.abs(this.getRatingDifference()), Math.abs(o.getRatingDifference()));
-        }
-        catch(Exception e){
-            log.severe(e.getMessage());
-            return 0;
-        }
+        return Double.compare(Math.abs(this.getRatingDifference()), Math.abs(o.getRatingDifference()));
     }
 
     public int getNbPlayersPerTeamOnField(int nbPlayers, GeneratorConfiguration configuration){
@@ -78,24 +72,20 @@ public abstract class AbstractComposition implements IComposition, Comparable<Ab
     }
 
     @Override
+    @SneakyThrows
     public Team generateRandomTeam(int maxNbPlayerPerTeam){
         List<Player> availablePlayers = new ArrayList<>(this.getAvailablePlayers());
-        try {
-            Random rand       = SecureRandom.getInstanceStrong();
-            Team   randomTeam = new Team();
-            int    i          = 0;
-            while(i < maxNbPlayerPerTeam && randomTeam.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
-                int randomNum = rand.nextInt(availablePlayers.size());
-                randomTeam.getPlayers().add(availablePlayers.get(randomNum));
-                availablePlayers.remove(randomNum);
-                i++;
-            }
-            this.setAvailablePlayers(availablePlayers);
-            return randomTeam;
-        } catch (NoSuchAlgorithmException e) {
-            log.severe(e.getMessage());
+        Random rand       = SecureRandom.getInstanceStrong();
+        Team   randomTeam = new Team();
+        int    i          = 0;
+        while(i < maxNbPlayerPerTeam && randomTeam.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
+            int randomNum = rand.nextInt(availablePlayers.size());
+            randomTeam.getPlayers().add(availablePlayers.get(randomNum));
+            availablePlayers.remove(randomNum);
+            i++;
         }
-        return new Team();
+        this.setAvailablePlayers(availablePlayers);
+        return randomTeam;
     }
 
     @Override

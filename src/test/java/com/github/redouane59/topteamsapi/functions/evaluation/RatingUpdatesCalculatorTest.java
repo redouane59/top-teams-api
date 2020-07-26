@@ -10,8 +10,10 @@ import com.github.redouane59.topteamsapi.model.Team;
 import com.github.redouane59.topteamsapi.model.composition.Composition;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
+@Log
 public class RatingUpdatesCalculatorTest {
 
     private Composition getIdenticalComposition(){
@@ -68,7 +70,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
         Game game = Game.builder().composition(composition).score(new Score(10,0)).build();
-        System.out.println(game);
+        log.fine(game.toString());
         Map<String, Double> result = calculator.getRatingUpdates(game);
         for(Map.Entry<String, Double> entry : result.entrySet()) {
             String key = entry.getKey();

@@ -8,12 +8,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.github.redouane59.topteamsapi.model.Team;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.PlayerPosition;
 import com.github.redouane59.topteamsapi.model.composition.Composition;
 import com.github.redouane59.topteamsapi.model.composition.CompositionType;
 
+@Log
 public class CompositionsGeneratorTest {
 
 	private final int                  nbRandomTests = 10;
@@ -65,7 +67,7 @@ public class CompositionsGeneratorTest {
 		config.setSplitWorstPlayers(false);
 		generator = new CompositionGenerator(config);
 		Composition resultCompo = (Composition)generator.getBestComposition(this.getPlayers());
-		System.out.println(resultCompo);
+		log.fine(resultCompo.toString());
 		assertTrue(playerOnTheSameTeam(resultCompo, best1, best2));
 		assertTrue(resultCompo.getRatingAverageDifference()<4);
 	}

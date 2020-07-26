@@ -2,6 +2,8 @@ package com.github.redouane59.topteamsapi.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -70,6 +72,18 @@ public class ComplexCompositionTest {
         c2.getTeams().add(Team.builder().players(List.of(playerE, playerF, playerD)).build());
         assertNotEquals(c1, c2);
         assertNotEquals(c2, c1);
+    }
+
+    @Test
+    public void testGetAllPlayers(){
+        ComplexComposition c1 = ComplexComposition.builder().build();
+        c1.getTeams().add(Team.builder().players(List.of(playerA, playerB, playerC)).build());
+        c1.getTeams().add(Team.builder().players(List.of(playerD, playerE, playerF)).build());
+        c1.getTeams().add(Team.builder().players(List.of(playerG, playerH, playerI)).build());
+        assertEquals(9, c1.getAllPlayers().size());
+        assertTrue(c1.getAllPlayers().contains(playerA));
+        assertTrue(c1.getAllPlayers().contains(playerD));
+        assertTrue(c1.getAllPlayers().contains(playerG));
     }
 
 }

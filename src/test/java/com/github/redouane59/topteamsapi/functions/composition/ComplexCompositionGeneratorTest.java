@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.PlayerPosition;
@@ -12,6 +13,7 @@ import com.github.redouane59.topteamsapi.model.Team;
 import com.github.redouane59.topteamsapi.model.composition.AbstractComposition;
 import com.github.redouane59.topteamsapi.model.composition.ComplexComposition;
 
+@Log
 public class ComplexCompositionGeneratorTest {
 
   private int                         nbRandomTests = 3;
@@ -52,6 +54,7 @@ public class ComplexCompositionGeneratorTest {
     for(int i=0; i<this.nbRandomTests;i++){
       ComplexComposition randomCompo = (ComplexComposition)ComplexComposition.builder().availablePlayers(getPlayers())
                                                                              .build().generateRandomComposition(config);
+      log.fine(randomCompo.toString());
       assertEquals(3, randomCompo.getTeams().size());
       assertFalse(this.playerOnTheSameTeam(randomCompo, best1, best2));
       assertFalse(this.playerOnTheSameTeam(randomCompo, best2, best3));
