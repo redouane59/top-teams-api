@@ -4,6 +4,7 @@ import static org.apache.commons.math3.util.Precision.round;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -85,5 +86,9 @@ public class Team {
             return equal;
         }
         return false;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.players);
     }
 }

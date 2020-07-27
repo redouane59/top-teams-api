@@ -6,12 +6,12 @@ import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.PlayerPosition;
 import com.github.redouane59.topteamsapi.model.Team;
 import com.github.redouane59.topteamsapi.model.TeamSide;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import lombok.Builder;
 import lombok.Getter;
@@ -180,6 +180,11 @@ public class Composition extends AbstractComposition {
                        && other.getTeamB().equals(this.getTeamA()));
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.teamA, this.teamB, this.getAvailablePlayers());
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.github.redouane59.topteamsapi.functions.composition;
 
 import com.github.redouane59.topteamsapi.model.Player;
-import com.github.redouane59.topteamsapi.model.PlayerPosition;
 import com.github.redouane59.topteamsapi.model.composition.AbstractComposition;
 import com.github.redouane59.topteamsapi.model.composition.Composition;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import lombok.extern.java.Log;
 @Log
 public abstract class AbstractCompositionGenerator implements ICompositionGenerator {
 
-    private final static int       NBTRY         = 1000;
     private GeneratorConfiguration configuration;
 
 
@@ -34,7 +32,7 @@ public abstract class AbstractCompositionGenerator implements ICompositionGenera
     @Override
     public List<AbstractComposition> getBestCompositions(AbstractComposition composition) {
         List<AbstractComposition> generatedCompositions = new ArrayList<>();
-        for (int i = 0; i < NBTRY; i++) {
+        for (int i = 0; i < 1000; i++) {
             AbstractComposition randomCompo = composition.generateRandomComposition(this.configuration);
             if(!this.doesAlreadyExist(randomCompo, generatedCompositions)){
                 generatedCompositions.add(randomCompo);

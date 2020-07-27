@@ -94,4 +94,7 @@ public abstract class AbstractComposition implements IComposition, Comparable<Ab
     @Override
     public abstract boolean equals (Object obj);
 
+    @Override
+    public abstract int hashCode ();
+
 }

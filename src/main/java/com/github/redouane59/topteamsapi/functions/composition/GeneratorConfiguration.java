@@ -3,10 +3,13 @@ package com.github.redouane59.topteamsapi.functions.composition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import com.github.redouane59.topteamsapi.model.composition.CompositionType;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

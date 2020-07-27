@@ -1,9 +1,8 @@
 package com.github.redouane59.topteamsapi.functions.composition;
 
-import com.github.redouane59.topteamsapi.model.composition.Composition;
-import java.util.List;
 import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.composition.AbstractComposition;
+import java.util.List;
 
 public interface ICompositionGenerator {
 

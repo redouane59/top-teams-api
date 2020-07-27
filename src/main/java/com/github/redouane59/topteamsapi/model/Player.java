@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +14,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Player implements Comparable<Player> {
 
@@ -46,6 +47,11 @@ public class Player implements Comparable<Player> {
         if(!(other instanceof Player)) return false;
         Player otherPlayer = (Player)other;
         return this.id.equals(otherPlayer.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id);
     }
 
     @Override

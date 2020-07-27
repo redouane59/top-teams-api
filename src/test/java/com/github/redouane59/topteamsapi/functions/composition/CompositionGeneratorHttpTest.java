@@ -1,7 +1,6 @@
 package com.github.redouane59.topteamsapi.functions.composition;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import java.io.BufferedReader;
@@ -21,6 +20,15 @@ public class CompositionGeneratorHttpTest {
 
   @Test
   public void testCompositionGeneratorHttp() throws Exception {
+    CompositionGeneratorHttp compositionGeneratorHttp = new CompositionGeneratorHttp();
+    HttpRequest  httpRequest  = this.getHttpRequest();
+    HttpResponse httpResponse = this.getHttpResponse();
+    compositionGeneratorHttp.service(httpRequest, httpResponse);
+    assertNotNull(httpResponse.getWriter()); // @todo how to test it properly ?
+  }
+
+  @Test
+  public void testComplexCompositionGeneratorHttp() throws Exception {
     CompositionGeneratorHttp compositionGeneratorHttp = new CompositionGeneratorHttp();
     HttpRequest  httpRequest  = this.getHttpRequest();
     HttpResponse httpResponse = this.getHttpResponse();

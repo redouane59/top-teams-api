@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import lombok.Builder;
 import lombok.Getter;
@@ -75,6 +76,11 @@ public class ComplexComposition extends AbstractComposition {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.teams, this.getAvailablePlayers());
     }
 
     @Override

@@ -31,10 +31,8 @@ public class TeamTest {
 	public void testRatingValueWithNbPlayersOnField() {
 		List<Player> players = new ArrayList<>();
 		Player p1 = Player.builder().id("a").rating(30).position(PlayerPosition.GK).build();
-		Player p2 = new Player();
-		p2.setRating(40);
-		Player p3 = new Player();
-		p3.setRating(50);
+		Player p2 = Player.builder().rating(40).build();
+		Player p3 = Player.builder().rating(50).build();
 		players.add(p1);
 		players.add(p2);
 		players.add(p3);
