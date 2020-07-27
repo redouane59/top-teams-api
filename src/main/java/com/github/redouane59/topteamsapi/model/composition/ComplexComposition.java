@@ -9,28 +9,24 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.java.Log;
 import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 
 @Getter
 @Setter
+@SuperBuilder
 @Log
 public class ComplexComposition extends AbstractComposition {
 
     @Builder.Default
     private List<Team> teams = new ArrayList<>();
 
-    @Builder
-    public ComplexComposition(List<Player> availablePlayers, List<Team> teams){
-        super(availablePlayers != null ? availablePlayers : new ArrayList<>(), 0);
-        this.teams = Objects.requireNonNullElseGet(teams, ArrayList::new);
-    }
     @Override
     public double getRatingDifference(){
         double[] ratingValues = new double[this.teams.size()];

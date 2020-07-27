@@ -18,25 +18,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.java.Log;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @Log
+@SuperBuilder
 public class Composition extends AbstractComposition {
 
     @JsonProperty("team_A")
+    @Builder.Default
     private Team teamA = new Team();
     @JsonProperty("team_B")
+    @Builder.Default
     private Team teamB = new Team();
-
-    @Builder
-    public Composition(List<Player> availablePlayers, Team teamA, Team teamB){
-        super(availablePlayers,0);
-        this.teamA = teamA!=null ? teamA : new Team();
-        this.teamB = teamB!=null ? teamB : new Team();
-    }
 
     @Override
     public double getRatingDifference(){

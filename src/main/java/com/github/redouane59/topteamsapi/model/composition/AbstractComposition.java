@@ -10,10 +10,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.java.Log;
 
 @Getter
@@ -21,9 +23,11 @@ import lombok.extern.java.Log;
 @Log
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 public abstract class AbstractComposition implements IComposition, Comparable<AbstractComposition>, Cloneable  {
 
-    private List<Player> availablePlayers;
+    @Builder.Default
+    private List<Player> availablePlayers = new ArrayList<>();
     private int          nbPlayersOnField;
 
     @Override
@@ -74,17 +78,16 @@ public abstract class AbstractComposition implements IComposition, Comparable<Ab
     @Override
     @SneakyThrows
     public Team generateRandomTeam(int maxNbPlayerPerTeam){
-        List<Player> availablePlayers = new ArrayList<>(this.getAvailablePlayers());
+        List<Player> players = new ArrayList<>(this.getAvailablePlayers());
         Random rand       = SecureRandom.getInstanceStrong();
         Team   randomTeam = new Team();
         int    i          = 0;
-        while(i < maxNbPlayerPerTeam && randomTeam.getPlayers().size()<maxNbPlayerPerTeam && !availablePlayers.isEmpty()) {
-            int randomNum = rand.nextInt(availablePlayers.size());
-            randomTeam.getPlayers().add(availablePlayers.get(randomNum));
-            availablePlayers.remove(randomNum);
+        while(i < maxNbPlayerPerTeam && randomTeam.getPlayers().size()<maxNbPlayerPerTeam && !players.isEmpty()) {
+            int randomNum = rand.nextInt(players.size());
+            randomTeam.getPlayers().add(players.get(randomNum));
+            players.remove(randomNum);
             i++;
         }
-        this.setAvailablePlayers(availablePlayers);
         return randomTeam;
     }
 
