@@ -39,7 +39,7 @@ public class RatingUpdateCalculatorHttp extends AbstractHttpHelper implements Ht
                                                                               CompositionType.valueOf(compositionType.orElse("REGULAR"))));
 
             Game                    game       = new Game().withComposition(composition).withScore(score);
-            AbstractHttpHelper.MAPPER.writeValue(response.getWriter(), calculator.getRatingUpdates(game));
+            AbstractHttpHelper.MAPPER.writeValue(response.getWriter(), calculator.getUpdatedPlayers(game));
 
         }
     }

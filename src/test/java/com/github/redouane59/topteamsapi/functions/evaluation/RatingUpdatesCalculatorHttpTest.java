@@ -18,10 +18,10 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-public class RatingUpdatesCalculatorHttpTest {
+class RatingUpdatesCalculatorHttpTest {
 
   @Test
-  public void testCompositionGeneratorHttp() throws Exception {
+  void testCompositionGeneratorHttp() throws Exception {
     RatingUpdateCalculatorHttp ratingUpdateCalculatorHttp = new RatingUpdateCalculatorHttp();
     HttpRequest              httpRequest              = this.getHttpRequest();
     HttpResponse httpResponse = this.getHttpResponse();

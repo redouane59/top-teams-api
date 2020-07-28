@@ -16,10 +16,10 @@ import java.util.Map;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-public class CompositionGeneratorHttpTest {
+class CompositionGeneratorHttpTest {
 
   @Test
-  public void testCompositionGeneratorHttp() throws Exception {
+  void testCompositionGeneratorHttp() throws Exception {
     CompositionGeneratorHttp compositionGeneratorHttp = new CompositionGeneratorHttp();
     HttpRequest  httpRequest  = this.getHttpRequest();
     HttpResponse httpResponse = this.getHttpResponse();
@@ -28,7 +28,7 @@ public class CompositionGeneratorHttpTest {
   }
 
   @Test
-  public void testComplexCompositionGeneratorHttp() throws Exception {
+  void testComplexCompositionGeneratorHttp() throws Exception {
     CompositionGeneratorHttp compositionGeneratorHttp = new CompositionGeneratorHttp();
     HttpRequest  httpRequest  = this.getHttpRequest();
     HttpResponse httpResponse = this.getHttpResponse();

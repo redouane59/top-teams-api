@@ -14,7 +14,7 @@ import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
 @Log
-public class RatingUpdatesCalculatorTest {
+class RatingUpdatesCalculatorTest {
 
     private Composition getIdenticalComposition(){
         Player p1 = new Player().withId("player1").withRating(50).withNbGamesPlayed(1);
@@ -64,7 +64,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testWinAndLoosePointsAwins(){
+    void testWinAndLoosePointsAwins(){
         Composition composition = this.getIdenticalComposition();
 
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
@@ -85,7 +85,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testWinAndLoosePointsBWins(){
+    void testWinAndLoosePointsBWins(){
         Composition composition = this.getIdenticalComposition();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
@@ -104,7 +104,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testRelativeDistributionNone(){
+    void testRelativeDistributionNone(){
         Composition composition = this.getCompositionWithDifferentNbGames();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.NONE);
@@ -122,7 +122,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testRelativeDistributionLow(){
+    void testRelativeDistributionLow(){
         Composition composition = this.getCompositionWithDifferentNbGames();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.LOW);
@@ -140,7 +140,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testRelativeDistributionMedium(){
+    void testRelativeDistributionMedium(){
         Composition composition = this.getCompositionWithDifferentNbGames();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.MEDIUM);
@@ -158,7 +158,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testRelativeDistributionHigh(){
+    void testRelativeDistributionHigh(){
         Composition composition = this.getCompositionWithDifferentNbGames();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.HIGH);
@@ -176,7 +176,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testSplitPointFalse(){
+    void testSplitPointFalse(){
         Composition composition = this.getCompositionWithDifferentNbGames();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setSplitPointsByTeam(false);
@@ -199,7 +199,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testSplitPointTrue(){
+    void testSplitPointTrue(){
         Composition composition = this.getCompositionWithDifferentNbGames();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setSplitPointsByTeam(true);
@@ -222,7 +222,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testUnbalancedCompositionSameOdd(){
+    void testUnbalancedCompositionSameOdd(){
         Composition composition = this.getdUnbalancedComposition();
         composition.setNbPlayersOnField(5);
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getNbPlayersOnField());
@@ -248,7 +248,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testPredictionAfterModif(){
+    void testPredictionAfterModif(){
         Composition composition = this.getIdenticalComposition();
 
         Game game = new Game().withComposition(composition).withScore(new Score(10,0));
@@ -271,7 +271,7 @@ public class RatingUpdatesCalculatorTest {
     }
 
     @Test
-    public void testWinAndLoosePointsAwinsWithGetUpdatedPlayers(){
+    void testWinAndLoosePointsAwinsWithGetUpdatedPlayers(){
         Composition composition = this.getIdenticalComposition();
 
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import com.github.redouane59.topteamsapi.model.composition.Composition;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CompositionTest {
+class CompositionTest {
     private Player best1   = new Player().withId("best1").withRating(90);
     private Player best2   = new Player().withId("best2").withRating(89);
     private Player worst1  = new Player().withId("worst1").withRating(20);
@@ -25,7 +25,7 @@ public class CompositionTest {
     private Player playerF = new Player().withId("playerF").withRating(55);
 
     @Test
-    public void testEqualsOK(){
+    void testEqualsOK(){
         Composition c1 = Composition.builder()
                                     .teamA(new Team().withPlayers(List.of(playerA, playerB, playerC)))
                                     .teamB(new Team().withPlayers(List.of(playerD, playerE, playerF)))
@@ -39,7 +39,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testEqualsOKopposite(){
+    void testEqualsOKopposite(){
         Composition c1 = Composition.builder()
                                     .teamA(new Team().withPlayers(List.of(playerA, playerB, playerC)))
                                     .teamB(new Team().withPlayers(List.of(playerD, playerE, playerF)))
@@ -53,7 +53,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testEqualsKO(){
+    void testEqualsKO(){
         Composition c1 = Composition.builder()
                                     .teamA(new Team().withPlayers(List.of(playerA, playerB, playerC)))
                                     .teamB(new Team().withPlayers(List.of(playerD, playerE, playerF)))
@@ -67,7 +67,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testRatingDifferenceRegularMode(){
+    void testRatingDifferenceRegularMode(){
         Player player1 = new Player().withId("player1").withRating(10);
         Player player2 = new Player().withId("player2").withRating(20);
         Player player3 = new Player().withId("player").withRating(30);
@@ -85,7 +85,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testRatingDifferenceSubstituteMode(){
+    void testRatingDifferenceSubstituteMode(){
         Player player1 = new Player().withId("player1").withRating(10);
         Player player2 = new Player().withId("player2").withRating(20);
         Player player3 = new Player().withId("player3").withRating(30);
@@ -104,7 +104,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testRatingDifferenceFreeMode(){
+    void testRatingDifferenceFreeMode(){
         Player player1 = new Player().withId("player1").withRating(10);
         Player player2 = new Player().withId("player2").withRating(20);
         Player player3 = new Player().withId("player3").withRating(30);
@@ -123,7 +123,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testGenerateRandomTeam(){
+    void testGenerateRandomTeam(){
         for(int i=0; i<10; i++) {
             Composition composition = Composition.builder().availablePlayers(List.of(playerA, playerB, playerC)).build();
             Team team = composition.generateRandomTeam(3);
@@ -135,7 +135,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testGenerateRandomCompositionConfigFalse(){
+    void testGenerateRandomCompositionConfigFalse(){
         GeneratorConfiguration configuration = new GeneratorConfiguration()
             .withSplitBestPlayers(false)
             .withSplitDefenders(false)
@@ -156,7 +156,7 @@ public class CompositionTest {
     }
 
     @Test
-    public void testGenerateRandomCompositionConfigTrue(){
+    void testGenerateRandomCompositionConfigTrue(){
         GeneratorConfiguration configuration = new GeneratorConfiguration();
         for(int i=0; i<10; i++){
             Composition composition = (Composition)Composition.builder()
@@ -177,7 +177,7 @@ public class CompositionTest {
 
     /* @todo to put somewhere else
     @Test
-    public void testPredictionWithKf(){
+    void testPredictionWithKf(){
         Composition composition = this.getdTwoDifferentRatingTeamsComposition();
         CalculatorConfiguration config = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         assertTrue(composition.getPrediction(CalculatorConfiguration.calculateKf(6))<composition.getPrediction(config.calculateKf(5)));

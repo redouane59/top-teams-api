@@ -7,12 +7,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
-public class PlayerTest {
+class PlayerTest {
 
   private static final ObjectMapper MAPPER      = new ObjectMapper();
 
   @Test
-  public void testDeserializeWithoutPosition() throws JsonProcessingException {
+  void testDeserializeWithoutPosition() throws JsonProcessingException {
     final String playerJson = "{\"id\":\"player1\",\"rating\":77.0,\"nb_games_played\":4}";
     Player       player      = MAPPER.readValue(playerJson, Player.class);
       assertEquals("player1",player.getId());
@@ -22,7 +22,7 @@ public class PlayerTest {
   }
 
   @Test
-  public void testDeserializeWithoutGames() throws JsonProcessingException {
+  void testDeserializeWithoutGames() throws JsonProcessingException {
     final String playerJson = "{\"id\":\"player1\",\"rating\":77.0, \"position\":\"GK\"}";
     Player       player      = MAPPER.readValue(playerJson, Player.class);
     assertEquals("player1",player.getId());

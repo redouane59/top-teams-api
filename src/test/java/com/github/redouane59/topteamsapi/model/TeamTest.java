@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class TeamTest {
+class TeamTest {
 
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	@Test
-	public void testRatingValue() {
+	void testRatingValue() {
 		Player playerA = new Player().withId("playerA").withRating(30);
 		Player playerB = new Player().withId("playerB").withRating(50);
 		Team team = new Team();
@@ -26,7 +26,7 @@ public class TeamTest {
 	}
 
 	@Test
-	public void testRatingValueWithNbPlayersOnField() {
+	void testRatingValueWithNbPlayersOnField() {
 		List<Player> players = new ArrayList<>();
 		Player p1 = new Player().withId("a").withRating(30).withPosition(PlayerPosition.GK);
 		Player p2 = new Player().withRating(40);
@@ -49,7 +49,7 @@ public class TeamTest {
 	}
 
 	@Test
-	public void testEqualOk(){
+	void testEqualOk(){
 		Player p1 = new Player().withId("p1").withRating(5);
 		Player p2 = new Player().withId("p2").withRating(5);
 		Player p3 = new Player().withId("p3").withRating(5);
@@ -62,7 +62,7 @@ public class TeamTest {
 	}
 
 	@Test
-	public void testEqualKO(){
+	void testEqualKO(){
 		Player p1 = new Player().withId("p1").withRating(5);
 		Player p2 = new Player().withId("p2").withRating(5);
 		Player p3 = new Player().withId("p3").withRating(5);
@@ -77,7 +77,7 @@ public class TeamTest {
 	}
 
 	@Test
-	public void testDeserialization() throws JsonProcessingException {
+	void testDeserialization() throws JsonProcessingException {
 		String teamJson = "{\"players\":[{\"id\":\"player3\",\"position\":\"GK\",\"rating\":59.0,\"nb_games_played\":0},{\"id\":\"player10\",\"rating\":88.0,\"nb_games_played\":0},{\"id\":\"player8\",\"rating\":45.0,\"nb_games_played\":0}]}";
 		Team team = MAPPER.readValue(teamJson, Team.class);
 		assertEquals(3, team.getPlayers().size());

@@ -14,7 +14,7 @@ import com.github.redouane59.topteamsapi.model.composition.AbstractComposition;
 import com.github.redouane59.topteamsapi.model.composition.ComplexComposition;
 
 @Log
-public class ComplexCompositionGeneratorTest {
+class ComplexCompositionGeneratorTest {
 
   private int                         nbRandomTests = 3;
   private ComplexCompositionGenerator generator;
@@ -43,7 +43,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void test3teamsSplitBest(){
+  void test3teamsSplitBest(){
     GeneratorConfiguration config = new GeneratorConfiguration();
     config.setNbTeamsNeeded(3);
     config.setSplitBestPlayers(true);
@@ -66,7 +66,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void test3teamsSplitWorst(){
+  void test3teamsSplitWorst(){
     GeneratorConfiguration config = new GeneratorConfiguration();
     config.setNbTeamsNeeded(3);
     config.setSplitBestPlayers(false);
@@ -87,7 +87,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void test4teamsSplitBest(){
+  void test4teamsSplitBest(){
     GeneratorConfiguration config = new GeneratorConfiguration();
     config.setNbTeamsNeeded(4);
     config.setSplitBestPlayers(true);
@@ -116,7 +116,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void test4teamsSplitWorst(){
+  void test4teamsSplitWorst(){
     GeneratorConfiguration config = new GeneratorConfiguration();
     config.setNbTeamsNeeded(4);
     config.setSplitBestPlayers(false);
@@ -144,7 +144,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void test3teamsSplitAsMuchGKasTeams(){
+  void test3teamsSplitAsMuchGKasTeams(){
     GeneratorConfiguration config = new GeneratorConfiguration();
     config.setNbTeamsNeeded(3);
     config.setSplitBestPlayers(false);
@@ -169,7 +169,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void test3teamsSplitLessGKthanTeams(){
+  void test3teamsSplitLessGKthanTeams(){
     GeneratorConfiguration config = new GeneratorConfiguration();
     config.setNbTeamsNeeded(3);
     config.setSplitBestPlayers(false);
@@ -191,7 +191,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void test3teamsSplitMoreGKthanTeams(){
+  void test3teamsSplitMoreGKthanTeams(){
     GeneratorConfiguration config = new GeneratorConfiguration();
     config.setNbTeamsNeeded(3);
     config.setSplitBestPlayers(false);
@@ -226,7 +226,7 @@ public class ComplexCompositionGeneratorTest {
   }
 
   @Test
-  public void testNBestResult(){
+  void testNBestResult(){
     generator = new ComplexCompositionGenerator(new GeneratorConfiguration());
     generator.getConfiguration().setNbCompositionsNeeded(5);
     List<AbstractComposition> result = generator.getBestCompositions(getPlayers());

@@ -15,7 +15,7 @@ import com.github.redouane59.topteamsapi.model.composition.Composition;
 import com.github.redouane59.topteamsapi.model.composition.CompositionType;
 
 @Log
-public class CompositionsGeneratorTest {
+class CompositionsGeneratorTest {
 
 	private final int                  nbRandomTests = 10;
 	private CompositionGenerator generator;
@@ -60,7 +60,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testWithoutSplitting() {
+	void testWithoutSplitting() {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
@@ -73,7 +73,7 @@ public class CompositionsGeneratorTest {
 
 
 	@Test
-	public void testSplittingBest() {
+	void testSplittingBest() {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(true);
 		config.setSplitWorstPlayers(false);
@@ -86,7 +86,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSplittingWorst() {
+	void testSplittingWorst() {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(true);
@@ -99,7 +99,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSplittingWorstAndBest() {
+	void testSplittingWorstAndBest() {
 		generator = new CompositionGenerator(new GeneratorConfiguration());
 		for(int i=0;i<nbRandomTests;i++){
 			Composition randomCompo = Composition.builder().availablePlayers(this.getPlayers()).build();
@@ -110,7 +110,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testCompoWithoutSplitting() {
+	void testCompoWithoutSplitting() {
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
@@ -120,7 +120,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testFreeOddComposition(){
+	void testFreeOddComposition(){
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
@@ -141,7 +141,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSameNbTeamPlayersOddComposition(){
+	void testSameNbTeamPlayersOddComposition(){
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
@@ -159,7 +159,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSameNbFieldPlayersOddComposition(){
+	void testSameNbFieldPlayersOddComposition(){
 		GeneratorConfiguration config = new GeneratorConfiguration();
 		config.setSplitBestPlayers(false);
 		config.setSplitWorstPlayers(false);
@@ -177,7 +177,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSplitting2GK() {
+	void testSplitting2GK() {
 		List<Player> players = getPlayers();
 		Player p1 = players.get(0);
 		p1.setPosition(PlayerPosition.GK);
@@ -196,7 +196,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSplitting2GKAndBestAndWorst() {
+	void testSplitting2GKAndBestAndWorst() {
 		List<Player> players = getPlayers();
 		Player p1 = players.get(0);
 		p1.setPosition(PlayerPosition.GK);
@@ -215,7 +215,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSplittingAllByPosition() {
+	void testSplittingAllByPosition() {
 		List<Player> players = getPlayers();
 		Player p1 = players.get(0);
 		p1.setPosition(PlayerPosition.DEF);
@@ -238,7 +238,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testSplittingAllByPositionWitOddNumber() {
+	void testSplittingAllByPositionWitOddNumber() {
 		List<Player> players = getPlayers();
 		Player p1 = players.get(0);
 		p1.setPosition(PlayerPosition.DEF);
@@ -262,7 +262,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testBestCompoSplittingAllByPosition() {
+	void testBestCompoSplittingAllByPosition() {
 		List<Player> players = getPlayers();
 		Player p1 = players.get(0);
 		p1.setPosition(PlayerPosition.DEF);
@@ -294,7 +294,7 @@ public class CompositionsGeneratorTest {
 	}
 /*
 	@Test
-	public void testGenerateRandomTeam(){
+	void testGenerateRandomTeam(){
 		generator = new CompositionGenerator(new GeneratorConfiguration());
 		for(int i=0;i<nbRandomTests;i++) {
 			List<Player> availablePlayers = List.of(playerC, playerD, playerE);
@@ -307,7 +307,7 @@ public class CompositionsGeneratorTest {
 	}
 
 	@Test
-	public void testGenerateRandomTeamFromOtherTeam(){
+	void testGenerateRandomTeamFromOtherTeam(){
 		generator = new CompositionGenerator(new GeneratorConfiguration());
 		Team teamA = new Team().withPlayers(List.of(playerA)).build();
 		for(int i=0;i<nbRandomTests;i++) {
@@ -321,7 +321,7 @@ public class CompositionsGeneratorTest {
 	} */
 
 	@Test
-	public void testGenerateCompositionFromOtherComposition(){
+	void testGenerateCompositionFromOtherComposition(){
 		Team teamA = new Team().withPlayers(List.of(playerA));
 		Team teamB = new Team().withPlayers(List.of(playerB));
 		Composition initCompo = Composition.builder().teamA(teamA).teamB(teamB)
