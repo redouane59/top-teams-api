@@ -1,14 +1,19 @@
 package com.github.redouane59.topteamsapi.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import com.github.redouane59.topteamsapi.model.composition.Composition;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.With;
 
 @Getter
 @Setter
-@Builder
+@With
+@AllArgsConstructor
+@NoArgsConstructor
 public class Game {
 
     private Composition composition;

@@ -105,7 +105,7 @@ public class ComplexComposition extends AbstractComposition {
                                                                  .build();
 
         List<Team> teamList = new ArrayList<>();
-        this.teams.forEach(t -> teamList.add(Team.builder().players(new ArrayList<>(t.getPlayers())).build()));
+        this.teams.forEach(t -> teamList.add(new Team().withPlayers(new ArrayList<>(t.getPlayers()))));
         randomComposition.setTeams(teamList);
         while(randomComposition.getTeams().size()<configuration.getNbTeamsNeeded()){
             randomComposition.getTeams().add(new Team());

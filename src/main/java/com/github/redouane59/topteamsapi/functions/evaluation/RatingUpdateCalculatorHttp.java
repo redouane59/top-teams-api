@@ -30,16 +30,15 @@ public class RatingUpdateCalculatorHttp extends AbstractHttpHelper implements Ht
             Optional<String> compositionType      = request.getFirstQueryParameter("composition_type");
             Score            score                = new Score(Integer.parseInt(scoreA.orElse("0")), Integer.parseInt(scoreB.orElse("0")));
             CalculatorConfiguration calculatorConfiguration =
-                CalculatorConfiguration.builder()
-                                       .splitPointsByTeam(Boolean.parseBoolean(splitPointsByTeam.orElse("true")))
-                                       .relativeDistribution(RelativeDistribution.valueOf(relativeDistribution.orElse("MEDIUM")))
-                                       .kf(Double.parseDouble(kf.orElse("4")))
-                                       .build();
+                new CalculatorConfiguration()
+                    .withSplitPointsByTeam(Boolean.parseBoolean(splitPointsByTeam.orElse("true")))
+                    .withRelativeDistribution(RelativeDistribution.valueOf(relativeDistribution.orElse("MEDIUM")))
+                    .withKf(Double.parseDouble(kf.orElse("4")));
             RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(calculatorConfiguration);
             composition.setNbPlayersOnField(this.getMaxNbPlayerPerTeamOnField(composition.getTeamA().getPlayers().size() + composition.getTeamB().getPlayers().size(),
                                                                               CompositionType.valueOf(compositionType.orElse("REGULAR"))));
 
-            Game                    game       = Game.builder().composition(composition).score(score).build();
+            Game                    game       = new Game().withComposition(composition).withScore(score);
             AbstractHttpHelper.MAPPER.writeValue(response.getWriter(), calculator.getRatingUpdates(game));
 
         }

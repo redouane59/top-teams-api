@@ -10,15 +10,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.With;
 
 @Setter
 @Getter
-@Builder
-@NoArgsConstructor
+@With
 @AllArgsConstructor
+@NoArgsConstructor
 public class Team {
 
-    @Builder.Default
     private List<Player> players = new ArrayList<>();
 
     public double getRatingAverage(){

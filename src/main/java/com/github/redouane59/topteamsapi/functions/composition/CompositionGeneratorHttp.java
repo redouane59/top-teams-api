@@ -41,16 +41,15 @@ public class CompositionGeneratorHttp extends AbstractHttpHelper implements Http
       Optional<String> expectedCompositionNumber = request.getFirstQueryParameter("expected_composition_number");
       Optional<String> compositionType = request.getFirstQueryParameter("composition_type");
 
-      GeneratorConfiguration config = GeneratorConfiguration.builder()
-                                                            .splitBestPlayers(Boolean.parseBoolean(splitBestPlayers.orElse("true")))
-                                                            .splitWorstPlayers(Boolean.parseBoolean(splitWorstPlayers.orElse("true")))
-                                                            .splitGoalKeepers(Boolean.parseBoolean(splitGoalKeepers.orElse("true")))
-                                                            .splitDefenders(Boolean.parseBoolean(splitDefenders.orElse("true")))
-                                                            .splitStrikers(Boolean.parseBoolean(splitStrikers.orElse("true")))
-                                                            .nbTeamsNeeded(Integer.parseInt(expectedTeamNumber.orElse("2")))
-                                                            .nbCompositionsNeeded(Integer.parseInt(expectedCompositionNumber.orElse("1")))
-                                                            .compositionType(CompositionType.valueOf(compositionType.orElse("REGULAR")))
-                                                            .build();
+      GeneratorConfiguration config = new GeneratorConfiguration()
+                                                            .withSplitBestPlayers(Boolean.parseBoolean(splitBestPlayers.orElse("true")))
+                                                            .withSplitWorstPlayers(Boolean.parseBoolean(splitWorstPlayers.orElse("true")))
+                                                            .withSplitGoalKeepers(Boolean.parseBoolean(splitGoalKeepers.orElse("true")))
+                                                            .withSplitDefenders(Boolean.parseBoolean(splitDefenders.orElse("true")))
+                                                            .withSplitStrikers(Boolean.parseBoolean(splitStrikers.orElse("true")))
+                                                            .withNbTeamsNeeded(Integer.parseInt(expectedTeamNumber.orElse("2")))
+                                                            .withNbCompositionsNeeded(Integer.parseInt(expectedCompositionNumber.orElse("1")))
+                                                            .withCompositionType(CompositionType.valueOf(compositionType.orElse("REGULAR")));
       ICompositionGenerator generator;
       if(config.getNbTeamsNeeded()==2) {
         generator = new CompositionGenerator(config);

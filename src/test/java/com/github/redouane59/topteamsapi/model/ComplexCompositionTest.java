@@ -11,23 +11,23 @@ import com.github.redouane59.topteamsapi.model.composition.ComplexComposition;
 
 public class ComplexCompositionTest {
 
-    private Player playerA = Player.builder().id("playerA").rating(30).build();
-    private Player playerB = Player.builder().id("playerB").rating(35).build();
-    private Player playerC = Player.builder().id("playerC").rating(40).build();
-    private Player playerD = Player.builder().id("playerD").rating(45).build();
-    private Player playerE = Player.builder().id("playerE").rating(50).build();
-    private Player playerF = Player.builder().id("playerF").rating(55).build();
-    private Player playerG = Player.builder().id("playerG").rating(60).build();
-    private Player playerH = Player.builder().id("playerH").rating(65).build();
-    private Player playerI = Player.builder().id("playerI").rating(70).build();
+    private Player playerA = new Player().withId("playerA").withRating(30);
+    private Player playerB = new Player().withId("playerB").withRating(35);
+    private Player playerC = new Player().withId("playerC").withRating(40);
+    private Player playerD = new Player().withId("playerD").withRating(45);
+    private Player playerE = new Player().withId("playerE").withRating(50);
+    private Player playerF = new Player().withId("playerF").withRating(55);
+    private Player playerG = new Player().withId("playerG").withRating(60);
+    private Player playerH = new Player().withId("playerH").withRating(65);
+    private Player playerI = new Player().withId("playerI").withRating(70);
 
     @Test
     public void testRatingDifference() {
         ComplexComposition compo = ComplexComposition.builder().build();
         List<Team>         teams = new ArrayList<>();
-        teams.add(Team.builder().players(List.of(playerA, playerD, playerG)).build());
-        teams.add(Team.builder().players(List.of(playerB, playerE, playerH)).build());
-        teams.add(Team.builder().players(List.of(playerC, playerF, playerI)).build());
+        teams.add(new Team().withPlayers(List.of(playerA, playerD, playerG)));
+        teams.add(new Team().withPlayers(List.of(playerB, playerE, playerH)));
+        teams.add(new Team().withPlayers(List.of(playerC, playerF, playerI)));
         compo.setTeams(teams);
         assertEquals(5, compo.getRatingAverageDifference());
     }
@@ -35,13 +35,13 @@ public class ComplexCompositionTest {
     @Test
     public void testEqualsOK(){
         ComplexComposition c1 = ComplexComposition.builder().build();
-        c1.getTeams().add(Team.builder().players(List.of(playerA, playerB, playerC)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerD, playerE, playerF)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerG, playerH, playerI)).build());
+        c1.getTeams().add(new Team().withPlayers(List.of(playerA, playerB, playerC)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerD, playerE, playerF)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerG, playerH, playerI)));
         ComplexComposition c2 = ComplexComposition.builder().build();
-        c2.getTeams().add(Team.builder().players(List.of(playerC, playerA, playerB)).build());
-        c2.getTeams().add(Team.builder().players(List.of(playerE, playerF, playerD)).build());
-        c2.getTeams().add(Team.builder().players(List.of(playerI, playerG, playerH)).build());
+        c2.getTeams().add(new Team().withPlayers(List.of(playerC, playerA, playerB)));
+        c2.getTeams().add(new Team().withPlayers(List.of(playerE, playerF, playerD)));
+        c2.getTeams().add(new Team().withPlayers(List.of(playerI, playerG, playerH)));
         assertEquals(c1, c2);
         assertEquals(c2, c1);
     }
@@ -49,13 +49,13 @@ public class ComplexCompositionTest {
     @Test
     public void testEqualsOKopposite(){
         ComplexComposition c1 = ComplexComposition.builder().build();
-        c1.getTeams().add(Team.builder().players(List.of(playerA, playerB, playerC)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerD, playerE, playerF)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerG, playerH, playerI)).build());
+        c1.getTeams().add(new Team().withPlayers(List.of(playerA, playerB, playerC)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerD, playerE, playerF)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerG, playerH, playerI)));
         ComplexComposition c2 = ComplexComposition.builder().build();
-        c2.getTeams().add(Team.builder().players(List.of(playerC, playerA, playerB)).build());
-        c2.getTeams().add(Team.builder().players(List.of(playerH, playerG, playerI)).build());
-        c2.getTeams().add(Team.builder().players(List.of(playerE, playerF, playerD)).build());
+        c2.getTeams().add(new Team().withPlayers(List.of(playerC, playerA, playerB)));
+        c2.getTeams().add(new Team().withPlayers(List.of(playerH, playerG, playerI)));
+        c2.getTeams().add(new Team().withPlayers(List.of(playerE, playerF, playerD)));
         assertEquals(c1, c2);
         assertEquals(c2, c1);
     }
@@ -63,13 +63,13 @@ public class ComplexCompositionTest {
     @Test
     public void testEqualsKO(){
         ComplexComposition c1 = ComplexComposition.builder().build();
-        c1.getTeams().add(Team.builder().players(List.of(playerA, playerB, playerC)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerD, playerE, playerF)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerG, playerH, playerI)).build());
+        c1.getTeams().add(new Team().withPlayers(List.of(playerA, playerB, playerC)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerD, playerE, playerF)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerG, playerH, playerI)));
         ComplexComposition c2 = ComplexComposition.builder().build();
-        c2.getTeams().add(Team.builder().players(List.of(playerC, playerA, playerB)).build());
-        c2.getTeams().add(Team.builder().players(List.of(playerH, playerG, Player.builder().id("intru").rating(10).build())).build());
-        c2.getTeams().add(Team.builder().players(List.of(playerE, playerF, playerD)).build());
+        c2.getTeams().add(new Team().withPlayers(List.of(playerC, playerA, playerB)));
+        c2.getTeams().add(new Team().withPlayers(List.of(playerH, playerG, new Player().withId("intru").withRating(10))));
+        c2.getTeams().add(new Team().withPlayers(List.of(playerE, playerF, playerD)));
         assertNotEquals(c1, c2);
         assertNotEquals(c2, c1);
     }
@@ -77,9 +77,9 @@ public class ComplexCompositionTest {
     @Test
     public void testGetAllPlayers(){
         ComplexComposition c1 = ComplexComposition.builder().build();
-        c1.getTeams().add(Team.builder().players(List.of(playerA, playerB, playerC)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerD, playerE, playerF)).build());
-        c1.getTeams().add(Team.builder().players(List.of(playerG, playerH, playerI)).build());
+        c1.getTeams().add(new Team().withPlayers(List.of(playerA, playerB, playerC)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerD, playerE, playerF)));
+        c1.getTeams().add(new Team().withPlayers(List.of(playerG, playerH, playerI)));
         assertEquals(9, c1.getAllPlayers().size());
         assertTrue(c1.getAllPlayers().contains(playerA));
         assertTrue(c1.getAllPlayers().contains(playerD));

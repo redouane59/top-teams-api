@@ -13,26 +13,26 @@ import com.github.redouane59.topteamsapi.model.composition.Composition;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CompositionTest {
-    private Player best1   = Player.builder().id("best1").rating(90).build();
-    private Player best2   = Player.builder().id("best2").rating(89).build();
-    private Player worst1  = Player.builder().id("worst1").rating(20).build();
-    private Player worst2  = Player.builder().id("worst2").rating(21).build();
-    private Player playerA = Player.builder().id("playerA").rating(30).build();
-    private Player playerB = Player.builder().id("playerB").rating(50).build();
-    private Player playerC = Player.builder().id("playerC").rating(50).build();
-    private Player playerD = Player.builder().id("playerD").rating(50).build();
-    private Player playerE = Player.builder().id("playerE").rating(50).build();
-    private Player playerF = Player.builder().id("playerF").rating(55).build();
+    private Player best1   = new Player().withId("best1").withRating(90);
+    private Player best2   = new Player().withId("best2").withRating(89);
+    private Player worst1  = new Player().withId("worst1").withRating(20);
+    private Player worst2  = new Player().withId("worst2").withRating(21);
+    private Player playerA = new Player().withId("playerA").withRating(30);
+    private Player playerB = new Player().withId("playerB").withRating(50);
+    private Player playerC = new Player().withId("playerC").withRating(50);
+    private Player playerD = new Player().withId("playerD").withRating(50);
+    private Player playerE = new Player().withId("playerE").withRating(50);
+    private Player playerF = new Player().withId("playerF").withRating(55);
 
     @Test
     public void testEqualsOK(){
         Composition c1 = Composition.builder()
-                                    .teamA(Team.builder().players(List.of(playerA, playerB, playerC)).build())
-                                    .teamB(Team.builder().players(List.of(playerD, playerE, playerF)).build())
+                                    .teamA(new Team().withPlayers(List.of(playerA, playerB, playerC)))
+                                    .teamB(new Team().withPlayers(List.of(playerD, playerE, playerF)))
                                     .build();
         Composition c2 = Composition.builder()
-                                    .teamA(Team.builder().players(List.of(playerC, playerA, playerB)).build())
-                                    .teamB(Team.builder().players(List.of(playerE, playerF, playerD)).build())
+                                    .teamA(new Team().withPlayers(List.of(playerC, playerA, playerB)))
+                                    .teamB(new Team().withPlayers(List.of(playerE, playerF, playerD)))
                                     .build();
         assertEquals(c1, c2);
         assertEquals(c2, c1);
@@ -41,12 +41,12 @@ public class CompositionTest {
     @Test
     public void testEqualsOKopposite(){
         Composition c1 = Composition.builder()
-                                    .teamA(Team.builder().players(List.of(playerA, playerB, playerC)).build())
-                                    .teamB(Team.builder().players(List.of(playerD, playerE, playerF)).build())
+                                    .teamA(new Team().withPlayers(List.of(playerA, playerB, playerC)))
+                                    .teamB(new Team().withPlayers(List.of(playerD, playerE, playerF)))
                                     .build();
         Composition c2 = Composition.builder()
-                                    .teamB(Team.builder().players(List.of(playerC, playerA, playerB)).build())
-                                    .teamA(Team.builder().players(List.of(playerE, playerF, playerD)).build())
+                                    .teamB(new Team().withPlayers(List.of(playerC, playerA, playerB)))
+                                    .teamA(new Team().withPlayers(List.of(playerE, playerF, playerD)))
                                     .build();
         assertEquals(c1, c2);
         assertEquals(c2, c1);
@@ -55,12 +55,12 @@ public class CompositionTest {
     @Test
     public void testEqualsKO(){
         Composition c1 = Composition.builder()
-                                    .teamA(Team.builder().players(List.of(playerA, playerB, playerC)).build())
-                                    .teamB(Team.builder().players(List.of(playerD, playerE, playerF)).build())
+                                    .teamA(new Team().withPlayers(List.of(playerA, playerB, playerC)))
+                                    .teamB(new Team().withPlayers(List.of(playerD, playerE, playerF)))
                                     .build();
         Composition c2 = Composition.builder()
-                                    .teamB(Team.builder().players(List.of(playerC, playerA, playerB)).build())
-                                    .teamA(Team.builder().players(List.of(playerE, playerF, worst1)).build())
+                                    .teamB(new Team().withPlayers(List.of(playerC, playerA, playerB)))
+                                    .teamA(new Team().withPlayers(List.of(playerE, playerF, worst1)))
                                     .build();
         assertNotEquals(c1, c2);
         assertNotEquals(c2, c1);
@@ -68,14 +68,14 @@ public class CompositionTest {
 
     @Test
     public void testRatingDifferenceRegularMode(){
-        Player player1 = Player.builder().id("player1").rating(10).build();
-        Player player2 = Player.builder().id("player2").rating(20).build();
-        Player player3 = Player.builder().id("player").rating(30).build();
-        Team teamA = Team.builder().players(List.of(player1, player2, player3)).build();
-        Player player4 = Player.builder().id("player4").rating(10).build();
-        Player player5 = Player.builder().id("player5").rating(20).build();
-        Player player6 = Player.builder().id("player6").rating(30).build();
-        Team teamB = Team.builder().players(List.of(player4, player5, player6)).build();
+        Player player1 = new Player().withId("player1").withRating(10);
+        Player player2 = new Player().withId("player2").withRating(20);
+        Player player3 = new Player().withId("player").withRating(30);
+        Team teamA = new Team().withPlayers(List.of(player1, player2, player3));
+        Player player4 = new Player().withId("player4").withRating(10);
+        Player player5 = new Player().withId("player5").withRating(20);
+        Player player6 = new Player().withId("player6").withRating(30);
+        Team teamB = new Team().withPlayers(List.of(player4, player5, player6));
         Composition composition = Composition.builder().teamA(teamA).teamB(teamB).build();
         composition.setNbPlayersOnField(3);
         assertEquals(composition.getRatingAverageDifference(),
@@ -86,15 +86,15 @@ public class CompositionTest {
 
     @Test
     public void testRatingDifferenceSubstituteMode(){
-        Player player1 = Player.builder().id("player1").rating(10).build();
-        Player player2 = Player.builder().id("player2").rating(20).build();
-        Player player3 = Player.builder().id("player3").rating(30).build();
-        Player player4 = Player.builder().id("player4").rating(40).build();
-        Team teamA = Team.builder().players(List.of(player1, player2, player3, player4)).build();
-        Player player5 = Player.builder().id("player5").rating(10).build();
-        Player player6 = Player.builder().id("player6").rating(20).build();
-        Player player7 = Player.builder().id("player7").rating(30).build();
-        Team teamB = Team.builder().players(List.of(player5, player6, player7)).build();
+        Player player1 = new Player().withId("player1").withRating(10);
+        Player player2 = new Player().withId("player2").withRating(20);
+        Player player3 = new Player().withId("player3").withRating(30);
+        Player player4 = new Player().withId("player4").withRating(40);
+        Team teamA = new Team().withPlayers(List.of(player1, player2, player3, player4));
+        Player player5 = new Player().withId("player5").withRating(10);
+        Player player6 = new Player().withId("player6").withRating(20);
+        Player player7 = new Player().withId("player7").withRating(30);
+        Team teamB = new Team().withPlayers(List.of(player5, player6, player7));
         Composition composition = Composition.builder().teamA(teamA).teamB(teamB).build();
         composition.setNbPlayersOnField(3);
         assertEquals(composition.getRatingAverageDifference(),
@@ -105,15 +105,15 @@ public class CompositionTest {
 
     @Test
     public void testRatingDifferenceFreeMode(){
-        Player player1 = Player.builder().id("player1").rating(10).build();
-        Player player2 = Player.builder().id("player2").rating(20).build();
-        Player player3 = Player.builder().id("player3").rating(30).build();
-        Player player4 = Player.builder().id("player4").rating(40).build();
-        Team teamA = Team.builder().players(List.of(player1, player2, player3, player4)).build();
-        Player player5 = Player.builder().id("player5").rating(10).build();
-        Player player6 = Player.builder().id("player6").rating(20).build();
-        Player player7 = Player.builder().id("player7").rating(30).build();
-        Team teamB = Team.builder().players(List.of(player5, player6, player7)).build();
+        Player player1 = new Player().withId("player1").withRating(10);
+        Player player2 = new Player().withId("player2").withRating(20);
+        Player player3 = new Player().withId("player3").withRating(30);
+        Player player4 = new Player().withId("player4").withRating(40);
+        Team teamA = new Team().withPlayers(List.of(player1, player2, player3, player4));
+        Player player5 = new Player().withId("player5").withRating(10);
+        Player player6 = new Player().withId("player6").withRating(20);
+        Player player7 = new Player().withId("player7").withRating(30);
+        Team teamB = new Team().withPlayers(List.of(player5, player6, player7));
         Composition composition = Composition.builder().teamA(teamA).teamB(teamB).build();
         composition.setNbPlayersOnField(4);
         assertEquals(composition.getRatingAverageDifference(),
@@ -136,14 +136,14 @@ public class CompositionTest {
 
     @Test
     public void testGenerateRandomCompositionConfigFalse(){
-        GeneratorConfiguration configuration = GeneratorConfiguration.builder()
-                                                                     .splitBestPlayers(false)
-                                                                     .splitDefenders(false)
-                                                                     .splitStrikers(false)
-                                                                     .splitGoalKeepers(false)
-                                                                     .splitBestPlayers(false)
-                                                                     .splitWorstPlayers(false)
-                                                                     .build();        for(int i=0; i<10; i++){
+        GeneratorConfiguration configuration = new GeneratorConfiguration()
+            .withSplitBestPlayers(false)
+            .withSplitDefenders(false)
+            .withSplitStrikers(false)
+            .withSplitGoalKeepers(false)
+            .withSplitBestPlayers(false)
+            .withSplitWorstPlayers(false);
+        for(int i=0; i<10; i++){
             Composition composition = (Composition)Composition.builder().availablePlayers(List.of(playerA, playerB, playerC, playerD))
                                                               .build().generateRandomComposition(configuration);
             assertEquals(2, composition.getTeamA().getPlayers().size());

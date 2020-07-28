@@ -19,16 +19,16 @@ public class CompositionsGeneratorTest {
 
 	private final int                  nbRandomTests = 10;
 	private CompositionGenerator generator;
-	private final Player               best1         = Player.builder().id("best1").rating(90).build();
-	private final Player               best2         = Player.builder().id("best2").rating(89).build();
-	private final Player               worst1        = Player.builder().id("worst1").rating(20).build();
-	private final Player               worst2        = Player.builder().id("worst2").rating(21).build();
-	private final Player               playerA       = Player.builder().id("playerA").rating(30).build();
-	private final Player               playerB       = Player.builder().id("playerB").rating(50).build();
-	private final Player               playerC       = Player.builder().id("playerC").rating(50).build();
-	private final Player               playerD       = Player.builder().id("playerD").rating(50).build();
-	private final Player               playerE       = Player.builder().id("playerE").rating(50).build();
-	private final Player               playerF       = Player.builder().id("playerF").rating(55).build();
+	private final Player               best1         = new Player().withId("best1").withRating(90);
+	private final Player               best2         = new Player().withId("best2").withRating(89);
+	private final Player               worst1        = new Player().withId("worst1").withRating(20);
+	private final Player               worst2        = new Player().withId("worst2").withRating(21);
+	private final Player               playerA       = new Player().withId("playerA").withRating(30);
+	private final Player               playerB       = new Player().withId("playerB").withRating(50);
+	private final Player               playerC       = new Player().withId("playerC").withRating(50);
+	private final Player               playerD       = new Player().withId("playerD").withRating(50);
+	private final Player               playerE       = new Player().withId("playerE").withRating(50);
+	private final Player               playerF       = new Player().withId("playerF").withRating(55);
 
 	public List<Player> getPlayers(){
 		List<Player> players = new ArrayList<>();
@@ -47,15 +47,15 @@ public class CompositionsGeneratorTest {
 
 	public List<Player> getOddPlayers(){
 		List<Player> players = new ArrayList<>();
-		players.add(Player.builder().id("Player1").rating(40).build());
-		players.add(Player.builder().id("Player2").rating(40).build());
-		players.add(Player.builder().id("Player3").rating(50).build());
-		players.add(Player.builder().id("Player4").rating(50).build());
-		players.add(Player.builder().id("Player5").rating(60).build());
-		players.add(Player.builder().id("Player6").rating(60).build());
-		players.add(Player.builder().id("Player7").rating(70).build());
-		players.add(Player.builder().id("Player8").rating(70).build());
-		players.add(Player.builder().id("Player9").rating(80).build());
+		players.add(new Player().withId("Player1").withRating(40));
+		players.add(new Player().withId("Player2").withRating(40));
+		players.add(new Player().withId("Player3").withRating(50));
+		players.add(new Player().withId("Player4").withRating(50));
+		players.add(new Player().withId("Player5").withRating(60));
+		players.add(new Player().withId("Player6").withRating(60));
+		players.add(new Player().withId("Player7").withRating(70));
+		players.add(new Player().withId("Player8").withRating(70));
+		players.add(new Player().withId("Player9").withRating(80));
 		return players;
 	}
 
@@ -309,7 +309,7 @@ public class CompositionsGeneratorTest {
 	@Test
 	public void testGenerateRandomTeamFromOtherTeam(){
 		generator = new CompositionGenerator(new GeneratorConfiguration());
-		Team teamA = Team.builder().players(List.of(playerA)).build();
+		Team teamA = new Team().withPlayers(List.of(playerA)).build();
 		for(int i=0;i<nbRandomTests;i++) {
 			List<Player> availablePlayers = List.of(playerB, playerC);
 			Team team = generator.buildRandomTeam(teamA, availablePlayers,3);
@@ -322,19 +322,18 @@ public class CompositionsGeneratorTest {
 
 	@Test
 	public void testGenerateCompositionFromOtherComposition(){
-		Team teamA = Team.builder().players(List.of(playerA)).build();
-		Team teamB = Team.builder().players(List.of(playerB)).build();
+		Team teamA = new Team().withPlayers(List.of(playerA));
+		Team teamB = new Team().withPlayers(List.of(playerB));
 		Composition initCompo = Composition.builder().teamA(teamA).teamB(teamB)
 																			 .availablePlayers(List.of(playerC, playerD, playerE, playerF))
 																			 .build();
-		GeneratorConfiguration configuration = GeneratorConfiguration.builder()
-																																 .splitBestPlayers(false)
-																																 .splitDefenders(false)
-																																 .splitStrikers(false)
-																																 .splitGoalKeepers(false)
-																																 .splitBestPlayers(false)
-																																 .splitWorstPlayers(false)
-																																 .build();
+		GeneratorConfiguration configuration = new GeneratorConfiguration()
+																																 .withSplitBestPlayers(false)
+																																 .withSplitDefenders(false)
+																																 .withSplitStrikers(false)
+																																 .withSplitGoalKeepers(false)
+																																 .withSplitBestPlayers(false)
+																																 .withSplitWorstPlayers(false);
 		generator = new CompositionGenerator(configuration);
 		for(int i=0;i<nbRandomTests;i++) {
 			Composition resultCompo = (Composition)initCompo.generateRandomComposition(configuration);

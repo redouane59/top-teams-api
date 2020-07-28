@@ -17,49 +17,49 @@ import org.junit.jupiter.api.Test;
 public class RatingUpdatesCalculatorTest {
 
     private Composition getIdenticalComposition(){
-        Player p1 = Player.builder().id("player1").rating(50).nbGamesPlayed(1).build();
-        Player p2 = Player.builder().id("player2").rating(50).nbGamesPlayed(1).build();
-        Player p3 = Player.builder().id("player3").rating(50).nbGamesPlayed(1).build();
-        Player p4 = Player.builder().id("player4").rating(50).nbGamesPlayed(1).build();
-        Player p5 = Player.builder().id("player5").rating(50).nbGamesPlayed(1).build();
-        Player p6 = Player.builder().id("player6").rating(50).nbGamesPlayed(1).build();
-        Player p7 = Player.builder().id("player7").rating(50).nbGamesPlayed(1).build();
-        Player p8 = Player.builder().id("player8").rating(50).nbGamesPlayed(1).build();
-        Player p9 = Player.builder().id("player9").rating(50).nbGamesPlayed(1).build();
-        Player p10 = Player.builder().id("player10").rating(50).nbGamesPlayed(1).build();
-        Team   teamA = Team.builder().players(List.of(p1, p2, p3, p4, p5)).build();
-        Team   teamB = Team.builder().players(List.of(p6, p7, p8, p9, p10)).build();
+        Player p1 = new Player().withId("player1").withRating(50).withNbGamesPlayed(1);
+        Player p2 = new Player().withId("player2").withRating(50).withNbGamesPlayed(1);
+        Player p3 = new Player().withId("player3").withRating(50).withNbGamesPlayed(1);
+        Player p4 = new Player().withId("player4").withRating(50).withNbGamesPlayed(1);
+        Player p5 = new Player().withId("player5").withRating(50).withNbGamesPlayed(1);
+        Player p6 = new Player().withId("player6").withRating(50).withNbGamesPlayed(1);
+        Player p7 = new Player().withId("player7").withRating(50).withNbGamesPlayed(1);
+        Player p8 = new Player().withId("player8").withRating(50).withNbGamesPlayed(1);
+        Player p9 = new Player().withId("player9").withRating(50).withNbGamesPlayed(1);
+        Player p10 = new Player().withId("player10").withRating(50).withNbGamesPlayed(1);
+        Team   teamA = new Team().withPlayers(List.of(p1, p2, p3, p4, p5));
+        Team   teamB = new Team().withPlayers(List.of(p6, p7, p8, p9, p10));
         return Composition.builder().teamA(teamA).teamB(teamB).build();
     }
 
     private Composition getCompositionWithDifferentNbGames(){
-        Player p1 = Player.builder().id("player1").rating(50).nbGamesPlayed(1).build();
-        Player p2 = Player.builder().id("player2").rating(50).nbGamesPlayed(10).build();
-        Player p3 = Player.builder().id("player3").rating(50).nbGamesPlayed(20).build();
-        Player p4 = Player.builder().id("player4").rating(50).nbGamesPlayed(30).build();
-        Player p5 = Player.builder().id("player5").rating(50).nbGamesPlayed(40).build();
-        Player p6 = Player.builder().id("player6").rating(50).nbGamesPlayed(5).build();
-        Player p7 = Player.builder().id("player7").rating(50).nbGamesPlayed(15).build();
-        Player p8 = Player.builder().id("player8").rating(50).nbGamesPlayed(25).build();
-        Player p9 = Player.builder().id("player9").rating(50).nbGamesPlayed(35).build();
-        Player p10   = Player.builder().id("player10").rating(50).nbGamesPlayed(45).build();
-        Team   teamA = Team.builder().players(List.of(p1, p2, p3, p4, p5)).build();
-        Team   teamB = Team.builder().players(List.of(p6, p7, p8, p9, p10)).build();
+        Player p1 = new Player().withId("player1").withRating(50).withNbGamesPlayed(1);
+        Player p2 = new Player().withId("player2").withRating(50).withNbGamesPlayed(10);
+        Player p3 = new Player().withId("player3").withRating(50).withNbGamesPlayed(20);
+        Player p4 = new Player().withId("player4").withRating(50).withNbGamesPlayed(30);
+        Player p5 = new Player().withId("player5").withRating(50).withNbGamesPlayed(40);
+        Player p6 = new Player().withId("player6").withRating(50).withNbGamesPlayed(5);
+        Player p7 = new Player().withId("player7").withRating(50).withNbGamesPlayed(15);
+        Player p8 = new Player().withId("player8").withRating(50).withNbGamesPlayed(25);
+        Player p9 = new Player().withId("player9").withRating(50).withNbGamesPlayed(35);
+        Player p10   = new Player().withId("player10").withRating(50).withNbGamesPlayed(45);
+        Team   teamA = new Team().withPlayers(List.of(p1, p2, p3, p4, p5));
+        Team   teamB = new Team().withPlayers(List.of(p6, p7, p8, p9, p10));
         return Composition.builder().teamA(teamA).teamB(teamB).build();
     }
 
     private Composition getdUnbalancedComposition(){
-        Player p1 = Player.builder().id("player1").rating(50).nbGamesPlayed(1).build();
-        Player p2 = Player.builder().id("player2").rating(50).nbGamesPlayed(1).build();
-        Player p3 = Player.builder().id("player3").rating(50).nbGamesPlayed(1).build();
-        Player p4 = Player.builder().id("player4").rating(50).nbGamesPlayed(1).build();
-        Player p5 = Player.builder().id("player5").rating(50).nbGamesPlayed(1).build();
-        Player p6 = Player.builder().id("player6").rating(50).nbGamesPlayed(1).build();
-        Player p7 = Player.builder().id("player7").rating(50).nbGamesPlayed(1).build();
-        Player p8 = Player.builder().id("player8").rating(50).nbGamesPlayed(1).build();
-        Player p9 = Player.builder().id("player9").rating(50).nbGamesPlayed(1).build();
-        Team   teamA = Team.builder().players(List.of(p1, p2, p3, p4, p5)).build();
-        Team   teamB = Team.builder().players(List.of(p6, p7, p8, p9)).build();;
+        Player p1 = new Player().withId("player1").withRating(50).withNbGamesPlayed(1);
+        Player p2 = new Player().withId("player2").withRating(50).withNbGamesPlayed(1);
+        Player p3 = new Player().withId("player3").withRating(50).withNbGamesPlayed(1);
+        Player p4 = new Player().withId("player4").withRating(50).withNbGamesPlayed(1);
+        Player p5 = new Player().withId("player5").withRating(50).withNbGamesPlayed(1);
+        Player p6 = new Player().withId("player6").withRating(50).withNbGamesPlayed(1);
+        Player p7 = new Player().withId("player7").withRating(50).withNbGamesPlayed(1);
+        Player p8 = new Player().withId("player8").withRating(50).withNbGamesPlayed(1);
+        Player p9 = new Player().withId("player9").withRating(50).withNbGamesPlayed(1);
+        Team   teamA = new Team().withPlayers(List.of(p1, p2, p3, p4, p5));
+        Team   teamB = new Team().withPlayers(List.of(p6, p7, p8, p9));
         return Composition.builder().teamA(teamA).teamB(teamB).build();
     }
 
@@ -69,7 +69,7 @@ public class RatingUpdatesCalculatorTest {
 
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(10,0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(10,0));
         log.fine(game.toString());
         Map<String, Double> result = calculator.getRatingUpdates(game);
         for(Map.Entry<String, Double> entry : result.entrySet()) {
@@ -89,7 +89,7 @@ public class RatingUpdatesCalculatorTest {
         Composition composition = this.getIdenticalComposition();
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(0,10)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(0,10));
         Map<String, Double> result = calculator.getRatingUpdates(game);
         for(Map.Entry<String, Double> entry : result.entrySet()) {
             String key = entry.getKey();
@@ -109,7 +109,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.NONE);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game                    game       = Game.builder().composition(composition).score(new Score(10, 0)).build();
+        Game                    game       = new Game().withComposition(composition).withScore(new Score(10, 0));
         Map<String, Double>     result     = calculator.getRatingUpdates(game);
         assertEquals(result.get("player1"), result.get("player2"));
         assertEquals(result.get("player2"), result.get("player3"));
@@ -127,7 +127,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.LOW);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(10, 0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(10, 0));
         Map<String, Double> result = calculator.getRatingUpdates(game);
         assertTrue(result.get("player1")>result.get("player2"));
         assertTrue(result.get("player2")>result.get("player3"));
@@ -145,7 +145,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.MEDIUM);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(10,0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(10,0));
         Map<String, Double> result = calculator.getRatingUpdates(game);
         assertTrue(result.get("player1")>result.get("player2"));
         assertTrue(result.get("player2")>result.get("player3"));
@@ -163,7 +163,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setRelativeDistribution(RelativeDistribution.HIGH);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(10,0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(10,0));
         Map<String, Double> result = calculator.getRatingUpdates(game);
         assertTrue(result.get("player1")>result.get("player2"));
         assertTrue(result.get("player2")>result.get("player3"));
@@ -181,7 +181,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setSplitPointsByTeam(false);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(10,0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(10,0));
         Map<String, Double> result = calculator.getRatingUpdates(game);
         double modifA = 0;
         double modifB = 0;
@@ -204,7 +204,7 @@ public class RatingUpdatesCalculatorTest {
         CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
         configuration.setSplitPointsByTeam(true);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(10,0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(10,0));
         Map<String, Double> result = calculator.getRatingUpdates(game);
         double modifA = 0;
         double modifB = 0;
@@ -229,7 +229,7 @@ public class RatingUpdatesCalculatorTest {
         configuration.setSplitPointsByTeam(true);
         configuration.setRelativeDistribution(RelativeDistribution.NONE);
         RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
-        Game game = Game.builder().composition(composition).score(new Score(20,0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(20,0));
         Map<String, Double> result = calculator.getRatingUpdates(game);
         double modifA = 0;
         double modifB = 0;
@@ -251,10 +251,10 @@ public class RatingUpdatesCalculatorTest {
     public void testPredictionAfterModif(){
         Composition composition = this.getIdenticalComposition();
 
-        Game game = Game.builder().composition(composition).score(new Score(10,0)).build();
+        Game game = new Game().withComposition(composition).withScore(new Score(10,0));
         double kf = CalculatorConfiguration.calculateKf(composition.getTeamA().getPlayers().size());
 
-        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(CalculatorConfiguration.builder().kf(kf).build());
+        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(new CalculatorConfiguration().withKf(kf));
         Map<String, Double> result = calculator.getRatingUpdates(game);
 
         assertEquals(0, composition.getPrediction(kf));
@@ -268,6 +268,25 @@ public class RatingUpdatesCalculatorTest {
             p.setRating(p.getRating() + result.get(p.getId()));
         }
         assertEquals(10, composition.getPrediction(kf));
+    }
+
+    @Test
+    public void testWinAndLoosePointsAwinsWithGetUpdatedPlayers(){
+        Composition composition = this.getIdenticalComposition();
+
+        CalculatorConfiguration configuration = new CalculatorConfiguration(composition.getTeamA().getPlayers().size());
+        RatingUpdatesCalculator calculator = new RatingUpdatesCalculator(configuration);
+        Game game = new Game().withComposition(composition).withScore(new Score(10,0));
+        log.fine(game.toString());
+        List<Player> players = calculator.getUpdatedPlayers(game);
+        for(Player player : players) {
+            if(player.getId().equals("player1") || player.getId().equals("player2") || player.getId().equals("player3")
+               || player.getId().equals("player4") || player.getId().equals("player5")){
+                assertTrue(player.getRating()>player.getPreviousRating());
+            }else{
+                assertTrue(player.getRating()<player.getPreviousRating());
+            }
+        }
     }
 
 

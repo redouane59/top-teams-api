@@ -10,20 +10,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.With;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@With
 public class Player implements Comparable<Player> {
 
-    private String         id;
-    private double         rating;
+    private String id;
+    private double rating;
     @JsonProperty("previous_rating")
     @JsonInclude(Include.NON_DEFAULT)
-    private double         previousRating;
+    private double previousRating;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private PlayerPosition position;
     @JsonInclude(Include.NON_DEFAULT)

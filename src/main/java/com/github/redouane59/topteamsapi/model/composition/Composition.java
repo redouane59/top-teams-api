@@ -77,8 +77,8 @@ public class Composition extends AbstractComposition {
     public AbstractComposition generateRandomComposition(GeneratorConfiguration configuration) {
         Composition composition = Composition.builder()
                                              .availablePlayers(new ArrayList<>(this.getAvailablePlayers()))
-                                             .teamA(Team.builder().players(new ArrayList<>(this.getTeamA().getPlayers())).build())
-                                             .teamB(Team.builder().players(new ArrayList<>(this.getTeamB().getPlayers())).build())
+                                             .teamA(new Team().withPlayers(new ArrayList<>(this.getTeamA().getPlayers())))
+                                             .teamB(new Team().withPlayers(new ArrayList<>(this.getTeamB().getPlayers())))
                                              .build();
         int         nbPlayersTeamA            = this.getNbPlayersInTeam(configuration.getCompositionType(), TeamSide.A);
         int         nbPlayersTeamB            = this.getNbPlayersInTeam(configuration.getCompositionType(), TeamSide.B);

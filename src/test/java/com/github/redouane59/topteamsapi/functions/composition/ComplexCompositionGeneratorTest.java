@@ -18,15 +18,15 @@ public class ComplexCompositionGeneratorTest {
 
   private int                         nbRandomTests = 3;
   private ComplexCompositionGenerator generator;
-  private Player                      worst1        = Player.builder().id("worst1").rating(30).build();
-  private Player                      worst2        = Player.builder().id("worst2").rating(35).build();
-  private Player                      worst3        = Player.builder().id("worst3").rating(40).build();
-  private Player                      worst4        = Player.builder().id("worst4").rating(45).build();
-  private Player                      playerE       = Player.builder().id("playerE").rating(50).build();
-  private Player                      best4         = Player.builder().id("best4").rating(55).build();
-  private Player best3 = Player.builder().id("best3").rating(60).build();
-  private Player best2 = Player.builder().id("best2").rating(65).build();
-  private Player best1 = Player.builder().id("best1").rating(70).build();
+  private Player                      worst1        = new Player().withId("worst1").withRating(30);
+  private Player                      worst2        = new Player().withId("worst2").withRating(35);
+  private Player                      worst3        = new Player().withId("worst3").withRating(40);
+  private Player                      worst4        = new Player().withId("worst4").withRating(45);
+  private Player                      playerE       = new Player().withId("playerE").withRating(50);
+  private Player                      best4         = new Player().withId("best4").withRating(55);
+  private Player best3 = new Player().withId("best3").withRating(60);
+  private Player best2 = new Player().withId("best2").withRating(65);
+  private Player best1 = new Player().withId("best1").withRating(70);
 
   public List<Player> getPlayers(){
     List<Player> players = new ArrayList<>();
@@ -96,9 +96,9 @@ public class ComplexCompositionGeneratorTest {
     generator = new ComplexCompositionGenerator(config);
     for(int i=0; i<this.nbRandomTests;i++){
       List<Player> players = getPlayers();
-      players.add(Player.builder().id("player J").rating(50).build());
-      players.add(Player.builder().id("player k").rating(50).build());
-      players.add(Player.builder().id("player L").rating(50).build());
+      players.add(new Player().withId("player J").withRating(50));
+      players.add(new Player().withId("player k").withRating(50));
+      players.add(new Player().withId("player L").withRating(50));
       ComplexComposition randomCompo = (ComplexComposition)ComplexComposition.builder().availablePlayers(players)
                                                                              .build().generateRandomComposition(config);
       assertEquals(4, randomCompo.getTeams().size());
@@ -125,9 +125,9 @@ public class ComplexCompositionGeneratorTest {
     generator = new ComplexCompositionGenerator(config);
     for(int i=0; i<this.nbRandomTests;i++) {
       List<Player> players = getPlayers();
-      players.add(Player.builder().id("player J").rating(50).build());
-      players.add(Player.builder().id("player k").rating(50).build());
-      players.add(Player.builder().id("player L").rating(50).build());
+      players.add(new Player().withId("player J").withRating(50));
+      players.add(new Player().withId("player k").withRating(50));
+      players.add(new Player().withId("player L").withRating(50));
       ComplexComposition randomCompo = (ComplexComposition)ComplexComposition.builder().availablePlayers(players)
                                                                              .build().generateRandomComposition(config);
       assertEquals(4, randomCompo.getTeams().size());

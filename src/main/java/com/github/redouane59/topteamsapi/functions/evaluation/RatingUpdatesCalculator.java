@@ -4,6 +4,7 @@ import com.github.redouane59.topteamsapi.model.Game;
 import com.github.redouane59.topteamsapi.model.Player;
 import com.github.redouane59.topteamsapi.model.Team;
 import com.github.redouane59.topteamsapi.model.TeamSide;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,15 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
     }
 
     @Override
+    public List<Player> getUpdatedPlayers(Game game){
+        List<Player> players = new ArrayList<>(game.getComposition().getTeamA().getPlayers());
+        players.addAll(new ArrayList<>(game.getComposition().getTeamB().getPlayers()));
+        Map<String, Double> ratingUpdates = this.getRatingUpdates(game);
+        players.forEach(p -> p.setPreviousRating(p.getRating()));
+        players.forEach(p -> p.setRating(p.getRating() + ratingUpdates.get(p.getId())));
+        return players;
+    }
+
     public Map<String, Double> getRatingUpdates(Game game){
         Team teamA = game.getComposition().getTeamA();
         Team teamB = game.getComposition().getTeamB();
@@ -40,15 +50,6 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
         teamB.getPlayers().forEach(p -> playerRatingModifications.put(p.getId(), calculatePlayerRatingUpdate(teamB, modifB, p)));
 
         return playerRatingModifications;
-    }
-
-    // @todo to test
-    public List<Player> getUpdatedPlayers(Game game){
-        List<Player> players = game.getComposition().getTeamA().getPlayers();
-        players.addAll(game.getComposition().getTeamB().getPlayers());
-        Map<String, Double> ratingUpdates = this.getRatingUpdates(game);
-        players.forEach(p -> p.setRating(p.getRating() + ratingUpdates.get(p.getId())));
-        return players;
     }
 
     private double getModif(Game game, int nbPlayersOnField, TeamSide teamSide){

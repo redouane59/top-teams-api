@@ -3,23 +3,22 @@ package com.github.redouane59.topteamsapi.functions.evaluation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.With;
 
 @Setter
 @Getter
+@With
 @AllArgsConstructor
-@Builder
+@NoArgsConstructor
 public class CalculatorConfiguration {
-    @Builder.Default
     private boolean splitPointsByTeam = true; // points split by team or globally
-    @Builder.Default
     private RelativeDistribution relativeDistribution = RelativeDistribution.MEDIUM;
     private double kf;
 
     public CalculatorConfiguration(int nbPlayers){
         this.kf = calculateKf(nbPlayers);
-        this.relativeDistribution = RelativeDistribution.MEDIUM;
-        this.splitPointsByTeam = true;
     }
 
     public double getLambda() {
