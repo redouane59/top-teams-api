@@ -2,6 +2,10 @@
 # Welcome to TopTeams API
 Using [Google Functions](https://cloud.google.com/functions) and [Google Cloud Run](https://cloud.google.com/run), the module TopTeams API allows you to execute different functions in order to **optimize your team sport activities**.
 
+# Swagger
+https://app.swaggerhub.com/apis-docs/TopTeams/TopTeamsAPIv3/1.2.0
+(Thanks Alex Faria !)
+
 ## Team composition generator
 **Generate balanced teams** from players, each of them identified by a unique id and having an individual rating value between 0 & 100, representing his level. 
 
@@ -201,10 +205,6 @@ This algorithm takes into account the global level of the two teams, the final g
 - `MEDIUM` : less differences than with `HIGH`
 - `LOW` : less differences than with `MEDIUM`
 - `NONE` : all the players will be affected by the rating modification equally
-
-# Swagger
-https://app.swaggerhub.com/apis-docs/TopTeams/TopTeamsAPIv3/1.2.0
-(Thanks Alex Faria !)
 
 # Process Summary
 ![Process Summary](https://i.ibb.co/mhHFccT/process-summary.png)
