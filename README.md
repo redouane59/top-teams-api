@@ -34,7 +34,7 @@ of equal teams.
 ```
 
 </p>
-<details>
+</details>
 - Adding positions (ratings + positions)
 
 If pitch positions and profiles are important to you, you can additionally define a position to several players. 
