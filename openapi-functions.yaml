@@ -1,0 +1,37 @@
+swagger: '2.0'
+info:
+  title: Top Teams API
+  description: Top Teams API (Cloud Endpoints + GCF)
+  version: 1.0.0
+host: top-teams-api-cloud-run-vk77dlpuhq-ew.a.run.app
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /compositions/generate:
+    post:
+      summary: Generate compositions
+      operationId: compo
+      x-google-backend:
+        address: https://europe-west1-inlaid-keyword-242218.cloudfunctions.net/composition-generator
+        protocol: h2
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+  /games/evaluate:
+    post:
+      summary: Evaluate players after game
+      operationId: evaluation
+      x-google-backend:
+        address: https://europe-west1-inlaid-keyword-242218.cloudfunctions.net/game-evaluator
+        protocol: h2
+      responses:
+        '200':
+          description: A successful response
+        '404' :
+          description: 404 not found
+          schema:
+            type: string
