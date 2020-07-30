@@ -204,6 +204,7 @@ This algorithm takes into account the global level of the two teams, the final g
 
 # Swagger
 https://app.swaggerhub.com/apis-docs/TopTeams/TopTeamsAPIv3/1.2.0
+(Thanks Alex Faria !)
 
 # Process Summary
 ![Process Summary](https://i.ibb.co/mhHFccT/process-summary.png)
