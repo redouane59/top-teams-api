@@ -12,7 +12,7 @@ Using [Google Functions](https://cloud.google.com/functions) and [Google Cloud R
 Giving a list of players and their ratings, you will be able to get a simple balanced composition 
 of equal teams.
 <details>
-  <summary>Click to expand!</summary>
+  <summary>See json</summary>
    <p>
    
 ```
@@ -40,6 +40,10 @@ of equal teams.
 If pitch positions and profiles are important to you, you can additionally define a position to several players. 
 The engine will take this info into account and first split players regarding their position, then regarding their level.
 
+<details>
+  <summary>See json</summary>
+   <p>
+   
 ```
 {
     "availablePlayers":[
@@ -59,9 +63,18 @@ The engine will take this info into account and first split players regarding th
   ]
 }
 ```
+
+   </p>
+   </details>
+   
 - Filling existing teams (ratings + positions optionnally)
 Let's imagine that some players want to play together. No problem! Insert the pre-created teams and 
 the non-affected player list. The engine will fill the teams and give you the best possible composition.
+
+<details>
+  <summary>See json</summary>
+   <p>
+
 ```
 {
    "team_A":{
@@ -97,6 +110,9 @@ the non-affected player list. The engine will fill the teams and give you the be
 }
 ```
 
+   </p>
+   </details>
+   
 ## Rating updates calculator
 **Calculate the player rating modification** to apply after a game from a given composition and a score.
 This algorithm takes into account the global level of the two teams, the final goal average, and the number of games played by each player.
