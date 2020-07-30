@@ -28,8 +28,11 @@ public class CompositionGeneratorHttp extends AbstractHttpHelper implements Http
         composition = AbstractHttpHelper.MAPPER.readValue(body, Composition.class);
       } else if (this.checkJsonCompatibility(body, ComplexComposition.class)){
         composition = AbstractHttpHelper.MAPPER.readValue(body, ComplexComposition.class);
-      } else{
+      } else if (this.checkJsonCompatibility(body, Player[].class)){
         composition = Composition.builder().availablePlayers(List.of(AbstractHttpHelper.MAPPER.readValue(body, Player[].class))).build();
+      } else{
+        AbstractHttpHelper.MAPPER.writeValue(response.getWriter(), "{\"error\" : \"Enable to parse body correctly\"");
+        return;
       }
 
       Optional<String> splitBestPlayers = request.getFirstQueryParameter("split_best_players");

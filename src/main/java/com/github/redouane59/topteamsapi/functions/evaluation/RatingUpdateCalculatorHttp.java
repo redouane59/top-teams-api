@@ -40,7 +40,6 @@ public class RatingUpdateCalculatorHttp extends AbstractHttpHelper implements Ht
 
             Game                    game       = new Game().withComposition(composition).withScore(score);
             AbstractHttpHelper.MAPPER.writeValue(response.getWriter(), calculator.getUpdatedPlayers(game));
-
         }
     }
 

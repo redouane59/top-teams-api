@@ -11,6 +11,7 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.java.Log;
+import org.apache.commons.math3.util.Precision;
 
 @Getter
 @Setter
@@ -28,8 +29,11 @@ public class RatingUpdatesCalculator implements IRatingUpdatesCalculator {
         List<Player> players = new ArrayList<>(game.getComposition().getTeamA().getPlayers());
         players.addAll(new ArrayList<>(game.getComposition().getTeamB().getPlayers()));
         Map<String, Double> ratingUpdates = this.getRatingUpdates(game);
-        players.forEach(p -> p.setPreviousRating(p.getRating()));
-        players.forEach(p -> p.setRating(p.getRating() + ratingUpdates.get(p.getId())));
+        for(Player p : players){
+            p.setPreviousRating(p.getRating());
+            p.setRating(Precision.round(p.getRating() + ratingUpdates.get(p.getId()),1));
+            p.setNbGamesPlayed(p.getNbGamesPlayed()+1);
+        }
         return players;
     }
 
