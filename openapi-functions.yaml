@@ -1,37 +1,260 @@
-swagger: '2.0'
+openapi: 3.0.1
 info:
-  title: Top Teams API
-  description: Top Teams API (Cloud Endpoints + GCF)
-  version: 1.0.0
-host: top-teams-api-cloud-run-vk77dlpuhq-ew.a.run.app
-schemes:
-  - https
-produces:
-  - application/json
+  version: 1.2.0
+  title: TopTeamsAPIv3
 paths:
   /compositions/generate:
     post:
-      summary: Generate compositions
-      operationId: compo
-      x-google-backend:
-        address: https://europe-west1-inlaid-keyword-242218.cloudfunctions.net/composition-generator
-        protocol: h2
-      responses:
-        '200':
-          description: A successful response
+      summary: returns the best composition(s) from a player list.
+      parameters:
+        - name: split_best_players
+          in: query
+          description: To separate the two best players in each team
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: split_worst_players
+          in: query
+          description: To separate the two worst players in each team
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: split_goal_keepers
+          in: query
+          description: To seperate the players with the position GK in each team
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: split_defenders
+          in: query
+          description: To seperate the players with the position DEF in each team
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: split_strikers
+          in: query
+          description: To seperate the players with the position ATT in each team
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: expected_team_number
+          in: query
+          description: The number of teams you would like to generate
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 2
+        - name: expected_composition_number
+          in: query
+          description: The number of compositions you woulk like to generate
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 1
+        - name: composition_type
+          in: query
+          description: |-
+            REGULAR : Teams with the same number of players 
+             SUBSTITUTION : Teams with potential substitutes 
+             ODD : teams with potential different number of players playing all at the same time
+          required: false
           schema:
             type: string
+            enum:
+              - REGULAR
+              - SUBSTITUTION
+              - ODD
+            default: REGULAR
+      responses:
+        '200':
+          description: Composition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  rating:
+                    type: number
+                  position:
+                    type: string
+              example:
+                  availablePlayers:
+                  - id: player1
+                    rating: 54
+                    position: GK
+                  - id: player2
+                    rating: 77
+                  - id: player3
+                    rating: 59
+                    position: GK
+                  - id: player4
+                    rating: 81
+                  - id: player5
+                    rating: 52
+                  - id: player6
+                    rating: 84
+                  - id: player7
+                    rating: 55
+                  - id: player8
+                    rating: 45
+                  - id: player9
+                    rating: 60
+                  - id: player10
+                    rating: 88
+        required: true
   /games/evaluate:
     post:
-      summary: Evaluate players after game
-      operationId: evaluation
-      x-google-backend:
-        address: https://europe-west1-inlaid-keyword-242218.cloudfunctions.net/game-evaluator
-        protocol: h2
-      responses:
-        '200':
-          description: A successful response
-        '404' :
-          description: 404 not found
+      summary: returns the player rating modifications after a given game
+      parameters:
+        - name: score_A
+          in: query
+          description: score of Team A
+          required: true
+          schema:
+            type: integer
+            format: int64
+            default: 0
+        - name: score_B
+          in: query
+          description: score of Team B
+          required: true
+          schema:
+            type: integer
+            format: int64
+            default: 0
+        - name: relative_distribution
+          in: query
+          description: To distribute points between players inversely proportionnaly to the number of matchs they played
+          required: false
           schema:
             type: string
+            enum:
+              - NONE
+              - LOW
+              - MEDIUM
+              - HIGH
+            default: MEDIUM
+        - name: split_points_by_team
+          in: query
+          description: To split equally the points between the two teams (if false, the points will be splitted globally using the relative_distribution same logic)
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: composition_type
+          in: query
+          description: |-
+            type of game  
+            REGULAR : Teams with the same number of players | 
+            SUBSTITUTION : Teams with substitutes | 
+            ODD : teams with different number of players on the pitch
+          required: false
+          schema:
+            type: string
+            enum:
+              - REGULAR
+              - SUBSTITUTION
+              - ODD
+            default: REGULAR
+        - name: kf
+          in: query
+          description: multiplier coefficient which will increase or decrease the awarded points. Should be >0
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 4
+      responses:
+        '200':
+          description: 'Map<String, Double>'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                team_A:
+                  players:
+                  - id: player1
+                    rating: 54
+                    nb_games_played: 31
+                  - id: player2
+                    rating: 77
+                    nb_games_played: 80
+                  - id: player3
+                    rating: 59
+                    nb_games_played: 14
+                  - id: player4
+                    rating: 81
+                    nb_games_played: 27
+                  - id: player5
+                    rating: 52
+                    nb_games_played: 9
+                team_B:
+                  players:
+                  - id: player6
+                    rating: 84
+                    nb_games_played: 102
+                  - id: player7
+                    rating: 55
+                    nb_games_played: 42
+                  - id: player8
+                    rating: 45
+                    nb_games_played: 77
+                  - id: player9
+                    rating: 60
+                    nb_games_played: 12
+                  - id: player10
+                    rating: 88
+                    nb_games_played: 92
+        required: true
+servers:
+  - url: 'https://top-teams-api-cloud-run-vk77dlpuhq-ew.a.run.app'
+components:
+  schemas:
+    Player:
+      properties:
+        id:
+          description: id of the player
+          type: string
+        rating:
+          description: rating of the player (between 0 & 100)
+          type: number
+        nb_games_played:
+          description: number of games played (>=0)
+          type: number
+        position:
+          description: position of the player (GK, DEF, or ATT)
+          type: string
+    Team:
+      properties:
+        players:
+          description: List of team players
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+    Composition:
+      properties:
+        available_players:
+          description: List of team players
+          type: array
+          items:
+            $ref: '#/components/schemas/Player'
+        team_A:
+          description: teamA
+          $ref: '#/components/schemas/Team'
+        team_B:
+          description: teamB
+          $ref: '#/components/schemas/Team'
